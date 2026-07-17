@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Numerics;
 
 /// <summary>
 /// handles player movement. movement is grid-based and this controller currently enforces
@@ -14,23 +15,18 @@ public partial class PlayerController : CharacterBody2D
 	private const int GridSize = 18;
 
 	[ExportGroup("Movement Settings")]
-	[Export] private float _moveSpeed = 200f;     // pixels per second
 	[Export] private float _moveCooldown = 0.11f; // seconds between grid steps
 
 	private float _timeSinceLastMove = 0f;
-	private Vector2I _gridPos = Vector2I.Zero;
-    private Vector2I _prevPos; // tracks position before movement
-
-    // for smooth sliding (if we want that)
-    private Vector2 _targetPosition;
+	private Vector2I _gridPos = Vector2I.Zero; // current position in grid space
+    private Vector2I _prevPos = Vector2I.Zero; // tracks position before movement
 
 	// player sprite reference
     private Sprite2D Sprite;
     public override void _Ready()
 	{
 		Sprite = GetNode<Sprite2D>("Sprite2D");
-        _targetPosition = GetCellCenter(_gridPos);
-		Position = _targetPosition;
+        Position = GetCellCenter(_gridPos);
 	}
 
 	public override void _Process(double delta)
@@ -57,14 +53,21 @@ public partial class PlayerController : CharacterBody2D
 			Math.Clamp(direction.Y, -1, 1)
 		);
 
-		if (direction != Vector2I.Zero)
+        
+
+        if (direction != Vector2I.Zero)
 		{
 			_PlayerSpriteDirection(direction.X);
             _prevPos = _gridPos;
             _gridPos += direction;
-
-
-			_targetPosition = GetCellCenter(_gridPos);
+			Position = GetCellCenter(_gridPos);
+            if (MoveAndSlide())
+			{
+                GD.Print("collided!");
+				_gridPos = _prevPos;
+				Position = GetCellCenter(_gridPos);
+			}
+            
 			_timeSinceLastMove = 0f;
 		}
 	}
@@ -74,7 +77,7 @@ public partial class PlayerController : CharacterBody2D
 		float deltaF = (float)delta;
 
 		// moving toward target by at most _moveSpeed * deltaF pixels
-		Position = Position.MoveToward(_targetPosition, _moveSpeed * deltaF);
+		//Position = Position.MoveToward(_targetPosition, _moveSpeed * deltaF);
 	}
 
 	/// <summary>
@@ -82,9 +85,9 @@ public partial class PlayerController : CharacterBody2D
 	/// </summary>
 	/// <param name="gridCell"></param>
 	/// <returns></returns>
-	private Vector2 GetCellCenter(Vector2I gridCell)
+	private Godot.Vector2 GetCellCenter(Vector2I gridCell)
 	{
-		return new Vector2(
+		return new Godot.Vector2(
 			gridCell.X * GridSize + GridSize / 2f,
 			gridCell.Y * GridSize + GridSize / 2f
 		);
