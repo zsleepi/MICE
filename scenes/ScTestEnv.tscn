@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://d0htv2ge2ajhh"]
+
+[ext_resource type="Texture2D" uid="uid://bfxo720bn20ss" path="res://assets/sprites/chars.png" id="1_0d8bv"]
+[ext_resource type="Script" uid="uid://dses3hxy2o6om" path="res://scripts/PlayerController.cs" id="1_3p4jy"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rbqg5"]
+radius = 5.0
+height = 14.0
+
+[node name="ScTestEnv" type="Node2D" unique_id=1556827139]
+
+[node name="PlayerLayer" type="Node" parent="." unique_id=770408269]
+
+[node name="Player" type="CharacterBody2D" parent="PlayerLayer" unique_id=693405857]
+script = ExtResource("1_3p4jy")
+_moveSpeed = 230.0
+_moveCooldown = 0.17
+
+[node name="Sprite2D" type="Sprite2D" parent="PlayerLayer/Player" unique_id=1650335038]
+texture_filter = 1
+texture = ExtResource("1_0d8bv")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerLayer/Player" unique_id=1216585003]
+shape = SubResource("CapsuleShape2D_rbqg5")
+
+[node name="RoomLayer" type="Node" parent="." unique_id=2052717849]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=247989887]
+zoom = Vector2(2, 2)
