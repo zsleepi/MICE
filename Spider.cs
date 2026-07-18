@@ -32,6 +32,7 @@ public partial class Spider : Actor
     // attempting to write a pathfinding algo from scratch :P should output a directional vector that follows the path to the destination
     public Vector2I BreadthFirstSearch(Vector2I start, Vector2I destination)
     {
+        if (start == destination) { return Vector2I.Zero; }
         var _checkedCells = new Godot.Collections.Dictionary<string, int>();
         List<Vector2I> _searchFrontier = new List<Vector2I> { start };
         Vector2I[] _directions;

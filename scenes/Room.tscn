@@ -498,7 +498,7 @@ anim_speed_max = 1.0
 
 [node name="Spider" parent="Actors" unique_id=1420616341 instance=ExtResource("6_8h30a")]
 position = Vector2(9, 9)
-targetCell = Vector2i(-2, 33)
+targetCell = Vector2i(-8, 2)
 Cell = Vector2i(-8, 5)
 
 [node name="Fox" parent="Actors" unique_id=1636742596 instance=ExtResource("3_hfcue")]
