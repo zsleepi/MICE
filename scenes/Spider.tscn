@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://hvo1wnde4a4r"]
 
-[ext_resource type="Script" uid="uid://0fgral3jr2a0" path="res://Spider.cs" id="1_fdnuv"]
+[ext_resource type="Script" uid="uid://0fgral3jr2a0" path="res://scripts/Spider.cs" id="1_fdnuv"]
 [ext_resource type="Texture2D" uid="uid://bfxo720bn20ss" path="res://assets/sprites/chars.png" id="2_l7dlg"]
 
 [node name="Spider" type="Node2D" unique_id=1420616341 node_paths=PackedStringArray("Sprite")]

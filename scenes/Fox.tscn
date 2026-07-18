@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cx4jk64pc4mis"]
 
-[ext_resource type="Script" uid="uid://dyd4lt86f25bv" path="res://Fox.cs" id="1_m4n3e"]
+[ext_resource type="Script" uid="uid://dyd4lt86f25bv" path="res://scripts/Fox.cs" id="1_m4n3e"]
 [ext_resource type="Texture2D" uid="uid://bfxo720bn20ss" path="res://assets/sprites/chars.png" id="2_ty8gq"]
 
 [node name="Fox" type="Node2D" unique_id=1420616341 node_paths=PackedStringArray("Sprite")]

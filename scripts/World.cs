@@ -36,6 +36,12 @@ public partial class World : Node2D
 		{
 			_grid.Register(actor, actor.Cell);
             actor.GlobalPosition = CellToWorld(actor.Cell);
+
+			// TODO: temp thing to see if this works
+			if (actor is Spider spider)
+			{
+				spider.Target = Player;
+			}
         }
 	}
 

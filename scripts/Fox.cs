@@ -19,15 +19,20 @@ public partial class Fox : Actor
     {
         _currentDirection = Vector2I.Zero;
         _turnsUntilChange--;
-
-        if (_turnsUntilChange <= 0)
-        {
-            _currentDirection = GetRandomDirection();
-            _turnsUntilChange = (int)GD.RandRange(2, 6); // random number of turns in this range
-        }
     }
 
-    public override Vector2I DecideDirection(Grid grid) => _currentDirection;
+    public override Vector2I DecideDirection(Grid grid)
+    {
+        if (_turnsUntilChange > 0)
+        {
+            return _currentDirection;
+        }
+
+        _currentDirection = GetRandomDirection();
+        _turnsUntilChange = (int)GD.RandRange(2, 6);
+        return _currentDirection;
+    }
+
     public override void FaceDirection(Vector2I dir)
     {        
         if (dir.X != 0) Sprite.FlipH = dir.X > 0;
