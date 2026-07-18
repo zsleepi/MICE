@@ -9,7 +9,7 @@ public partial class World : Node2D
     [Export] public Room CurrentRoom;
     [Export] public Player Player;
 
-	[Export] public float BumpDistance = 8f; // pixels to nudge when bumping
+	[Export] public float BumpDistance = 5f; // pixels to nudge when bumping
 
 	private readonly Grid _grid = new();
 	private bool _busy; // true while a turn is animating: this is input cooldown
