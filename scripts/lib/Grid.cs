@@ -12,8 +12,10 @@ public class Grid
 
     public void SetImpassable(Vector2I cell) => _impassable.Add(cell);
 
+    public bool IsWalkable(Vector2I cell) => !_impassable.Contains(cell);
+
     public bool IsFree(Vector2I cell) =>
-        !_impassable.Contains(cell) && !_occupants.ContainsKey(cell);
+        IsWalkable(cell) && !_occupants.ContainsKey(cell);
 
     public IActor ActorAt(Vector2I cell) =>
         _occupants.TryGetValue(cell, out var a) ? a : null;

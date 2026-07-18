@@ -5,8 +5,8 @@
 
 [node name="Fox" type="Node2D" unique_id=1420616341 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("1_m4n3e")
-Sprite = NodePath("Sprite2D")
 MoveSpeed = 8.0
+Sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=968570441]
 texture = ExtResource("2_ty8gq")

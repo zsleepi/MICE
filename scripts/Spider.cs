@@ -1,12 +1,7 @@
 using Godot;
-using Godot.Collections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 public partial class Spider : Actor
 {
-    [Export] public Sprite2D Sprite;
     [Export] public Vector2I TargetCell;
     public IActor Target;
 
@@ -36,10 +31,5 @@ public partial class Spider : Actor
         _currentDirection = BreadthFirstSearch(this.Cell, TargetCell, grid);
         _turnsUntilRepath = 1;
         return _currentDirection;
-    }
-
-    public override void FaceDirection(Vector2I dir)
-    {        
-        if (dir.X != 0) Sprite.FlipH = dir.X > 0;
     }
 }

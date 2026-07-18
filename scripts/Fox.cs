@@ -3,8 +3,6 @@ using System;
 
 public partial class Fox : Actor
 {
-    [Export] public Sprite2D Sprite;
-
     private Vector2I _currentDirection = Vector2I.Zero;
     private float _moveTimer;
     private int _turnsUntilChange = 0;
@@ -31,11 +29,6 @@ public partial class Fox : Actor
         _currentDirection = GetRandomDirection();
         _turnsUntilChange = (int)GD.RandRange(2, 6);
         return _currentDirection;
-    }
-
-    public override void FaceDirection(Vector2I dir)
-    {        
-        if (dir.X != 0) Sprite.FlipH = dir.X > 0;
     }
 
     private Vector2I GetRandomDirection()

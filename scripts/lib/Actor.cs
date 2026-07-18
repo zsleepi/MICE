@@ -5,6 +5,7 @@ public abstract partial class Actor : Node2D, IActor
 {
     [Export] public float MoveSpeed = 4f;
     [Export] public Vector2I Cell { get; set; }
+    [Export] public Sprite2D Sprite;
 
     public Node2D Node => this;
     public float StepDuration => 1f / Mathf.Max(MoveSpeed, 0.01f);
@@ -13,7 +14,6 @@ public abstract partial class Actor : Node2D, IActor
     // all actors need this -- vector2I value of zero is "wait"
     public abstract Vector2I DecideDirection(Grid grid);
     public abstract void TickTurn();
-    public abstract void FaceDirection(Vector2I dir);
 
     public static readonly Vector2I[] _directions =
     {
@@ -23,7 +23,7 @@ public abstract partial class Actor : Node2D, IActor
     };
 
     // attempting to write a pathfinding algo from scratch :P should output a directional vector that follows the path to the destination
-    public Vector2I BreadthFirstSearch(Vector2I start, Vector2I destination, Grid grid, int maxIterations = 5000)
+    public Vector2I BreadthFirstSearch(Vector2I start, Vector2I destination, Grid grid, int maxIterations = 2000)
     {
         if (start == destination) { return Vector2I.Zero; }
 
@@ -35,6 +35,7 @@ public abstract partial class Actor : Node2D, IActor
 
         // using this to track valid queued neighbors
         bool found = false;
+        // still using maxIterations so the actor doesn't consider rly distant cells for pathfinding
         int iterations = 0;
 
         while (_searchFrontier.Count > 0 && iterations++ < maxIterations)
@@ -49,7 +50,7 @@ public abstract partial class Actor : Node2D, IActor
 
                 // conditions to skip this neighbor
                 if (visited.Contains(neighbor)) { continue; }
-                if (!grid.IsFree(neighbor)) { continue; }
+                if (!grid.IsWalkable(neighbor)) { continue; }
 
                 // otherwise, add it and log where we're coming from
                 visited.Add(neighbor);
@@ -79,5 +80,10 @@ public abstract partial class Actor : Node2D, IActor
 
         GD.Print($"Path to destination found, next step: {step}");
         return step - start;
+    }
+
+    public void FaceDirection(Vector2I dir)
+    {
+        if (dir.X != 0) Sprite.FlipH = dir.X > 0;
     }
 }
