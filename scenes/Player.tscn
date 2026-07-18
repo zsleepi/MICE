@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://dxkciujjtminb"]
+
+[ext_resource type="Script" uid="uid://bcc8ba4863c1o" path="res://scripts/Player.cs" id="1_v6fml"]
+[ext_resource type="Texture2D" uid="uid://bfxo720bn20ss" path="res://assets/sprites/chars.png" id="2_3li8b"]
+
+[node name="Player" type="Node2D" unique_id=1236389005 node_paths=PackedStringArray("Sprite")]
+script = ExtResource("1_v6fml")
+Sprite = NodePath("Sprite2D")
+MoveSpeed = 6.5
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1531296895]
+texture = ExtResource("2_3li8b")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
