@@ -14,4 +14,5 @@ Player = NodePath("Player")
 [node name="Player" parent="." unique_id=1236389005 instance=ExtResource("3_1lgw5")]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=2081983346]
+offset = Vector2(0, 18)
 zoom = Vector2(2, 2)
