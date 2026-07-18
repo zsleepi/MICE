@@ -44,17 +44,13 @@ public partial class World : Node2D
 		if (_busy) return; // ignore input mid-turn
 
 		Vector2I dir = Player.GetIntent();
-		if (dir != Vector2I.Zero)
-		{
-			// handling h flipping
-			switch (dir.X)
-			{
-				case 1:  Player.Sprite.FlipH = true;  break;
-				case -1: Player.Sprite.FlipH = false; break;
-				default: break;
-			}
 
-            // doing the turn even when waiting
+		// handling h flipping
+		Player.FaceDirection(dir);
+
+        // doing the turn even when waiting
+        if (dir != Vector2I.Zero)
+		{
             _ = ProcessTurnAsync(dir);
 		}
 	}

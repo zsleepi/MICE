@@ -10,14 +10,19 @@ public partial class Player : Node2D, IActor
     public Node2D Node => this;
     public float StepDuration => 1f / Mathf.Max(MoveSpeed, 0.01f);
 
-    // Called when the node enters the scene tree for the first time.
     public Vector2I GetIntent()
     {
-        if (Input.IsActionPressed("move_up")) return Vector2I.Up;
-        if (Input.IsActionPressed("move_down")) return Vector2I.Down;
-        if (Input.IsActionPressed("move_left")) return Vector2I.Left;
-        if (Input.IsActionPressed("move_right")) return Vector2I.Right;
+        var dir = Vector2I.Zero; // wait case
+        if (Input.IsActionPressed("move_up"))    dir += Vector2I.Up;
+        if (Input.IsActionPressed("move_down"))  dir += Vector2I.Down;
+        if (Input.IsActionPressed("move_left"))  dir += Vector2I.Left;
+        if (Input.IsActionPressed("move_right")) dir += Vector2I.Right;
 
-        return Vector2I.Zero; // wait case
+        return dir;
+    }
+
+    public void FaceDirection(Vector2I dir)
+    {
+        if (dir.X != 0) Sprite.FlipH = dir.X > 0;
     }
 }
