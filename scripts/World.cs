@@ -35,7 +35,8 @@ public partial class World : Node2D
 		foreach (Actor actor in CurrentRoom.GetActors())
 		{
 			_grid.Register(actor, actor.Cell);
-		}
+            actor.GlobalPosition = CellToWorld(actor.Cell);
+        }
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -67,7 +68,11 @@ public partial class World : Node2D
 		// actors react afterward
 		foreach (Actor actor in CurrentRoom.GetActors())
 		{
-			tweens.Add(ResolveMove(actor, actor.DecideDirection(_grid)));
+			var actorDir = actor.DecideDirection(_grid);
+
+			tweens.Add(ResolveMove(actor, actorDir));
+			actor.FaceDirection(actorDir);
+			actor.TickTurn();
 		}
 
 		// waiting for all animation tweens to finish together
