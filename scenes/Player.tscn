@@ -6,9 +6,11 @@
 [node name="Player" type="Node2D" unique_id=1236389005 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("1_v6fml")
 Sprite = NodePath("Sprite2D")
-MoveSpeed = 6.5
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1531296895]
 texture = ExtResource("2_3li8b")
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=601161640]
+offset = Vector2(0, 18)

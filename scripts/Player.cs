@@ -10,6 +10,8 @@ public partial class Player : Node2D, IActor
     public Node2D Node => this;
     public float StepDuration => 1f / Mathf.Max(MoveSpeed, 0.01f);
 
+    public bool LastMovementBumped { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
     public Vector2I GetIntent()
     {
         var dir = Vector2I.Zero; // wait case
@@ -25,4 +27,6 @@ public partial class Player : Node2D, IActor
     {
         if (dir.X != 0) Sprite.FlipH = dir.X > 0;
     }
+
+    public void HandleBump(bool didBump) { }
 }

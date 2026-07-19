@@ -1,12 +1,14 @@
 using Godot;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 public abstract partial class Actor : Node2D, IActor
 {
-    [Export] public float MoveSpeed = 4f;
+    [Export] public float MoveSpeed = 8f;
     [Export] public Vector2I Cell { get; set; }
     [Export] public Sprite2D Sprite;
-
     public Node2D Node => this;
     public float StepDuration => 1f / Mathf.Max(MoveSpeed, 0.01f);
 
@@ -21,11 +23,18 @@ public abstract partial class Actor : Node2D, IActor
         new Vector2I(-1, -1), new Vector2I(1, 0), new Vector2I(-1, 0),
         new Vector2I(-1, 1), new Vector2I(1, -1)
     };
-
+    
     // attempting to write a pathfinding algo from scratch :P should output a directional vector that follows the path to the destination
-    public Vector2I BreadthFirstSearch(Vector2I start, Vector2I destination, Grid grid, int maxIterations = 2000)
+    public Queue<Vector2I> BreadthFirstSearch(Vector2I start, Vector2I destination, Grid grid, int maxIterations = 4000)
     {
-        if (start == destination) { return Vector2I.Zero; }
+        // randomize order that directions are checked in
+        var _unorderedDirections = _directions.OrderBy(x => Guid.NewGuid()).ToArray();
+
+        var _finalPath = new Queue<Vector2I>();
+        if (start == destination) {
+            _finalPath.Enqueue(Vector2I.Zero);
+            return _finalPath;
+        }
 
         var _checkedCells = new Godot.Collections.Dictionary<string, int>();
         var _searchFrontier = new Queue<Vector2I>();
@@ -33,7 +42,7 @@ public abstract partial class Actor : Node2D, IActor
         var cameFrom = new System.Collections.Generic.Dictionary<Vector2I, Vector2I>();
         var visited = new HashSet<Vector2I>() { start };
 
-        // using this to track valid queued neighbors
+        // has destination been found in pathfinding search
         bool found = false;
         // still using maxIterations so the actor doesn't consider rly distant cells for pathfinding
         int iterations = 0;
@@ -43,10 +52,10 @@ public abstract partial class Actor : Node2D, IActor
             // get current cell by dequeuing from frontier
             Vector2I current = _searchFrontier.Dequeue();
 
-            for (int d = 0; d < _directions.Length; d++)
+            for (int d = 0; d < _unorderedDirections.Length; d++)
             {
                 // populating neighbors
-                Vector2I neighbor = current + _directions[d];
+                Vector2I neighbor = current + _unorderedDirections[d];
 
                 // conditions to skip this neighbor
                 if (visited.Contains(neighbor)) { continue; }
@@ -70,20 +79,29 @@ public abstract partial class Actor : Node2D, IActor
 
         if (!found)
         {
-            GD.PrintErr("Pathfinding failed!");
-            return Vector2I.Zero;
+            GD.PrintErr($"Pathfinding failed after {iterations} iterations...");
+            _finalPath.Enqueue(Vector2I.Zero);
+            return _finalPath;
         }
+
 
         // walking backward until we find parent...
         Vector2I step = destination;
-        while (cameFrom[step] != start) step = cameFrom[step];
-
-        GD.Print($"Path to destination found, next step: {step}");
-        return step - start;
+        _finalPath.Enqueue(step - cameFrom[step]);
+        while (cameFrom[step] != start)
+        {
+            step = cameFrom[step];
+            _finalPath.Enqueue(step - cameFrom[step]);
+        }
+        var _pathBack = new Queue<Vector2I>(_finalPath.Reverse());
+        GD.Print($"Actor.cs Path to destination found after {iterations} iterations!");
+        return _pathBack;
     }
 
     public void FaceDirection(Vector2I dir)
     {
         if (dir.X != 0) Sprite.FlipH = dir.X > 0;
     }
+
+    public abstract void HandleBump(bool didBump);
 }

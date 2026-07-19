@@ -99,7 +99,8 @@ public partial class World : Node2D
 
 		if (_grid.IsFree(to)) // freedom to do the movement
 		{
-			_grid.Move(from, to);
+            actor.HandleBump(false);
+            _grid.Move(from, to);
 			actor.Cell = to;
 
 			Tween t = CreateTween();
@@ -108,8 +109,9 @@ public partial class World : Node2D
 			return t;
 		}
         else // blocked: playing the bump!
-        {			
-			Vector2 rest = CellToWorld(from);
+        {
+            actor.HandleBump(true);
+            Vector2 rest = CellToWorld(from);
 			Vector2 nudge = rest + (Vector2)dir * BumpDistance;
 			Tween t = CreateTween();
 

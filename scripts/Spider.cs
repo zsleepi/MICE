@@ -1,4 +1,6 @@
 using Godot;
+using System.Collections;
+using System.Collections.Generic;
 
 public partial class Spider : Actor
 {
@@ -6,30 +8,35 @@ public partial class Spider : Actor
     public IActor Target;
 
     private Vector2I _currentDirection = Vector2I.Zero;
-    private int _turnsUntilRepath = 0;
-    private int _turnsUntilRetarget = 0;
-
+    private int _moveCooldown = 0;
+    private int _pathfindCooldown = 0;
+    private Queue<Vector2I> _queuedMoves = new Queue<Vector2I>();
+    private bool LastMovementBumped = false;
     public override void TickTurn()
     {
-        _turnsUntilRepath--;
-        _turnsUntilRetarget--;
+        _pathfindCooldown--;
+        _moveCooldown--;
+    }
+
+    public override void HandleBump(bool didBump)
+    {
+        if (didBump) { LastMovementBumped = true; } else { LastMovementBumped = false; }
     }
 
     public override Vector2I DecideDirection(Grid grid)
     {
-        if (_turnsUntilRetarget <= 0 && Target != null)
+        if (_moveCooldown > 0)
         {
-            TargetCell = Target.Cell;
-            _turnsUntilRetarget = 5;
+            return Vector2I.Zero;
         }
-
-        if (_turnsUntilRepath > 0)
+        if (_queuedMoves.Count == 0 || LastMovementBumped || _pathfindCooldown <= 0)
         {
-            return _currentDirection;
+            if (Target != null) { TargetCell = Target.Cell; }
+            _queuedMoves = BreadthFirstSearch(this.Cell, TargetCell, grid, 30000);
+            _pathfindCooldown = (int)GD.RandRange(10, 15);
         }
-
-        _currentDirection = BreadthFirstSearch(this.Cell, TargetCell, grid);
-        _turnsUntilRepath = 1;
+        _currentDirection = _queuedMoves.Dequeue();
+        _moveCooldown = 2;
         return _currentDirection;
     }
 }

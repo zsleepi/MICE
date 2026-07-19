@@ -4,14 +4,7 @@ using System;
 public partial class Fox : Actor
 {
     private Vector2I _currentDirection = Vector2I.Zero;
-    private float _moveTimer;
     private int _turnsUntilChange = 0;
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-	{
-        _moveTimer = 0f;
-	}
 
     public override void TickTurn()
     {
@@ -43,4 +36,7 @@ public partial class Fox : Actor
 
         return new Vector2I((int)x, (int)y);
     }
+
+    // i dont really know what im doing
+    public override void HandleBump(bool didBump) { }
 }
