@@ -2,7 +2,7 @@ using Godot;
 using System.Collections;
 using System.Collections.Generic;
 
-public partial class Spider : Actor
+public partial class Spider : NPC
 {
     [Export] public Vector2I TargetCell;
     public IActor Target;
@@ -20,7 +20,10 @@ public partial class Spider : Actor
 
     public override void HandleBump(bool didBump)
     {
-        if (didBump) { LastMovementBumped = true; } else { LastMovementBumped = false; }
+        if (didBump) {
+            LastMovementBumped = true;
+            AudioPlayer.Play();
+        } else { LastMovementBumped = false; }
     }
 
     public override Vector2I DecideDirection(Grid grid)

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bcc8ba4863c1o" path="res://scripts/Player.cs" id="1_v6fml"]
 [ext_resource type="Texture2D" uid="uid://bfxo720bn20ss" path="res://assets/sprites/chars.png" id="2_3li8b"]
+[ext_resource type="AudioStream" uid="uid://d4feijo46f4rm" path="res://assets/sfx/bump.wav" id="3_3li8b"]
 
 [node name="Player" type="Node2D" unique_id=1236389005 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("1_v6fml")
@@ -13,4 +14,10 @@ region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=601161640]
-offset = Vector2(0, 18)
+zoom = Vector2(2, 2)
+
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=902712897]
+current = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1098781640]
+stream = ExtResource("3_3li8b")

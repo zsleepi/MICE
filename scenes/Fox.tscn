@@ -2,13 +2,16 @@
 
 [ext_resource type="Script" uid="uid://dyd4lt86f25bv" path="res://scripts/Fox.cs" id="1_m4n3e"]
 [ext_resource type="Texture2D" uid="uid://bfxo720bn20ss" path="res://assets/sprites/chars.png" id="2_ty8gq"]
+[ext_resource type="AudioStream" uid="uid://d4feijo46f4rm" path="res://assets/sfx/bump.wav" id="3_ty8gq"]
 
 [node name="Fox" type="Node2D" unique_id=1420616341 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("1_m4n3e")
-MoveSpeed = 8.0
 Sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=968570441]
 texture = ExtResource("2_ty8gq")
 region_enabled = true
 region_rect = Rect2(48, 0, 16, 16)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=574167775]
+stream = ExtResource("3_ty8gq")

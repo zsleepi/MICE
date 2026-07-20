@@ -9,13 +9,16 @@ public abstract partial class Actor : Node2D, IActor
     [Export] public float MoveSpeed = 8f;
     [Export] public Vector2I Cell { get; set; }
     [Export] public Sprite2D Sprite;
+
+    // Actor plays audio using this node
+    public AudioStreamPlayer2D AudioPlayer;
     public Node2D Node => this;
     public float StepDuration => 1f / Mathf.Max(MoveSpeed, 0.01f);
 
-
-    // all actors need this -- vector2I value of zero is "wait"
-    public abstract Vector2I DecideDirection(Grid grid);
-    public abstract void TickTurn();
+    public override void _Ready()
+    {
+        AudioPlayer = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
+    }
 
     public static readonly Vector2I[] _directions =
     {
@@ -36,7 +39,6 @@ public abstract partial class Actor : Node2D, IActor
             return _finalPath;
         }
 
-        var _checkedCells = new Godot.Collections.Dictionary<string, int>();
         var _searchFrontier = new Queue<Vector2I>();
         _searchFrontier.Enqueue(start);
         var cameFrom = new System.Collections.Generic.Dictionary<Vector2I, Vector2I>();
@@ -103,5 +105,8 @@ public abstract partial class Actor : Node2D, IActor
         if (dir.X != 0) Sprite.FlipH = dir.X > 0;
     }
 
-    public abstract void HandleBump(bool didBump);
+    public virtual void HandleBump(bool didBump)
+    {
+        if (didBump) { AudioPlayer.Play(); }
+    }
 }

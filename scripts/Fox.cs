@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Fox : Actor
+public partial class Fox : NPC
 {
     private Vector2I _currentDirection = Vector2I.Zero;
     private int _turnsUntilChange = 0;
@@ -37,6 +37,5 @@ public partial class Fox : Actor
         return new Vector2I((int)x, (int)y);
     }
 
-    // i dont really know what im doing
-    public override void HandleBump(bool didBump) { }
+    // i know exactly what i'm doing
 }

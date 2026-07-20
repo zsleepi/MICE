@@ -71,8 +71,8 @@ public partial class World : Node2D
 		// player acts first
 		tweens.Add(ResolveMove(Player, playerDir));
 
-		// actors react afterward
-		foreach (Actor actor in CurrentRoom.GetActors())
+		// NPC actors react afterward
+		foreach (NPC actor in CurrentRoom.GetActors())
 		{
 			var actorDir = actor.DecideDirection(_grid);
 

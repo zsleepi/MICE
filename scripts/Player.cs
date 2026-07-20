@@ -1,15 +1,8 @@
 using Godot;
 using System;
 
-public partial class Player : Node2D, IActor
+public partial class Player :  Actor
 {
-    [Export] public Sprite2D Sprite;
-    [Export] public float MoveSpeed = 6.5f;
-
-    public Vector2I Cell { get; set; }
-    public Node2D Node => this;
-    public float StepDuration => 1f / Mathf.Max(MoveSpeed, 0.01f);
-
     public bool LastMovementBumped { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
     public Vector2I GetIntent()
@@ -22,11 +15,4 @@ public partial class Player : Node2D, IActor
 
         return dir;
     }
-
-    public void FaceDirection(Vector2I dir)
-    {
-        if (dir.X != 0) Sprite.FlipH = dir.X > 0;
-    }
-
-    public void HandleBump(bool didBump) { }
 }
