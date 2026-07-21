@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bcc8ba4863c1o" path="res://scripts/Player.cs" id="1_v6fml"]
 [ext_resource type="Texture2D" uid="uid://bfxo720bn20ss" path="res://assets/sprites/chars.png" id="2_3li8b"]
-[ext_resource type="AudioStream" uid="uid://d4feijo46f4rm" path="res://assets/sfx/bump.wav" id="3_3li8b"]
+[ext_resource type="AudioStream" uid="uid://bsoaj23xhvqdb" path="res://assets/sfx/squeak.wav" id="3_3li8b"]
 
 [node name="Player" type="Node2D" unique_id=1236389005 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("1_v6fml")

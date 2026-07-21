@@ -482,7 +482,6 @@ tile_set = ExtResource("2_liqgt")
 
 [node name="wall candles" type="TileMapLayer" parent="." unique_id=860350805]
 tile_map_data = PackedByteArray("AAAGAO7/AwAAAAEAAAAKAO7/AwAAAAEAAAA=")
-enabled = false
 tile_set = ExtResource("2_liqgt")
 
 [node name="smokeParticles" type="CPUParticles2D" parent="." unique_id=758738959]

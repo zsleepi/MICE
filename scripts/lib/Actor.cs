@@ -1,4 +1,5 @@
 using Godot;
+using MICE.scripts.lib;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,11 @@ public abstract partial class Actor : Node2D, IActor
     [Export] public float MoveSpeed = 8f;
     [Export] public Vector2I Cell { get; set; }
     [Export] public Sprite2D Sprite;
+
+    // actor's inventory !!! YAY this is gonna be so cool
+    public Inventory Inventory;
+
+
 
     // Actor plays audio using this node
     public AudioStreamPlayer2D AudioPlayer;
@@ -59,19 +65,21 @@ public abstract partial class Actor : Node2D, IActor
                 // populating neighbors
                 Vector2I neighbor = current + _unorderedDirections[d];
 
+                if (neighbor == destination)
+                {
+                    visited.Add(neighbor);
+                    cameFrom[neighbor] = current;
+                    found = true;
+                    break;
+                }
+
                 // conditions to skip this neighbor
                 if (visited.Contains(neighbor)) { continue; }
-                if (!grid.IsWalkable(neighbor)) { continue; }
+                if (!grid.IsFree(neighbor)) { continue; }
 
                 // otherwise, add it and log where we're coming from
                 visited.Add(neighbor);
                 cameFrom[neighbor] = current;
-
-                if (neighbor == destination)
-                {
-                    found = true;
-                    break;
-                }
 
                 _searchFrontier.Enqueue(neighbor);
             }
