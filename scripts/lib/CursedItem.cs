@@ -9,6 +9,8 @@ namespace MICE.scripts.lib
 {
     public class CursedItem : Item
     {
-        // oooo spoookyyyyyy
+        public CursedItem(string name, string description, int value, bool stackable) : base(name, description, value, stackable)
+        {
+        }
     }
 }

@@ -8,6 +8,12 @@ namespace MICE.scripts.lib
 {
     public class ItemEntry
     {
+        public ItemEntry(Item item, int quantity)
+        {
+            Item = item;
+            Quantity = quantity;
+        }
+
         public Item Item { get; set; }
         public int Quantity { get; set; }
     }

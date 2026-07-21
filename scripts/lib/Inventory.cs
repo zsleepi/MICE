@@ -9,9 +9,10 @@ namespace MICE.scripts.lib
 {
     public class Inventory
     {
+        public Inventory() { }
         // accessing the inventory will be done only through class methods!
-        // this class is meant for use in actors and storage vessels, or any collection of itemEntries.
-        internal List<ItemEntry> itemList = new List<ItemEntry>();
+        // this class is meant for use in actors and storage objects, or for any mutable collection of itemEntries.
+        internal List<ItemEntry> itemList = [];
 
         public void TakeItem(ItemEntry item, Inventory toInventory)
         {
@@ -42,15 +43,25 @@ namespace MICE.scripts.lib
 
         public void Drop(ItemEntry item, Vector2I tile)
         {
-
+            // drop item on floor
         }
 
         public void ClearInventory() { itemList.Clear(); }
 
         // basic logic for manipulating entries
         public void RemoveItem(ItemEntry item) {
-            // find itemEntry matching item, check if quantity exceeds amount to be removed. subtract quantity or remove entry
-            itemList.Remove(item);
+            if (this.HasItem(item.Item)) {
+                int amountToRemove = item.Quantity;
+                ItemEntry foundItem = itemList.Find(i => i.Item == item.Item);
+                if (amountToRemove >= foundItem.Quantity)
+                {
+                    itemList.Remove(foundItem);
+                }
+                else
+                {
+                    itemList.Find(i => i.Item == item.Item).Quantity -= item.Quantity;
+                }
+            } else { GD.PrintErr("Tried to remove non-existent item") ; }
         }
         public void AddItem(ItemEntry item) {
             if (itemList.Exists(i => i.Item == item.Item) && item.Item.Stackable)
@@ -82,6 +93,18 @@ namespace MICE.scripts.lib
         public void TickInventory(int time)
         {
 
+        }
+
+        public void PrintInventory(string ActorName)
+        {
+            GD.Print($"{ActorName}'s inventory:");
+            GD.Print($"{itemList}");
+            foreach (ItemEntry item in itemList)
+            {
+                string _name = item.Item.Name;
+                int _quantity = item.Quantity;
+                GD.Print($"{_quantity} {_name}");
+            }
         }
     }
 }
