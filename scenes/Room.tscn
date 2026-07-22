@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cq4hrt57k7orl" path="res://assets/sprites/groundsprites.png" id="3_ut7mc"]
 [ext_resource type="PackedScene" uid="uid://8pv16lyn7l1w" path="res://assets/terrain/maze.tscn" id="4_ey61u"]
 [ext_resource type="PackedScene" uid="uid://hvo1wnde4a4r" path="res://scenes/Spider.tscn" id="6_8h30a"]
+[ext_resource type="Script" uid="uid://2m628wegd8vt" path="res://scripts/RoomTransitionCell.cs" id="9_lygdb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ut7mc"]
 texture = ExtResource("2_6iwk6")
@@ -521,3 +522,12 @@ Cell = Vector2i(-8, 2)
 position = Vector2(-27, -675)
 
 [node name="PlayerEntranceDefault" type="Marker2D" parent="SpawnPoints" unique_id=716925322]
+
+[node name="RoomTransitions" type="Node2D" parent="." unique_id=1259375879]
+
+[node name="RT_West" type="Node2D" parent="RoomTransitions" unique_id=2093041104 node_paths=PackedStringArray("DebugTileMap")]
+script = ExtResource("9_lygdb")
+DebugTileMap = NodePath("../../ground")
+TopLeftCell = Vector2i(-17, -1)
+BottomRightCell = Vector2i(-17, 5)
+metadata/_custom_type_script = "uid://2m628wegd8vt"
