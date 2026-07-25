@@ -1,5 +1,5 @@
 using Godot;
-using MICE.scripts.lib;
+using MICE.scripts.lib.itemlogic;
 using System;
 using System.Collections.Generic;
 
@@ -16,15 +16,20 @@ public partial class Player :  Actor
         return dir;
     }
 
-    internal List<Item> debugItemList = TestItems.ItemList;
+    internal List<IItem> debugItemList = TestItems.ItemList;
 
-    internal Item debugItem = TestItems.ItemList[0];
+    internal IItem debugItem = TestItems.ItemList[0];
 
     internal int debugItemIndex = 0;
     internal void switchDebugItem()
     {
         debugItemIndex++;
         debugItem = debugItemList[debugItemIndex % 4];
+    }
+
+    internal void openInventory()
+    {
+
     }
 
     public override void _Process(double delta)
@@ -34,5 +39,6 @@ public partial class Player :  Actor
         if (Input.IsActionJustPressed("debug_2")) { inventory.RemoveItem(new ItemEntry(debugItem, 1)); }
         if (Input.IsActionJustPressed("debug_3")) { inventory.ClearInventory(); }
         if (Input.IsActionJustPressed("debug_4")) { switchDebugItem(); }
+        if (Input.IsActionJustPressed("inventory")) { openInventory(); }
     }
 }

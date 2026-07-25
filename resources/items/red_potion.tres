@@ -1,0 +1,12 @@
+[gd_resource type="Resource" format=3 uid="uid://dfdyt7w188f6o"]
+
+[ext_resource type="Texture2D" uid="uid://bqn6cymqe226u" path="res://assets/sprites/items/red_potion.png" id="1_eishr"]
+[ext_resource type="Script" uid="uid://2yudtoju7pj2" path="res://scripts/lib/Item.cs" id="2_jqeno"]
+
+[resource]
+script = ExtResource("2_jqeno")
+Name = "Red Potion"
+Description = "It's empty..."
+Value = 5
+Stackable = true
+Sprite = ExtResource("1_eishr")

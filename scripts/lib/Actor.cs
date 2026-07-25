@@ -1,5 +1,5 @@
 using Godot;
-using MICE.scripts.lib;
+using MICE.scripts.lib.itemlogic;
 using System;
 using System.Collections.Generic;
 using System.IO;

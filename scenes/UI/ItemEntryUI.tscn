@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dwoltb2gykicw"]
+
+[ext_resource type="Script" uid="uid://dlabs87iw284f" path="res://scripts/UI/ItemEntryUI.cs" id="1_py75t"]
+[ext_resource type="Texture2D" uid="uid://dqwetx7n2ixoj" path="res://assets/sprites/items/gold_bracelet.png" id="2_d3kx1"]
+
+[node name="ItemEntryUI" type="HBoxContainer" unique_id=70909944]
+script = ExtResource("1_py75t")
+
+[node name="Icon" type="TextureRect" parent="." unique_id=1000958221]
+layout_mode = 2
+size_flags_horizontal = 0
+texture = ExtResource("2_d3kx1")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="." unique_id=1955667780]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 8
+text = "Text Placeholder"
+vertical_alignment = 1

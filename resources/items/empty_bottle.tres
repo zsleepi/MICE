@@ -1,0 +1,12 @@
+[gd_resource type="Resource" format=3 uid="uid://dfjd06gx0ykgh"]
+
+[ext_resource type="Texture2D" uid="uid://ciaer3e0p7k7o" path="res://assets/sprites/items/empty_bottle.png" id="1_le5cv"]
+[ext_resource type="Script" uid="uid://2yudtoju7pj2" path="res://scripts/lib/Item.cs" id="2_pxffk"]
+
+[resource]
+script = ExtResource("2_pxffk")
+Name = "Empty Bottle"
+Description = "It's empty..."
+Value = 5
+Stackable = true
+Sprite = ExtResource("1_le5cv")

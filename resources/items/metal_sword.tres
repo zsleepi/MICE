@@ -1,0 +1,13 @@
+[gd_resource type="Resource" format=3 uid="uid://xljsu01ohgy2"]
+
+[ext_resource type="Texture2D" uid="uid://ca4igvfxqsx54" path="res://assets/sprites/items/metal_sword.png" id="1_wjw17"]
+[ext_resource type="Script" uid="uid://cnnp661rs6rww" path="res://scripts/lib/Weapon.cs" id="2_wjw17"]
+
+[resource]
+script = ExtResource("2_wjw17")
+DamageValue = 12
+EquipSlot = "mainHeld"
+Name = "Metal Sword"
+Description = "it goes swish swooshy"
+Value = 50
+Sprite = ExtResource("1_wjw17")
