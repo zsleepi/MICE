@@ -45,7 +45,7 @@ public partial class RoomTransitionCell : Node2D
         Vector2 topLeftLocal = ToLocal(topLeftWorld);
         Vector2 bottomRightLocal = ToLocal(bottomRightWorld);
 
-        Rect2 area = new Rect2(topLeftLocal - (tileSize / 2), bottomRightLocal - topLeftLocal);
+        Rect2 area = new Rect2(topLeftLocal, bottomRightLocal - topLeftLocal);
 
         // finally drawin!!
         DrawRect(area, new Color(0.2f, 0.5f, 1f, 0.25f), true); // fill
