@@ -2,7 +2,7 @@ using Godot;
 using MICE.scripts.lib.itemlogic;
 using System;
 
-public partial class ItemEntryUI : HBoxContainer
+public partial class ItemEntryUI : Panel
 {
     private TextureRect iconNode;
     private Label labelNode;
@@ -11,8 +11,8 @@ public partial class ItemEntryUI : HBoxContainer
 
     public override void _Ready()
     {
-        iconNode = GetNode<TextureRect>("Icon");
-        labelNode = GetNode<Label>("Label");
+        iconNode = GetNode<TextureRect>("HBoxContainer/Icon");
+        labelNode = GetNode<Label>("HBoxContainer/Label");
         iconNode.Texture = icon;
         labelNode.Text = label;
     }

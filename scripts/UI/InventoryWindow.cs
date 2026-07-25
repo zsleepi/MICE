@@ -7,7 +7,7 @@ public partial class InventoryWindow : Panel, IMenu
 {
     private Inventory inventoryInstance;
     [Export] private PackedScene itemScene;
-    private VBoxContainer itemsContainer;
+    [Export] private VBoxContainer itemsContainer;
 
     public void SetInventory(Inventory toinventory)
     {
@@ -19,7 +19,6 @@ public partial class InventoryWindow : Panel, IMenu
     {
         GD.Print("getting inventory ready!");
         inventoryInstance.InventoryChange += OnInventoryChange;
-        itemsContainer = GetNode<VBoxContainer>("VBoxContainer/ScrollContainer/ItemListUI");
 
         _Refresh();
     }

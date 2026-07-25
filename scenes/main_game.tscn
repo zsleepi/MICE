@@ -12,7 +12,6 @@
 [node name="HUDLayer" type="CanvasLayer" parent="." unique_id=2089947931]
 
 [node name="BaseInterface" parent="HUDLayer" unique_id=1395529591 instance=ExtResource("2_72e8q")]
-visible = false
 
 [node name="InteractionManager" type="Control" parent="HUDLayer" unique_id=1491315804]
 layout_mode = 3
