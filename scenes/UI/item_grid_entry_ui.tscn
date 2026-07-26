@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://cwkwmryqwpabh"]
+
+[ext_resource type="Script" uid="uid://msrpcwb0m1ic" path="res://scripts/UI/ItemGridEntryUi.cs" id="1_m4fbs"]
+[ext_resource type="Texture2D" uid="uid://dqwetx7n2ixoj" path="res://assets/sprites/items/gold_bracelet.png" id="2_v6s0h"]
+[ext_resource type="FontFile" uid="uid://crlfi80y4m8ct" path="res://assets/fonts/Retrobyte-4nMol.ttf" id="3_v6s0h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m4fbs"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+corner_detail = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_m4fbs"]
+font = ExtResource("3_v6s0h")
+font_size = 36
+
+[node name="ItemGridEntryUi" type="Panel" unique_id=1056357869]
+custom_minimum_size = Vector2(48, 48)
+theme_override_styles/panel = SubResource("StyleBoxFlat_m4fbs")
+script = ExtResource("1_m4fbs")
+
+[node name="Icon" type="TextureRect" parent="." unique_id=202427035]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("2_v6s0h")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="QtyLabel" type="Label" parent="." unique_id=1678573974]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+label_settings = SubResource("LabelSettings_m4fbs")
+horizontal_alignment = 2
+vertical_alignment = 2

@@ -53,20 +53,28 @@ namespace MICE.scripts.lib.itemlogic
 
         // basic logic for manipulating entries
         public void RemoveItem(ItemEntry item) {
-            if (this.HasItem(item.Item)) {
-                int amountToRemove = item.Quantity;
-                ItemEntry foundItem = itemList.Find(i => i.Item == item.Item);
-                if (amountToRemove >= foundItem.Quantity)
-                {
-                    itemList.Remove(foundItem);
-                }
-                else
-                {
-                    itemList.Find(i => i.Item == item.Item).Quantity -= item.Quantity;
-                }
-            } else { GD.PrintErr("Tried to remove non-existent item") ; }
+            // fixing a bug where it would try to remove existing items
+            var foundItem = itemList.Find(i => i.Item == item.Item);
+
+            if (foundItem == null)
+            {
+                GD.PrintErr("Tried to remove non-existent item");
+                return; // dont emit signal here
+            }
+
+            int amountToRemove = item.Quantity;
+            if (amountToRemove >= foundItem.Quantity)
+            {
+                itemList.Remove(foundItem);
+            }
+            else
+            {
+                foundItem.Quantity -= amountToRemove;
+            }
+
             EmitSignal(SignalName.InventoryChange);
         }
+
         public void AddItem(ItemEntry item) {
             if (itemList.Exists(i => i.Item == item.Item) && item.Item.Stackable)
             {

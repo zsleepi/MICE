@@ -8,6 +8,7 @@ public partial class InteractionManager : Control
     string currentInteraction = "none";
     Player playerCharacter;
     [Export] internal PackedScene playerInventoryScene;
+    [Export] internal PackedScene playerInventoryGridScene;
 
     public override void _Ready()
     {
@@ -24,9 +25,15 @@ public partial class InteractionManager : Control
         if (currentInteraction == "playerInventory")
         {
             CloseInteraction();
-        } else
+            OpenPlayerInventoryGrid();
+        }
+        else if (currentInteraction == "playerInventoryGrid")
         {
             CloseInteraction();
+        }
+        else
+        {
+            CloseInteraction(); 
             OpenPlayerInventory();
         }
     }
@@ -35,6 +42,14 @@ public partial class InteractionManager : Control
     {
         currentInteraction = "playerInventory";
         InventoryWindow Scene = (InventoryWindow)playerInventoryScene.Instantiate();
+        Scene.SetInventory(playerCharacter.inventory);
+        this.AddChild(Scene);
+    }
+
+    public void OpenPlayerInventoryGrid()
+    {
+        currentInteraction = "playerInventoryGrid";
+        InventoryGrid Scene = (InventoryGrid)playerInventoryGridScene.Instantiate();
         Scene.SetInventory(playerCharacter.inventory);
         this.AddChild(Scene);
     }
