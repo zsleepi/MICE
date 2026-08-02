@@ -1,21 +1,9 @@
-﻿<Project Sdk="Godot.NET.Sdk/4.7.1">
+<Project Sdk="Godot.NET.Sdk/4.7.1">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net9.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="design docs\body and tf.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="design docs\Actors.txt" />
-    <Content Include="design docs\Battles.txt" />
-    <Content Include="design docs\character AI.txt" />
-    <Content Include="design docs\Equipment.txt" />
-    <Content Include="design docs\Species.txt" />
-    <Content Include="design docs\Sprite and visual design.txt" />
-    <Content Include="design docs\Stats.txt" />
-  </ItemGroup>
   <ItemGroup>
     <None Include="project.godot" />
   </ItemGroup>

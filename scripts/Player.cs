@@ -34,5 +34,4 @@ public partial class Player :  Actor
         if (Input.IsActionJustPressed("debug_2")) { inventory.RemoveItem(new ItemEntry(debugItem, 1)); }
         if (Input.IsActionJustPressed("debug_3")) { inventory.ClearInventory(); }
         if (Input.IsActionJustPressed("debug_4")) { switchDebugItem(); } }
-    }
 }

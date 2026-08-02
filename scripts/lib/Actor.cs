@@ -1,4 +1,5 @@
 using Godot;
+using MICE.scripts.lib;
 using MICE.scripts.lib.itemlogic;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,13 @@ public abstract partial class Actor : Node2D, IActor
     [Export] public Sprite2D Sprite;
 
     public Inventory inventory = new();
+    public Signature signature = new Signature();
+
+    public void RandomizeSprite()
+    {
+        signature.Randomize();
+        Sprite.Texture = SpriteUtils.RecolorSprite(Sprite.Texture.GetImage(), signature);
+    }
 
 
 
@@ -23,6 +31,7 @@ public abstract partial class Actor : Node2D, IActor
     public override void _Ready()
     {
         AudioPlayer = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
+        RandomizeSprite();
     }
 
     public static readonly Vector2I[] _directions =
