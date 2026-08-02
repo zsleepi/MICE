@@ -1,0 +1,26 @@
+Equipment is a big part of progression and player expression, but how do we balance equipment when any character can have such a different set of equipment slots? and how many different types of equipment do we want to support?
+
+there are some basic equipment types that most RPGs offer, but we can afford to be picky with which we include.
+these are body armor, leg armor, boots, helmet, gloves.
+
+All characters have a body armor slot, so it's best that we focus most of the power in that slot. as for the rest? i'll go into them now
+
+glove slots can easily become tedious to fill in with many-armed characters, like say a spider-morph, while also not giving much to the fantasy. is it fun to make it optimal to hide away your paws? i dont think so. leave gauntlets as melee weapons that take up your hand slot. that's one slot down
+
+pants. are pants cool? idk. pants ( or skirts ) can be worn by bipeds only, and provide marginal benefits. some body armors ( like robes ) also occupy this slot, though they dont require it.
+
+underwear slots. having any amount of legs lets you wear bottom underwear.
+having a breast (thorax) lets you wear a top. all anthros have this.
+
+boots slots are also highly dependent on body configuration. do we want our fox friends to hide their paws? uhhh no? the freedom to wear stuff is welcome however, so let's merge it with socks slot and call it a leg slot.
+
+helmet slot is a no brainer, hats are fun.
+
+face slot for glasses and the like. you can wear glasses AND a funny hat.
+
+now for the jewelry slots.
+we got rings, bracelets, necklaces, earrings.
+i think rings and necklaces are the best RPG staples here. bracelets can be confused for rings, and earrings can ALSO be confused for rings. so let's keep it to those two. magical rings and corrupting amulets are just too important to pass up.
+
+oh also fuck belts. we arent gonna do belts.
+

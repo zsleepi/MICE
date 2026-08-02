@@ -1,0 +1,13 @@
+[gd_resource type="Resource" format=3 uid="uid://qax0hqpvoix"]
+
+[ext_resource type="Texture2D" uid="uid://ca48g1k1kl3wn" path="res://assets/sprites/items/wooden_sword.png" id="1_aohy4"]
+[ext_resource type="Script" uid="uid://cnnp661rs6rww" path="res://scripts/lib/Weapon.cs" id="2_fti4b"]
+
+[resource]
+script = ExtResource("2_fti4b")
+DamageValue = 3
+EquipSlot = "mainHeld"
+Name = "Wooden Sword"
+Description = "it goes swish swooshy"
+Value = 2
+Sprite = ExtResource("1_aohy4")

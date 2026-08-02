@@ -1,0 +1,17 @@
+an actor must have all these things
+
+- a body ( including species )
+- a set of behaviors that informs its AI
+- an inventory ( currently under construction )
+- equipment slots generated from body
+- stats ( influenced by species bonus from body )
+- signature ( colors )
+
+getting into more speculative territory here
+
+- mental traits and compulsions ( might marry this system to behaviors system )
+- an archetype ( their background, based on their spawn condition. nobility will act like nobility, and ferals will act feral even when given speech etc )
+- relationships to other actors
+- likes and dislikes
+- short term memory ( queued up actions )
+- long term memory ( history and events )

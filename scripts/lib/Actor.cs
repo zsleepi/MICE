@@ -1,4 +1,6 @@
 using Godot;
+using MICE.scripts.lib;
+using MICE.scripts.lib.itemlogic;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,6 +12,17 @@ public abstract partial class Actor : Node2D, IActor
     [Export] public Vector2I Cell { get; set; }
     [Export] public Sprite2D Sprite;
 
+    public Inventory inventory = new();
+    public Signature signature = new Signature();
+
+    public void RandomizeSprite()
+    {
+        signature.Randomize();
+        Sprite.Texture = SpriteUtils.RecolorSprite(Sprite.Texture.GetImage(), signature);
+    }
+
+
+
     // Actor plays audio using this node
     public AudioStreamPlayer2D AudioPlayer;
     public Node2D Node => this;
@@ -18,6 +31,7 @@ public abstract partial class Actor : Node2D, IActor
     public override void _Ready()
     {
         AudioPlayer = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
+        RandomizeSprite();
     }
 
     public static readonly Vector2I[] _directions =
@@ -59,19 +73,21 @@ public abstract partial class Actor : Node2D, IActor
                 // populating neighbors
                 Vector2I neighbor = current + _unorderedDirections[d];
 
+                if (neighbor == destination)
+                {
+                    visited.Add(neighbor);
+                    cameFrom[neighbor] = current;
+                    found = true;
+                    break;
+                }
+
                 // conditions to skip this neighbor
                 if (visited.Contains(neighbor)) { continue; }
-                if (!grid.IsWalkable(neighbor)) { continue; }
+                if (!grid.IsFree(neighbor)) { continue; }
 
                 // otherwise, add it and log where we're coming from
                 visited.Add(neighbor);
                 cameFrom[neighbor] = current;
-
-                if (neighbor == destination)
-                {
-                    found = true;
-                    break;
-                }
 
                 _searchFrontier.Enqueue(neighbor);
             }

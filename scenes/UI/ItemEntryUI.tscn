@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://dwoltb2gykicw"]
+
+[ext_resource type="Script" uid="uid://dlabs87iw284f" path="res://scripts/UI/ItemEntryUI.cs" id="1_py75t"]
+[ext_resource type="Texture2D" uid="uid://dqwetx7n2ixoj" path="res://assets/sprites/items/gold_bracelet.png" id="2_d3kx1"]
+[ext_resource type="FontFile" uid="uid://cmhdv5igbuj7i" path="res://assets/fonts/SpaceMono-Bold.ttf" id="3_d3kx1"]
+
+[node name="ItemEntryUI" type="Panel" unique_id=1451798251]
+custom_minimum_size = Vector2(400, 32)
+script = ExtResource("1_py75t")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1609056353]
+layout_mode = 1
+offset_right = 261.0
+offset_bottom = 35.0
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer" unique_id=1000958221]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("2_d3kx1")
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=1955667780]
+oversampling_with_scale = 1
+texture_repeat = 1
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 1, 1)
+theme_override_fonts/font = ExtResource("3_d3kx1")
+theme_override_font_sizes/font_size = 15
+text = "Text Placeholder"
+vertical_alignment = 1

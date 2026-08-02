@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://q4h1byp1fbne"]
+
+[node name="BaseInterface" type="Control" unique_id=1395529591]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2057134149]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="InfoPanel" type="Panel" parent="VBoxContainer" unique_id=50056281]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="LogPanel" type="Panel" parent="VBoxContainer" unique_id=658439025]
+custom_minimum_size = Vector2(160, 100)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 3
+
+[node name="MenuPanel" type="Panel" parent="VBoxContainer" unique_id=1592461780]
+custom_minimum_size = Vector2(200, 30)
+layout_mode = 2
+size_flags_vertical = 8

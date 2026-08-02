@@ -1,0 +1,9 @@
+bodies are tricky because you really cant count on them having anything.
+what body types does the system need to model?
+
+anthros ( 2 arms and 2 legs. )
+ferals ( 4 legs. )
+taurs ( 4 legs and also arms. )
+snake ( no limbs to speak of. )
+amorphous ( how )
+insectoid ( more than 4 legs )

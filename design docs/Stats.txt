@@ -1,0 +1,40 @@
+DESIGN OF CHARACTER STATS
+
+CON
+represents ability to withstand physical ailments. modifies max hp and debuff resist chance.
+
+DEX
+represents agility and precision. modifies DEX weapon damage, character movement speed, accuracy, and dodge chance.
+
+STR
+represents physical prowess. modifies STR weapon damage, max collective weight of equipped items, ability to break restraints, and blocking ability.
+
+INT
+before we can start defining the INT skill stat, there is an important thing we gotta address:
+how do you implement an INT loss mechanic in a way that mechanically fulfills the fantasy?
+see, i initially thought of the int stat in terms of capabilities we see in animals of varying intelligence. this seemed like a natural way of viewing it as this game is meant to have feral tf mechanics and feral animal NPCs. however, it would feel a bit weird if your int stat decided that your character is now too stupid to engage in barter or speech, considering how broad a scope intelligence is. therefore i think we should consider abilities like speech and bartering their own proficiencies separate from INT. you can be an intelligent character incapable of speech and vice-versa.
+
+that brings us back to my question: how the hell do we implement INT in a way that feels satisfying?
+i'm gonna go do some "research" for a bit to see how art handles this theme...
+i see it can represent a loss in awareness of one's situation... actually this is a really common function of int loss in art, interestingly enough.
+INT loss in art is also often a shorthand for "this character is losing the willpower to resist their fate".
+
+so for flavor purposes, i propose ditching the WILLPOWER stat in favor of INT to better fit into player preconceptions for how a mechanic like this should work.
+INT represents willpower and awareness. modifies max PSYCHE, perceptive ability, amount of skills you can prepare, capability for defiance, resistance to psychic attacks, and resisting compulsions.
+
+ESP
+represents magical prowess. modifies spell stats, allows learning of higher level spells.
+
+CHA
+represents ability to influence others. modifies effectiveness of persuasion, bartering, and hypnosis attacks.
+
+these stats together create 4 primary archetypes:
+STR-primary warrior that subdues enemies through force. strong package of offensive and defensive tools. easy to pilot.
+DEX-primary fighter with a focus on movement, positioning and ranged attacks. higher skill ceiling.
+ESP-primary esper subdues enemies using spells, because you have to have one of those.
+CHA-primary bard overcomes enemies through magical song and hypnotic attacks.
+
+physical-orientated characters will typically spec into some mix of CON, STR, and DEX, while psychic types will want both ESP and INT.
+it is important that INT as a stat is not a complete necessity for any playstyle except maybe PSYCHE-heavy wizards, but is also useful for any kind of character.
+you can be a low-INT caster who only prepares a few spells and has low tolerance for spells that consume PSYCHE, and you can also spec into it as a secondary stat to gain space for more skills and spells that compliment your playstyle.
+CON and INT are basically universally useful stats to dump your stat points into for defence and utility, and is itself a way to opt into how much control you want the mental mechanic to have over you.

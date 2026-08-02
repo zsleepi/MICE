@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://wb4aeuk7hdq2"]
+
+[ext_resource type="Script" uid="uid://dn6nuwjfi41u0" path="res://scripts/UI/InventoryWindow.cs" id="1_rlowe"]
+[ext_resource type="PackedScene" uid="uid://dwoltb2gykicw" path="res://scenes/UI/ItemEntryUI.tscn" id="2_4oqgt"]
+[ext_resource type="PackedScene" uid="uid://c88ce1bwkb34r" path="res://scenes/UI/item_list_ui.tscn" id="3_5my1s"]
+[ext_resource type="FontFile" uid="uid://crlfi80y4m8ct" path="res://assets/fonts/Retrobyte-4nMol.ttf" id="3_chbog"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4oqgt"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.966548, 0.15023494, 1)
+corner_detail = 1
+
+[node name="InventoryWindow" type="Panel" unique_id=413146336 node_paths=PackedStringArray("itemsContainer")]
+custom_minimum_size = Vector2(500, 900)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -250.0
+offset_right = 300.0
+offset_bottom = 250.0
+grow_vertical = 2
+offset_transform_position = Vector2(50, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_4oqgt")
+script = ExtResource("1_rlowe")
+itemScene = ExtResource("2_4oqgt")
+itemsContainer = NodePath("MarginContainer/VBoxContainer/ScrollContainer/ItemListUI")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1493362318]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1232821780]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Inventory Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1074385893]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_chbog")
+theme_override_font_sizes/font_size = 64
+text = "INVENTORY"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer" unique_id=559444788]
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="ItemListUI" parent="MarginContainer/VBoxContainer/ScrollContainer" unique_id=877491249 instance=ExtResource("3_5my1s")]
+layout_mode = 2

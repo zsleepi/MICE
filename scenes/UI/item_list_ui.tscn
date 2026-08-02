@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c88ce1bwkb34r"]
+
+[node name="ItemListUI" type="VBoxContainer" unique_id=877491249]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0

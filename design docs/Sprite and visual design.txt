@@ -1,0 +1,15 @@
+POST PROCESSING
+we can do post processing on overworld environments according to time of day and climate etc. I think this could really enhance mood through the use of color palette shifting and bloom effects and the like.
+
+CHARACTER SPRITES
+deciding a character's overworld sprite will probably end up coming down to a few variables.
+species being the first and most important variable, is decided by a function that sums up the species values of each of a creature's body parts and outputs the highest fit, we can probably get creative with the criteria and implement hybrids and the like.
+what is the second most important thing to communicate about a character? i'd say class, though im not sure if we'll have a class mechanic.
+at the very least, merchants should be distinguished from regular civilians, and guards and casters get their own sprites, for maybe a total of 4 job sprites.
+finally, we can have 3 variants of each, for a bit of extra randomness.
+
+CHARACTER SPRITE COLORS
+each character has a primary and secondary color that they're associated with. this will typically denote some kind of faction allegiance or family they belong to. for example a hive of insects will all share the same color scheme.
+this could either be a very literal coloration or something more abstract.
+it might just end up being that each character has an abstract set of 2 colors that they simply *are*, and these can be changed through tf or dyeing, or more interestingly it could be something more foundational about a character that isnt so easy to change. it really is just a question of what we think is a more interesting way of representing it diagetically.
+we could call these sets of colors "signatures" for some spice :3

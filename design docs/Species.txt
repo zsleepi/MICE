@@ -1,0 +1,22 @@
+Every actor has a species decided from their body.
+your species will give you certain stat benefits and may change how NPCs treat you.
+your species decides your character sprite.
+
+how is species decided?
+
+species is decided by counting up the species values of each body part, and then taking into consideration your body material and limb configuration.
+
+you can have any even integer between 0 and 6 arms, and 0 and 8 legs
+there are a variety of limb configurations but they tend to fall into a few categories.
+- snake. no limbs.
+- biped. 2 legs and any arm configuration.
+- feral quadruped. 4+ legs and no arms.
+- taur. 4+ legs and also having arms.
+
+we'll probably just be working with these 4 types for categorization.
+you can be just about any species with any limb configuration, though we cant make sprites for all of them, so instead focus on common cases.
+sprite will default to generic species sprite if one cannot be found for that body configuration.
+
+character sprite also depends on *visible* species, so you can wear clothes to hide your exact species.
+
+bodymaterial modifies species type a little. any slime-material character gets slime species bonuses primarily. immaterial characters are ghosts.
