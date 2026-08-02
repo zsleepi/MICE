@@ -28,4 +28,10 @@ public class Grid
         _occupants.Remove(from);
         _occupants[to] = a;
     }
+
+    public void Clear()
+    {
+        _impassable.Clear();
+        _occupants.Clear();
+    }
 }

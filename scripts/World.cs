@@ -8,6 +8,7 @@ public partial class World : Node2D
 {
     [Export] public Room CurrentRoom;
     [Export] public Player Player;
+	[Export] public CameraController Camera;
 
 	[Export] public float BumpDistance = 5f; // pixels to nudge when bumping
 
@@ -26,8 +27,10 @@ public partial class World : Node2D
             }
         }
 
-		// place the player at room's spawn cell
-		Player.Cell = CurrentRoom.PlayerSpawnCell;
+		Camera.SetBounds(CurrentRoom.GetPlayArea());
+
+        // place the player at room's spawn cell
+        Player.Cell = CurrentRoom.PlayerSpawnCell;
 		Player.GlobalPosition = CellToWorld(Player.Cell);
 		_grid.Register(Player, Player.Cell);
 
@@ -58,7 +61,21 @@ public partial class World : Node2D
         // doing the turn even when waiting
         if (dir != Vector2I.Zero)
 		{
-            _ = ProcessTurnAsync(dir);
+            _ = ProcessTurnSafely(dir);
+		}
+	}
+
+	// new process scaffolding... will help us debug
+	private async Task ProcessTurnSafely(Vector2I dir)
+	{
+		try
+		{
+			await ProcessTurnAsync(dir);
+		}
+		catch (Exception ex)
+		{
+			GD.PrintErr($"[Turn Error] {ex}");
+			_busy = false;
 		}
 	}
 
@@ -85,6 +102,9 @@ public partial class World : Node2D
 		// this part took forever......
 		async Task WaitFor(Tween t) => await ToSignal(t, Tween.SignalName.Finished);
 		await Task.WhenAll(tweens.Where(t => t != null).Select(WaitFor));
+
+		// check this at the end!
+		await CheckRoomTransition();
 
 		_busy = false; // update busy!!
 	}
@@ -124,4 +144,70 @@ public partial class World : Node2D
 
 	private Vector2 CellToWorld(Vector2I cell) =>
 		CurrentRoom.Terrain.ToGlobal(CurrentRoom.Terrain.MapToLocal(cell));
+
+	private async Task CheckRoomTransition()
+	{
+		foreach (var rt in CurrentRoom.GetRoomTransitions())
+		{
+			if (rt.Contains(Player.Cell))
+			{
+				await TransitionToRoom(rt);
+				return;
+			}
+		}
+	}
+
+	private async Task TransitionToRoom(RoomTransitionCell rt)
+	{
+		var newRoom = rt.LoadTargetRoom().Instantiate<Room>();
+
+		// free up old room and add new
+		CurrentRoom.QueueFree();
+		AddChild(newRoom);
+		CurrentRoom = newRoom;
+
+		_grid.Clear();
+
+		foreach (Vector2I cell in CurrentRoom.Terrain.GetUsedCells())
+		{
+			TileData data = CurrentRoom.Terrain.GetCellTileData(cell);
+			if (data != null && !data.GetCustomData("Walkable").AsBool())
+			{
+				_grid.SetImpassable(cell);
+			}
+		}
+
+		// getting spawn cell based on matching id
+        Vector2I spawnCell = string.IsNullOrEmpty(rt.TargetSpawnId)
+			? CurrentRoom.PlayerSpawnCell
+			: CurrentRoom.FindSpawnCell(rt.TargetSpawnId);
+
+		// TODO: remove these debugs when im sure this is ok lol
+        //GD.Print($"[Transition] TargetSpawnId: {rt.TargetSpawnId}");
+        //GD.Print($"[Transition] SpawnCell: {spawnCell}");
+        //GD.Print($"[Transition] CellToWorld: {CellToWorld(spawnCell)}");
+        //GD.Print($"[Transition] Player going to: {CellToWorld(spawnCell)}");
+
+        Player.Cell = spawnCell;
+        Player.GlobalPosition = CellToWorld(Player.Cell);
+        _grid.Register(Player, Player.Cell);
+
+        foreach (Actor actor in CurrentRoom.GetActors())
+        {
+            _grid.Register(actor, actor.Cell);
+            actor.GlobalPosition = CellToWorld(actor.Cell);
+
+            // set up spider target for new room's spiders!!
+            if (actor is Spider newSpider)
+            {
+                newSpider.Target = Player;
+            }
+        }
+
+        // compute bounds from terrain cells and inform camera
+        Rect2 playArea = CurrentRoom.GetPlayArea();
+		Camera.SetBounds(playArea);
+		Camera.Follow(Player); // TODO: for now! we can do fancy dynamic stuff later
+		Camera.TeleportToTarget();
+	}
 }

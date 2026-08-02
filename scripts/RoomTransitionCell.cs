@@ -14,7 +14,8 @@ public partial class RoomTransitionCell : Node2D
     [Export] public Vector2I TopLeftCell;     // top-left corner
     [Export] public Vector2I BottomRightCell; // bottom‑right corner
 
-    [Export] public PackedScene TargetRoom;
+    [Export] public string TargetRoomPath; // not using packedscene... causes circular reference issues
+    [Export] public string TargetSpawnId;
 
     // this helps us see the area in the godot editor!
     public override void _Draw()
@@ -58,4 +59,8 @@ public partial class RoomTransitionCell : Node2D
         return cell.X >= TopLeftCell.X && cell.X <= BottomRightCell.X &&
                cell.Y >= TopLeftCell.Y && cell.Y <= BottomRightCell.Y;
     }
+
+    // this is how we load the scenes now rather than packedroom at runtime
+    public PackedScene LoadTargetRoom() =>
+        ResourceLoader.Load<PackedScene>("res://scenes/" + TargetRoomPath + ".tscn");
 }
