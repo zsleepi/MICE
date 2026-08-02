@@ -27,18 +27,12 @@ public partial class Player :  Actor
         debugItem = debugItemList[debugItemIndex % 4];
     }
 
-    internal void openInventory()
-    {
-
-    }
-
     public override void _Process(double delta)
     {
         if (Input.IsActionJustPressed("debug_print")) { inventory.PrintInventory("mouse"); }
         if (Input.IsActionJustPressed("debug_1")) { inventory.AddItem(new ItemEntry(debugItem, 1)); }
         if (Input.IsActionJustPressed("debug_2")) { inventory.RemoveItem(new ItemEntry(debugItem, 1)); }
         if (Input.IsActionJustPressed("debug_3")) { inventory.ClearInventory(); }
-        if (Input.IsActionJustPressed("debug_4")) { switchDebugItem(); }
-        if (Input.IsActionJustPressed("inventory")) { openInventory(); }
+        if (Input.IsActionJustPressed("debug_4")) { switchDebugItem(); } }
     }
 }

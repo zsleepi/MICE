@@ -1,0 +1,16 @@
+ON CONSIDERATIONS FOR BATTLE SYSTEM
+
+there are some main things we need to decide on before we can start implementing the battle system, I'll lay them out here.
+firstly, do we want combat to be instance-based or overworld based? each comes with its own advantages.
+and if we do decide on instance-based, will combat have a spatial element?
+
+starting with the advantages and disadvantages of combat instancing:
+main strength i think lies in the smoothing of edge-cases especially regarding handling resolution of battles, and ease for implementing narrative.
+it creates a clear structure, firstly there can be an encounter/persuasion phase, then the battle phase, and then a resolution phase wherein you get to loot and do whatever business you want with the losers, or vice-versa. this structure can be used to work narrative into fights more easily. for example one specific enemy type might have its own interaction tree going into the battle, and defined consequenses for the resolution of it that nothing outside of the battle instance can mess with.
+that isnt to say we cannot work in narrative without battle instancing, though we would have to get a little more creative with how we do it.
+a disadvantage of battle instancing is that we don't get to reuse much logic from the overworld part of the game. this can make it feel incongruent and perhaps a bit redundant, while also making the overworld feel less alive by relegating action to its own instances.
+another consideration is how we handle battle between NPCs. i dont have an answer for this one yet because there really isnt any set and defined way of handling this, though i do know how starsector handles it: for some amount of ingame time, the two parties can be seen abstractly trading blows, and the player can join in on either side before the battle resolves on its own.
+personally, i grow less fond of the idea of combat instancing for the reasons i laid out.
+
+overworld combat IE caves of qud style:
+by extending the overworld systems it becomes a spatial combat system by default which greatly extends the design-space for abilities and class archetypes.

@@ -1,0 +1,53 @@
+On implementing character AI
+
+Goals and specifications
+the goal is to create a modular AI system that can model many different behaviors while using the same framework for all NPCs and with mutability in mind.
+i will outline my own proposal for such a system below, but first i will list some of the behaviors our system could model.
+
+ANIMAL/FERAL BEHAVIOR
+eating food items
+predator animals "hunt" their set of prey animals, automatic aggro on any Actor that matches their prey list.
+skittishness and avoiding other Actors.
+freeze/fight/flight response
+random wandering
+herding behavior / staying close to actors of the same species
+collecting shiny items
+nesting and burrowing
+reproduction
+snoozing n basking
+social play behaviors?
+possibility of entering party as tamed animal?
+// these are basic behaviors that most Actors will have in some form. animals spawn in wilderness tiles and are not tracked.
+
+PARTY MEMBER BEHAVIOR
+follow party leader
+suppress own behaviors. wont start battles on their own.
+treat characters that are hostile to party members as hostile to them too.
+heal party members low on health
+rest along with party
+
+VILLAGE NPC BEHAVIOR
+job-related behaviors ( standing at job station / storefront / guardpost / patrol route )
+alerting guards when attacked
+returning to their residence at night ( this could be merged with nesting behavior )
+wandering during free time?
+exchanging goods with traders
+quest generation?
+// you'll find these NPCs in villages.
+
+WANDERER NPC BEHAVIOR
+wanders between rooms, intermittently visits villages
+can be recruited from villages ??
+sometimes stops to rest and make camp
+// you'll often find these in wilderness rooms. they serve as a source of quests and bartering in these zones. are often a combat class and suitable for recruitment. the game keeps track of these on a world basis and you might encounter the same wanderer a few times, or even get a quest to rescue them from some situation.
+
+MINDLESS ENEMY BEHAVIOR
+perform job repetitively
+doesnt rest
+attacks on sight
+no self-preservation behaviors
+not receptive to persuasion
+// this is more like your run-of-the-mill enemy type. mindlessly committed to making your life difficult. you might find these behaviors in artificial creatures and mind-controlled minions. you'll most often find these in dungeons protecting treasure and the like.
+
+PROPOSAL
+i propose that NPCs act based on a priority list similar to games like the Sims

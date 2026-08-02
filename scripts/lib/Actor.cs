@@ -11,7 +11,6 @@ public abstract partial class Actor : Node2D, IActor
     [Export] public Vector2I Cell { get; set; }
     [Export] public Sprite2D Sprite;
 
-    // actor's inventory !!! YAY this is gonna be so cool
     public Inventory inventory = new();
 
 

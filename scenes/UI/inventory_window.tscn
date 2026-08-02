@@ -19,7 +19,7 @@ border_color = Color(0, 0.966548, 0.15023494, 1)
 corner_detail = 1
 
 [node name="InventoryWindow" type="Panel" unique_id=413146336 node_paths=PackedStringArray("itemsContainer")]
-custom_minimum_size = Vector2(300, 500)
+custom_minimum_size = Vector2(500, 900)
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -52,7 +52,7 @@ theme_override_constants/separation = 0
 [node name="Inventory Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1074385893]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_chbog")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 64
 text = "INVENTORY"
 horizontal_alignment = 1
 
