@@ -13,7 +13,13 @@ public abstract partial class Actor : Node2D, IActor
     [Export] public Sprite2D Sprite;
 
     public Inventory inventory = new();
-    public Signature signature = new Signature();
+    public CoreSkills coreSkills;
+    public Signature signature = new ( new Color(1,1,1), new Color(1,1,1) );
+
+    public int health;
+    public int maxHealth;
+    public int psyche;
+    public int maxPsyche;
 
     public void RandomizeSprite()
     {

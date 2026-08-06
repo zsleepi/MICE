@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace MICE.scripts.lib
 {
-    public class Signature
+    public class Signature(Color _primary, Color _secondary)
     {
-        public Color primary;
+        public Color primary = _primary;
 
-        public Color secondary;
+        public Color secondary = _secondary;
 
         public void Set(Color _primary, Color _secondary)
         {
@@ -22,8 +22,8 @@ namespace MICE.scripts.lib
         public void Randomize()
         {
             Random rnd = new Random();
-            primary = new Color(rnd.Next(), rnd.Next(), rnd.Next());
-            secondary = new Color(rnd.Next(), rnd.Next(), rnd.Next());
+            primary = new Color(rnd.NextSingle(), rnd.NextSingle(), rnd.NextSingle());
+            secondary = new Color(rnd.NextSingle(), rnd.NextSingle(), rnd.NextSingle());
         }
     }
 }
