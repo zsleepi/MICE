@@ -1,4 +1,5 @@
 using Godot;
+using MICE.scripts.lib.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,13 +33,13 @@ public partial class World : Node2D
 		_grid.Register(Player, Player.Cell);
 
 		// register actors placed in room as well
-		foreach (Actor actor in CurrentRoom.GetActors())
+		foreach (NPC npc in CurrentRoom.GetActors())
 		{
-			_grid.Register(actor, actor.Cell);
-            actor.GlobalPosition = CellToWorld(actor.Cell);
+			_grid.Register(npc, npc.Cell);
+            npc.GlobalPosition = CellToWorld(npc.Cell);
 
 			// TODO: temp thing to see if this works
-			if (actor is Spider spider)
+			if (npc.ai is HostileAI spider)
 			{
 				spider.Target = Player;
 			}
@@ -72,13 +73,13 @@ public partial class World : Node2D
 		tweens.Add(ResolveMove(Player, playerDir));
 
 		// NPC actors react afterward
-		foreach (NPC actor in CurrentRoom.GetActors())
+		foreach (NPC npc in CurrentRoom.GetActors())
 		{
-			var actorDir = actor.DecideDirection(_grid);
+			var direction = npc.ai.DecideDirection(_grid);
 
-			tweens.Add(ResolveMove(actor, actorDir));
-			actor.FaceDirection(actorDir);
-			actor.TickTurn();
+			tweens.Add(ResolveMove(npc, direction));
+            npc.FaceDirection(direction);
+            npc.ai.TickTurn();
 		}
 
 		// waiting for all animation tweens to finish together

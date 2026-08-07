@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfxo720bn20ss"
-path="res://.godot/imported/chars.png-96a4282f5a128c1753be201a802a57d6.ctex"
+uid="uid://cn4obv7mir2dp"
+path="res://.godot/imported/micefolk.png-1e8c33bbaba40ce576831d123f14f39a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/chars.png"
-dest_files=["res://.godot/imported/chars.png-96a4282f5a128c1753be201a802a57d6.ctex"]
+source_file="res://assets/sprites/chars/micefolk.png"
+dest_files=["res://.godot/imported/micefolk.png-1e8c33bbaba40ce576831d123f14f39a.ctex"]
 
 [params]
 

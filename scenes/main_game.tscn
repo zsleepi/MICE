@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cq6lf4kmk3tlm"]
+
+[ext_resource type="PackedScene" uid="uid://pyqvimv5rp77" path="res://scenes/World.tscn" id="1_s3esy"]
+[ext_resource type="PackedScene" uid="uid://q4h1byp1fbne" path="res://scenes/UI/base_interface.tscn" id="2_72e8q"]
+[ext_resource type="Script" uid="uid://cu62pvmmgm45y" path="res://scripts/UI/InteractionManager.cs" id="3_d2op2"]
+[ext_resource type="PackedScene" uid="uid://wb4aeuk7hdq2" path="res://scenes/UI/inventory_window.tscn" id="4_0rdsr"]
+[ext_resource type="PackedScene" uid="uid://b83g36d26lb1m" path="res://scenes/UI/inventory_grid.tscn" id="5_ipu61"]
+
+[node name="MainGame" type="Node" unique_id=958235057]
+
+[node name="World" parent="." unique_id=1152574541 instance=ExtResource("1_s3esy")]
+
+[node name="HUDLayer" type="CanvasLayer" parent="." unique_id=2089947931]
+
+[node name="BaseInterface" parent="HUDLayer" unique_id=1395529591 instance=ExtResource("2_72e8q")]
+
+[node name="InteractionManager" type="Control" parent="HUDLayer" unique_id=1491315804]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_d2op2")
+playerInventoryScene = ExtResource("4_0rdsr")
+playerInventoryGridScene = ExtResource("5_ipu61")
+
+[editable path="World"]
+[editable path="World/CurrentRoom"]
