@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byxmeb53si7al"
-path="res://.godot/imported/staircases.png-2fe2a4c240a166b0d22cc4fc374e47bd.ctex"
+uid="uid://dcyonfhx2x04d"
+path="res://.godot/imported/pathTiles.png-efe8a58848170c8468c768ccb401afb6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/staircases.png"
-dest_files=["res://.godot/imported/staircases.png-2fe2a4c240a166b0d22cc4fc374e47bd.ctex"]
+source_file="res://assets/sprites/tiles/pathTiles.png"
+dest_files=["res://.godot/imported/pathTiles.png-efe8a58848170c8468c768ccb401afb6.ctex"]
 
 [params]
 

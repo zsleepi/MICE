@@ -5,10 +5,10 @@ namespace MICE.scripts.lib.AI
 {
     public class HostileAI : INPCController
     {
+        private NPC _owner;
         public IActor Target { get; set; }
         public Vector2I TargetCell;
 
-        private NPC _owner;
         private Vector2I _currentDirection = Vector2I.Zero;
         private int _moveCooldown = 0;
         private int _pathfindCooldown = 0;

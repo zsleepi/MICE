@@ -85,7 +85,6 @@ namespace MICE.scripts.lib
                 _finalPath.Enqueue(step - cameFrom[step]);
             }
             var _pathBack = new Queue<Vector2I>(_finalPath.Reverse());
-            GD.Print($"Actor.cs Path to destination found after {iterations} iterations!");
             return _pathBack;
         }
     }

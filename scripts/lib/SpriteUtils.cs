@@ -1,4 +1,5 @@
 using Godot;
+using MICE.scripts.data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,13 @@ namespace MICE.scripts.lib
 {
     internal class SpriteUtils
     {
+        public static Texture2D GetCharSprite(string species, string job, int variant)
+        {
+            Texture2D _texture = (Texture2D)GD.Load("res://assets/sprites/chars/" + SpeciesData.GetSpecies(species).SpritePath + ".png");
+            return _texture;
+        }
+
+
         // works for any sprite that uses 2 colors. has some problems though so rework all this later.
         public static Texture2D RecolorSprite(Image _sprite, Signature _signature)
         {
@@ -40,7 +48,6 @@ namespace MICE.scripts.lib
             }
 
             ImageTexture _newTexture = ImageTexture.CreateFromImage(_recolor);
-            GD.Print(_recolor.GetPixel(7, 7));
             return _newTexture;
         }
     }

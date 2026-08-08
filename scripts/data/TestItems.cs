@@ -1,11 +1,13 @@
 using Godot;
+using MICE.scripts.lib;
+using MICE.scripts.lib.itemlogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MICE.scripts.lib.itemlogic
+namespace MICE.scripts.data
 {
     public class TestItems
     {

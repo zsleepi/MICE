@@ -1,4 +1,5 @@
 using Godot;
+using MICE.scripts.data;
 using MICE.scripts.lib;
 using MICE.scripts.lib.AI;
 using System;
@@ -19,8 +20,10 @@ public partial class NPC : Actor, IActor
 
     public override void _Ready()
     {
-        SetAI(DetermineAiBySpecies(AItype));
+        SetAI(DetermineAi(AItype));
         AudioPlayer = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
+        Sprite.Texture = SpriteUtils.GetCharSprite(Species, "", 1);
+        signature = SpeciesData.GetSpecies(Species).BaseSig;
         UpdateSprite();
     }
 
@@ -29,7 +32,7 @@ public partial class NPC : Actor, IActor
         ai.HandleBump(didBump);
     }
 
-    private INPCController DetermineAiBySpecies(string AItype)
+    private INPCController DetermineAi(string AItype)
     {
         return AItype switch
         {

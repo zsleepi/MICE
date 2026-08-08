@@ -26,3 +26,4 @@ playerInventoryScene = ExtResource("4_0rdsr")
 playerInventoryGridScene = ExtResource("5_ipu61")
 
 [editable path="World"]
+[editable path="World/CurrentRoom"]

@@ -1,14 +1,14 @@
 [gd_resource type="TileSet" format=3 uid="uid://blumms7s2ql5i"]
 
-[ext_resource type="Texture2D" uid="uid://bvwbtjgogvu8f" path="res://assets/sprites/walls.png" id="1_e0v67"]
+[ext_resource type="Texture2D" uid="uid://bvwbtjgogvu8f" path="res://assets/sprites/tiles/walls.png" id="1_trr5h"]
 [ext_resource type="Texture2D" uid="uid://cu3tg1lridt1w" path="res://assets/sprites/tiles/objects.png" id="2_r3cvl"]
-[ext_resource type="Texture2D" uid="uid://d3q46wtgfnd07" path="res://assets/sprites/litTiles.png" id="3_r3cvl"]
-[ext_resource type="Texture2D" uid="uid://byxmeb53si7al" path="res://assets/sprites/staircases.png" id="3_ufqma"]
-[ext_resource type="Texture2D" uid="uid://cpwfegjspc5rn" path="res://assets/sprites/wallsAlt.png" id="5_r3cvl"]
+[ext_resource type="Texture2D" uid="uid://byxmeb53si7al" path="res://assets/sprites/tiles/staircases.png" id="3_27hgl"]
+[ext_resource type="Texture2D" uid="uid://d3q46wtgfnd07" path="res://assets/sprites/tiles/litTiles.png" id="4_mnqh5"]
+[ext_resource type="Texture2D" uid="uid://cpwfegjspc5rn" path="res://assets/sprites/tiles/wallsAlt.png" id="5_bs45b"]
 [ext_resource type="Texture2D" uid="uid://b6wfw2v4blqfb" path="res://assets/sprites/tiles/thickFoliage.png" id="6_trr5h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g1pt8"]
-texture = ExtResource("1_e0v67")
+texture = ExtResource("1_trr5h")
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 0:0/0/terrain_set = 0
@@ -228,7 +228,7 @@ texture_region_size = Vector2i(18, 18)
 3:3/0/terrains_peering_bit/top_side = 2
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r3cvl"]
-texture = ExtResource("3_ufqma")
+texture = ExtResource("3_27hgl")
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 0:0/0/custom_data_0 = true
@@ -236,12 +236,13 @@ texture_region_size = Vector2i(18, 18)
 1:0/0/custom_data_0 = true
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xsgcp"]
-texture = ExtResource("3_r3cvl")
+texture = ExtResource("4_mnqh5")
 0:0/animation_columns = 3
 0:0/animation_frame_0/duration = 1.0
 0:0/animation_frame_1/duration = 1.0
 0:0/animation_frame_2/duration = 1.0
 0:0/0 = 0
+0:0/0/custom_data_0 = true
 0:1/animation_columns = 3
 0:1/animation_frame_0/duration = 1.0
 0:1/animation_frame_1/duration = 1.0
@@ -262,7 +263,7 @@ texture = ExtResource("3_r3cvl")
 0:3/0/custom_data_0 = true
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_trr5h"]
-texture = ExtResource("5_r3cvl")
+texture = ExtResource("5_bs45b")
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 0:0/0/terrain_set = 0
