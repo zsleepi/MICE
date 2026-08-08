@@ -1,0 +1,10 @@
+Coreskills, skill points, level ups. How do we balance the economy around this resource, making it scarce and limited and yet allowing for destructive effects like skill drain?
+
+all actors have base coreSkills, then modified non-destructively by buffs and debuffs from equipment, species etc.
+
+the amount of skill points available is dependent on an Actor's level. level is one of the most effective indicators of the difficulty of an enemy.
+
+the problem with skill drain effects is that the ability to lose skills necessitates the ability to gain skills, too.
+it could be quite bad if skill levels got too decoupled from levels, so i suggest that skill drain only exists in the form of level drain. any skills and levels lost this way can be regained simply by levelling up and investing new skill points.
+
+when an actor is targeted by a skill drain effect, their experience points are taken. if this results in a level down, then the extra skill point is subtracted from the skill that the effect is targeting. if that skill is already at 1 (minimum value), then it instead tries to take from a random skill. a character can be reduced below level 1 by skill drain effects, stopping when there are no more skill points to drain ( level -53 with 1 in each skill, though this is a bit of an edge-case )
