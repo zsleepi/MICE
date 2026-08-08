@@ -17,6 +17,7 @@ public partial class Actor : Node2D, IActor
 
     public Inventory inventory = new();
     public CoreSkills coreSkills;
+    public Experience experience;
 
     public Health health;
     public Psyche psyche;
