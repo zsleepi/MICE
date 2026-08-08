@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-public abstract partial class Actor : Node2D, IActor
+public partial class Actor : Node2D, IActor
 {
     [Export] public float MoveSpeed = 8f;
     [Export] public Vector2I Cell { get; set; }
