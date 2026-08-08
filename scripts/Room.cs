@@ -11,5 +11,5 @@ public partial class Room : Node2D
 	[Export] public Vector2I PlayerSpawnCell;
 
 	public IEnumerable<Actor> GetActors() =>
-		Actors.GetChildren().OfType<Actor>();
+		Actors.GetChildren().OfType<NPC>();
 }

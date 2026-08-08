@@ -4,10 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://dcyonfhx2x04d" path="res://assets/sprites/pathTiles.png" id="2_6iwk6"]
 [ext_resource type="TileSet" uid="uid://blumms7s2ql5i" path="res://assets/terrain/outpost_tiles.tres" id="2_liqgt"]
 [ext_resource type="PackedScene" uid="uid://cx4jk64pc4mis" path="res://scenes/Fox.tscn" id="3_hfcue"]
-[ext_resource type="Texture2D" uid="uid://27j3b21jcbs3" path="res://assets/sprites/smokeParticles.png" id="3_tnfip"]
 [ext_resource type="Texture2D" uid="uid://cq4hrt57k7orl" path="res://assets/sprites/groundsprites.png" id="3_ut7mc"]
-[ext_resource type="PackedScene" uid="uid://8pv16lyn7l1w" path="res://assets/terrain/maze.tscn" id="4_ey61u"]
 [ext_resource type="PackedScene" uid="uid://hvo1wnde4a4r" path="res://scenes/Spider.tscn" id="6_8h30a"]
+[ext_resource type="Script" uid="uid://b8q6wuvs0sfoe" path="res://scripts/lib/NPC.cs" id="6_ey61u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ut7mc"]
 texture = ExtResource("2_6iwk6")
