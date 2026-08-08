@@ -1,9 +1,5 @@
 [gd_scene format=3 uid="uid://pyqvimv5rp77"]
 
-[ext_resource type="Script" uid="uid://dl60sw3l5wex1" path="res://scripts/World.cs" id="1_7g83o"]
-[ext_resource type="PackedScene" uid="uid://drgeqvq2oe3t2" path="res://scenes/Room.tscn" id="2_d1c63"]
-[ext_resource type="PackedScene" uid="uid://dxkciujjtminb" path="res://scenes/Player.tscn" id="3_1lgw5"]
-
 [node name="World" type="Node2D" unique_id=1152574541 node_paths=PackedStringArray("CurrentRoom", "Player")]
 script = ExtResource("1_7g83o")
 CurrentRoom = NodePath("CurrentRoom")
