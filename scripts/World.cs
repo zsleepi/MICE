@@ -11,8 +11,9 @@ public partial class World : Node2D
     [Export] public Player Player;
 
 	[Export] public float BumpDistance = 5f; // pixels to nudge when bumping
+	public float StepDuration = 0.12f;
 
-	private readonly Grid _grid = new();
+    private readonly Grid _grid = new();
 	private bool _busy; // true while a turn is animating: this is input cooldown
 
 	// Called when the node enters the scene tree for the first time.
@@ -106,7 +107,7 @@ public partial class World : Node2D
 
 			Tween t = CreateTween();
 			t.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
-			t.TweenProperty(actor.Node, "global_position", CellToWorld(to), actor.StepDuration);
+			t.TweenProperty(actor.Node, "global_position", CellToWorld(to), StepDuration);
 			return t;
 		}
         else // blocked: playing the bump!
@@ -117,8 +118,8 @@ public partial class World : Node2D
 			Tween t = CreateTween();
 
 			// duration modifier kind of arbitrary... but i think this feels good
-			t.TweenProperty(actor.Node, "global_position", nudge, actor.StepDuration * 0.5f);
-			t.TweenProperty(actor.Node, "global_position", rest, actor.StepDuration * 0.5f);
+			t.TweenProperty(actor.Node, "global_position", nudge, StepDuration * 0.5);
+			t.TweenProperty(actor.Node, "global_position", rest, StepDuration * 0.5);
 			return t;
 		}
 	}

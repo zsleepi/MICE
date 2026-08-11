@@ -10,23 +10,20 @@ using System.Linq;
 public partial class Actor : Node2D, IActor
 {
     [Export] public Vector2I Cell { get; set; }
+    public Node2D Node => this;
 
     [Export] public string Species;
-    [Export] public Sprite2D Sprite;
-    public Signature signature = new(new Color(1, 1, 1), new Color(1, 1, 1));
+    [Export] public Sprite2D Sprite { get; set; }
+    public Signature signature { get; set; }
+    public Inventory inventory { get; set; }
+    public CoreSkills coreSkills { get; set; }
+    public Experience experience { get; set; }
 
-    public Inventory inventory = new();
-    public CoreSkills coreSkills;
-    public Experience experience;
-
-    public Health health;
-    public Psyche psyche;
+    public Health health { get; set; }
+    public Psyche psyche { get; set; }
 
     // Actor plays audio using this node
     public AudioStreamPlayer2D AudioPlayer;
-    public Node2D Node => this;
-    public float StepDuration => 1f / Mathf.Max(MoveSpeed, 0.01f);
-    public float MoveSpeed = 8f;
 
     public override void _Ready()
     {

@@ -6,18 +6,28 @@ using System.Threading.Tasks;
 
 namespace MICE.scripts.lib
 {
-    public class Experience
+    public class Experience(IActor owner)
     {
+        internal IActor owner = owner;
         internal int exp;
         internal int level;
         internal int skillPoints;
 
+        public int GetExpNumber()
+        {
+            return exp;
+        }
+
+        public int GetLevelNumber()
+        {
+            return level;
+        }
 
         public void GainEXP(int gain) {
             exp += gain;
-            while (exp >= LevelMechanicLib.GetLevelExpRequirement(level))
+            while (exp >= LevelMechanicLib.GetLevelUpExpRequirement(level))
             {
-                exp -= LevelMechanicLib.GetLevelExpRequirement(level);
+                exp -= LevelMechanicLib.GetLevelUpExpRequirement(level);
                 RaiseLevel(1);
             }
         }
@@ -28,7 +38,7 @@ namespace MICE.scripts.lib
             while (exp < 0)
             {
                 LowerLevel(1, drainStat);
-                exp += LevelMechanicLib.GetLevelExpRequirement(level);
+                exp += LevelMechanicLib.GetLevelUpExpRequirement(level);
             }
         }
 

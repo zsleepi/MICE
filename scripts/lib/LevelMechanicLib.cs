@@ -8,7 +8,7 @@ namespace MICE.scripts.lib
 {
     public static class LevelMechanicLib
     {
-        public static int GetLevelExpRequirement(int currentLevel)
+        public static int GetLevelUpExpRequirement(int currentLevel)
         {
             return (int)Math.Ceiling((100 + (20*currentLevel)) * Math.Pow(1.02, currentLevel));
         }

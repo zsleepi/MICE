@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://d24ddqm2w8dpd"]
+
+[ext_resource type="Texture2D" uid="uid://cvli2u76am0ft" path="res://assets/sprites/particles/spirals/spiral.png" id="1_o57ob"]
+[ext_resource type="Texture2D" uid="uid://b1eeoqv8jps6l" path="res://assets/sprites/particles/spirals/smolSpiral.png" id="2_aljp8"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_32f61"]
+particles_animation = true
+particles_anim_h_frames = 11
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_k2kvk"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.61904764, 0.8928572), -1.2187502, -1.2187502, 0, 0, Vector2(1, 1), 1.4, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_hmvyj"]
+curve = SubResource("Curve_k2kvk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fedxx"]
+lifetime_randomness = 0.3
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -10, 0)
+emission_shape_scale = Vector3(1, 0.5, 1)
+emission_shape = 1
+emission_sphere_radius = 8.0
+direction = Vector3(0, -1, 0)
+spread = 40.0
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -10, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+anim_speed_curve = SubResource("CurveTexture_hmvyj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tkjqt"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 0.0
+emission_ring_radius = 12.0
+emission_ring_inner_radius = 8.0
+emission_ring_cone_angle = 90.0
+direction = Vector3(0, -1, 0)
+spread = 180.0
+flatness = 1.0
+initial_velocity_min = 5.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, -5, 0)
+tangential_accel_min = -2.2351742e-06
+tangential_accel_max = 9.999997
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+anim_speed_curve = SubResource("CurveTexture_hmvyj")
+
+[node name="spiralEmitter" type="Node2D" unique_id=1134801508]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=36234509]
+material = SubResource("CanvasItemMaterial_32f61")
+amount = 1
+texture = ExtResource("1_o57ob")
+lifetime = 3.0
+interp_to_end = 0.02
+explosiveness = 0.85
+process_material = SubResource("ParticleProcessMaterial_fedxx")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="." unique_id=862847689]
+material = SubResource("CanvasItemMaterial_32f61")
+amount = 2
+amount_ratio = 0.8
+texture = ExtResource("2_aljp8")
+lifetime = 3.0
+interp_to_end = 0.02
+explosiveness = 0.85
+process_material = SubResource("ParticleProcessMaterial_tkjqt")

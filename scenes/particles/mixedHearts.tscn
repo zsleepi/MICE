@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cui5ulbbfkgkw"]
+
+[ext_resource type="PackedScene" uid="uid://c6h604a5ro8df" path="res://scenes/particles/heart_emitter.tscn" id="1_uu45o"]
+[ext_resource type="PackedScene" uid="uid://wn1g8lg7rxlg" path="res://scenes/particles/small_heart_emitter.tscn" id="2_xviqn"]
+
+[node name="MixedHearts" type="Node2D" unique_id=1490091556]
+
+[node name="HeartEmitter" parent="." unique_id=1198891571 instance=ExtResource("1_uu45o")]
+amount = 2
+amount_ratio = 0.6
+
+[node name="small heart emitter" parent="." unique_id=1420736798 instance=ExtResource("2_xviqn")]
+amount = 3
+amount_ratio = 1.0
+lifetime = 2.4

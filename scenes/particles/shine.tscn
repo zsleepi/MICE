@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://cjs72lw1yifqd"]
+
+[ext_resource type="Texture2D" uid="uid://dll01b7c5aeiy" path="res://assets/sprites/particles/shiny/shine.png" id="1_m21hw"]
+[ext_resource type="Texture2D" uid="uid://cnjipy1rkg0kl" path="res://assets/sprites/particles/shiny/shine2.png" id="2_lb2sd"]
+[ext_resource type="Texture2D" uid="uid://b4agn14y7jt81" path="res://assets/sprites/particles/shiny/shine3.png" id="3_fegys"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_fymjj"]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 9
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_32f61"]
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 10.0
+gravity = Vector3(0, 0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[node name="Shine" type="Node2D" unique_id=354843465]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=188767564]
+material = SubResource("CanvasItemMaterial_fymjj")
+amount = 1
+amount_ratio = 0.4
+texture = ExtResource("1_m21hw")
+lifetime = 3.8499999999999996
+interp_to_end = 0.01
+process_material = SubResource("ParticleProcessMaterial_32f61")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="." unique_id=236992689]
+material = SubResource("CanvasItemMaterial_fymjj")
+amount = 1
+amount_ratio = 0.6
+texture = ExtResource("2_lb2sd")
+lifetime = 2.8
+interp_to_end = 0.01
+process_material = SubResource("ParticleProcessMaterial_32f61")
+
+[node name="GPUParticles2D3" type="GPUParticles2D" parent="." unique_id=766927160]
+material = SubResource("CanvasItemMaterial_fymjj")
+amount = 1
+texture = ExtResource("3_fegys")
+lifetime = 2.0
+interp_to_end = 0.01
+process_material = SubResource("ParticleProcessMaterial_32f61")
