@@ -1,100 +1,62 @@
 using Godot;
-using System;
-using System.Numerics;
+using MICE.scripts.data;
+using MICE.scripts.lib.itemlogic;
+using System.Collections.Generic;
 
-/// <summary>
-/// handles player movement. movement is grid-based and this controller currently enforces
-/// discrete steps along the grid. we use smoothing for movement rather than instantaneous
-/// jumps.
-/// TODO: implement horizontal flipping upon last left/right movement, continue to adjust
-/// feeling of movement
-/// </summary>
-public partial class PlayerController : CharacterBody2D
+public partial class PlayerController : Node
 {
-	// we're using 18x18 tiles for the grid generally speaking
-	private const int GridSize = 18;
+    [Export] World World; // TODO: make playerController interact with TurnManager instead of World
+    [Export] Player Player;
+    [Export] private double MovementInputBuffer = 0.05;
+    private double MovementInputTime = 0;
 
-	[ExportGroup("Movement Settings")]
-	[Export] private float _moveCooldown = 0.11f; // seconds between grid steps
-
-	private float _timeSinceLastMove = 0f;
-	private Vector2I _gridPos = Vector2I.Zero; // current position in grid space
-    private Vector2I _prevPos = Vector2I.Zero; // tracks position before movement
-
-	// player sprite reference
-    private Sprite2D Sprite;
-    public override void _Ready()
+    public override void _Process(double delta)
 	{
-		Sprite = GetNode<Sprite2D>("Sprite2D");
-        Position = GetCellCenter(_gridPos);
-	}
+        HandleMovementInput(delta);
+        InventoryDebug();
+    }
 
-	public override void _Process(double delta)
+	public Vector2I GetInputDirection()
 	{
-		float deltaF = (float)delta;
-		_timeSinceLastMove += deltaF;
+        var dir = Vector2I.Zero; // wait case
+        if (Input.IsActionPressed("move_up")) dir += Vector2I.Up;
+        if (Input.IsActionPressed("move_down")) dir += Vector2I.Down;
+        if (Input.IsActionPressed("move_left")) dir += Vector2I.Left;
+        if (Input.IsActionPressed("move_right")) dir += Vector2I.Right;
 
-		if (_timeSinceLastMove < _moveCooldown)
-		{
-			return; // do nothing if cooldown not reached to prevent movement spam
-		}
+        return dir;
+    }
 
-		Vector2I direction = Vector2I.Zero;
-
-		// accumulating inputs here; subscribing using += rather than directly =
-		if (Input.IsActionPressed("move_up"))    direction += Vector2I.Up;
-		if (Input.IsActionPressed("move_down"))  direction += Vector2I.Down;
-		if (Input.IsActionPressed("move_left"))  direction += Vector2I.Left;
-		if (Input.IsActionPressed("move_right")) direction += Vector2I.Right;
-
-		// clamping so opposing keys cancel
-		direction = new Vector2I(
-			Math.Clamp(direction.X, -1, 1),
-			Math.Clamp(direction.Y, -1, 1)
-		);
-
-        
-
+    public void HandleMovementInput(double delta)
+    {
+        var direction = GetInputDirection();
         if (direction != Vector2I.Zero)
-		{
-			_PlayerSpriteDirection(direction.X);
-            _prevPos = _gridPos;
-            _gridPos += direction;
-			Position = GetCellCenter(_gridPos);
-            if (MoveAndSlide())
-			{
-                GD.Print("collided!");
-				_gridPos = _prevPos;
-				Position = GetCellCenter(_gridPos);
-			}
-            
-			_timeSinceLastMove = 0f;
-		}
-	}
+        {
+            MovementInputTime += delta;
+            if (MovementInputTime >= MovementInputBuffer)
+            {
+                World.TryDoTurn(direction);
+            }
+        }
+        else { MovementInputTime = 0; }
+    }
 
-	public override void _PhysicsProcess(double delta)
-	{
-		float deltaF = (float)delta;
+    internal void InventoryDebug()
+    {
+        if (Input.IsActionJustPressed("debug_print")) { Player.inventory.PrintInventory("mouse"); }
+        if (Input.IsActionJustPressed("debug_1")) { Player.inventory.AddItem(new ItemEntry(debugItem, 1)); }
+        if (Input.IsActionJustPressed("debug_2")) { Player.inventory.RemoveItem(new ItemEntry(debugItem, 1)); }
+        if (Input.IsActionJustPressed("debug_3")) { Player.inventory.ClearInventory(); }
+        if (Input.IsActionJustPressed("debug_4")) { switchDebugItem(); }
+    }
+    internal List<IItem> debugItemList = TestItems.ItemList;
 
-		// moving toward target by at most _moveSpeed * deltaF pixels
-		//Position = Position.MoveToward(_targetPosition, _moveSpeed * deltaF);
-	}
+    internal IItem debugItem = TestItems.ItemList[0];
 
-	/// <summary>
-	/// helper method for fetching center of player
-	/// </summary>
-	/// <param name="gridCell"></param>
-	/// <returns></returns>
-	private Godot.Vector2 GetCellCenter(Vector2I gridCell)
-	{
-		return new Godot.Vector2(
-			gridCell.X * GridSize + GridSize / 2f,
-			gridCell.Y * GridSize + GridSize / 2f
-		);
-	}
-	private void _PlayerSpriteDirection(int direction)
-	{
-		if (direction == 1) { Sprite.FlipH = true; }
-        if (direction == -1) { Sprite.FlipH = false; }
+    internal int debugItemIndex = 0;
+    internal void switchDebugItem()
+    {
+        debugItemIndex++;
+        debugItem = debugItemList[debugItemIndex % 4];
     }
 }

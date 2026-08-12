@@ -13,12 +13,12 @@ namespace MICE.scripts.lib
         internal int level;
         internal int skillPoints;
 
-        public int GetExpNumber()
+        public int GetExp()
         {
             return exp;
         }
 
-        public int GetLevelNumber()
+        public int GetLevel()
         {
             return level;
         }

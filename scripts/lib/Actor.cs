@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.JavaScript;
 
 public partial class Actor : Node2D, IActor
 {
@@ -21,6 +22,12 @@ public partial class Actor : Node2D, IActor
 
     public Health health { get; set; }
     public Psyche psyche { get; set; }
+
+    [Export] public float baseMovement = 10;
+    public float GetMoveSpeed()
+    {
+        return baseMovement;
+    }
 
     // Actor plays audio using this node
     public AudioStreamPlayer2D AudioPlayer;

@@ -1,11 +1,15 @@
 [gd_scene format=3 uid="uid://cx4jk64pc4mis"]
 
+[ext_resource type="Script" uid="uid://b8q6wuvs0sfoe" path="res://scripts/lib/NPC.cs" id="1_m4n3e"]
 [ext_resource type="AudioStream" uid="uid://d4feijo46f4rm" path="res://assets/sfx/bump.wav" id="3_ty8gq"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m4n3e"]
 load_path = "res://.godot/imported/fox.png-51a792e617ce50f32db7c90ecaf1cacc.ctex"
 
 [node name="Fox" type="Node2D" unique_id=1420616341]
+script = ExtResource("1_m4n3e")
+Species = "fox"
+baseMovement = 20.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=968570441]
 texture = SubResource("CompressedTexture2D_m4n3e")

@@ -3,6 +3,7 @@ using MICE.scripts.lib.AI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 public partial class World : Node2D
@@ -11,10 +12,10 @@ public partial class World : Node2D
     [Export] public Player Player;
 
 	[Export] public float BumpDistance = 5f; // pixels to nudge when bumping
-	public float StepDuration = 0.12f;
+	public float StepDuration = 0.11f;
 
     private readonly Grid _grid = new();
-	private bool _busy; // true while a turn is animating: this is input cooldown
+	private bool _TurnInProgress; // true while a turn is animating: this is input cooldown
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -47,48 +48,59 @@ public partial class World : Node2D
         }
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	// attempting rewrite of turn system
+	public void ProcessNPCTurns(float time, List<Tween> tweens)
 	{
-		if (_busy) return; // ignore input mid-turn
+        // pass time depending on player action speed. increment actor turn cooldowns
+        foreach (NPC npc in CurrentRoom.GetActors())
+        {
+            npc.TickTime(time);
+        }
 
-		Vector2I dir = Player.GetIntent();
+		// actors take turns
+		bool turnsRemaining;
+		do {
+            turnsRemaining = false;
+            foreach (NPC npc in CurrentRoom.GetActors().OrderBy(a => a.turnCooldown)) {
+				if (npc.turnCooldown <= 0) { npc.ai.TakeTurn(tweens, _grid, CurrentRoom); } // ideally we wouldnt need to pass all this stuff down
+                if (npc.turnCooldown <= 0) { turnsRemaining = true; }
+            }
+		} while (turnsRemaining);
+    }
 
-		// handling h flipping
-		Player.FaceDirection(dir);
+	public void TryDoTurn(Vector2I dir)
+	{
+        if (_TurnInProgress) return; // ignore input mid-turn
+		
+        // handling h flipping
+        Player.FaceDirection(dir);
 
-        // doing the turn even when waiting
         if (dir != Vector2I.Zero)
-		{
+        {
             _ = ProcessTurnAsync(dir);
-		}
-	}
+        }
+    }
 
 	private async Task ProcessTurnAsync(Vector2I playerDir)
 	{
-		_busy = true;
+		_TurnInProgress = true;
 
 		var tweens = new List<Tween>();
 
 		// player acts first
 		tweens.Add(ResolveMove(Player, playerDir));
 
-		// NPC actors react afterward
-		foreach (NPC npc in CurrentRoom.GetActors())
-		{
-			var direction = npc.ai.DecideDirection(_grid);
+		float time = 1 / Player.GetMoveSpeed();
 
-			tweens.Add(ResolveMove(npc, direction));
-            npc.FaceDirection(direction);
-            npc.ai.TickTurn();
-		}
+		// NPC actors react afterward
+		ProcessNPCTurns(time, tweens);
 
 		// waiting for all animation tweens to finish together
 		// this part took forever......
 		async Task WaitFor(Tween t) => await ToSignal(t, Tween.SignalName.Finished);
 		await Task.WhenAll(tweens.Where(t => t != null).Select(WaitFor));
 
-		_busy = false; // update busy!!
+		_TurnInProgress = false; // update busy!!
 	}
 
 	// resolves intent, then starts the tween (and returns it)

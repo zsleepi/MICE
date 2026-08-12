@@ -12,10 +12,15 @@ public partial class NPC : Actor, IActor
     public INPCController ai;
     [Export] string AItype = "wander";
 
+    public float turnCooldown = 0;
+
+    public void TickTime(float time)
+    {
+        turnCooldown -= time;
+    }
     public void SetAI(INPCController _ai)
     {
         ai = _ai;
-        ai.Attach(this);
     }
 
     public override void _Ready()
@@ -36,8 +41,8 @@ public partial class NPC : Actor, IActor
     {
         return AItype switch
         {
-            "hostile" => new HostileAI(),
-            "wander" => new WanderAI(),
+            "hostile" => new HostileAI(this),
+            "wander" => new WanderAI(this),
             _ => null
         };
     }

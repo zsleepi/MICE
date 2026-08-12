@@ -10,6 +10,6 @@ public partial class Room : Node2D
 	[Export] public Node2D Actors;
 	[Export] public Vector2I PlayerSpawnCell;
 
-	public IEnumerable<Actor> GetActors() =>
+	public IEnumerable<NPC> GetActors() =>
 		Actors.GetChildren().OfType<NPC>();
 }
