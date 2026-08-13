@@ -14,5 +14,56 @@ namespace MICE.scripts.lib
         public int Intelligence = _intelligence;
         public int Psionics = _psionics;
         public int Charisma = _charisma;
+
+        public void AddStat(string stat, int count)
+        {
+            switch (stat)
+            {
+                case "CON":
+                    Constitution += count;
+                    break;
+                case "STR":
+                    Strength += count;
+                    break;
+                case "DEX":
+                    Dexterity += count;
+                    break;
+                case "INT":
+                    Intelligence += count;
+                    break;
+                case "PSI":
+                    Psionics += count;
+                    break;
+                case "CHA":
+                    Charisma += count;
+                    break;
+            }
+        }
+
+        public void SubtractStat(string stat, int count) {
+            switch (stat)
+            {
+                case "CON":
+                    Constitution -= count;
+                    break;
+                case "STR":
+                    Strength -= count;
+                    break;
+                case "DEX":
+                    Dexterity -= count;
+                    break;
+                case "INT":
+                    Intelligence -= count;
+                    break;
+                case "PSI":
+                    Psionics -= count;
+                    break;
+                case "CHA":
+                    Charisma -= count;
+                    break;
+            }
+        }
+
+
     }
 }

@@ -9,8 +9,6 @@ public partial class PlayerController : Node
     [Export] Player Player;
     [Export] private double MovementInputBuffer = 0.05;
     private double MovementInputTime = 0;
-    private Vector2I? _queuedDirection = null;
-
     public override void _Process(double delta)
 	{
         HandleMovementInput(delta);
@@ -36,17 +34,7 @@ public partial class PlayerController : Node
             MovementInputTime += delta;
             if (MovementInputTime >= MovementInputBuffer)
             {
-                if (!TurnManager.IsTurnInProgress())
-                {
-                    TurnManager.TryDoTurn(direction);
-                }
-                else
-                {
-                    // if turn busy, stash direction for when turn completes (prevents
-                    _queuedDirection = direction;
-                }
-
-                MovementInputTime = 0;
+                TurnManager.TryDoTurn(direction);
             }
         }
         else { MovementInputTime = 0; }

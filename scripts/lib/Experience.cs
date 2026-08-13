@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,10 +18,13 @@ namespace MICE.scripts.lib
         {
             return exp;
         }
-
         public int GetLevel()
         {
             return level;
+        }
+        public int GetSkillPoints()
+        {
+            return skillPoints;
         }
 
         public void GainEXP(int gain) {
@@ -57,9 +61,19 @@ namespace MICE.scripts.lib
         {
             while (skillPoints < 0)
             {
-                // TODO: get reference to actor's coreskills and do method in it?
-                skillPoints++;
+                UninvestStatPoint(drainStat, 1);
             }
+        }
+        public void InvestStatPoint(string stat, int count)
+        {
+            owner.coreSkills.AddStat(stat, count);
+            skillPoints -= count;
+        }
+
+        public void UninvestStatPoint(string stat, int count)
+        {
+            owner.coreSkills.SubtractStat(stat, count);
+            skillPoints += count;
         }
     }
 }
