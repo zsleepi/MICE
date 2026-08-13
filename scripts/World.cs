@@ -68,43 +68,8 @@ public partial class World : Node2D
 		} while (turnsRemaining);
     }
 
-	public void TryDoTurn(Vector2I dir)
-	{
-        if (_TurnInProgress) return; // ignore input mid-turn
-		
-        // handling h flipping
-        Player.FaceDirection(dir);
-
-        if (dir != Vector2I.Zero)
-        {
-            _ = ProcessTurnAsync(dir);
-        }
-    }
-
-	private async Task ProcessTurnAsync(Vector2I playerDir)
-	{
-		_TurnInProgress = true;
-
-		var tweens = new List<Tween>();
-
-		// player acts first
-		tweens.Add(ResolveMove(Player, playerDir));
-
-		float time = 1 / Player.GetMoveSpeed();
-
-		// NPC actors react afterward
-		ProcessNPCTurns(time, tweens);
-
-		// waiting for all animation tweens to finish together
-		// this part took forever......
-		async Task WaitFor(Tween t) => await ToSignal(t, Tween.SignalName.Finished);
-		await Task.WhenAll(tweens.Where(t => t != null).Select(WaitFor));
-
-		_TurnInProgress = false; // update busy!!
-	}
-
 	// resolves intent, then starts the tween (and returns it)
-	private Tween ResolveMove(IActor actor, Vector2I dir)
+	public Tween ResolveMove(IActor actor, Vector2I dir)
 	{
 		if (dir == Vector2I.Zero) return null;
 

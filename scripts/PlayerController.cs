@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public partial class PlayerController : Node
 {
-    [Export] World World; // TODO: make playerController interact with TurnManager instead of World
+    [Export] TurnManager TurnManager;
     [Export] Player Player;
     [Export] private double MovementInputBuffer = 0.05;
     private double MovementInputTime = 0;
@@ -35,7 +35,7 @@ public partial class PlayerController : Node
             MovementInputTime += delta;
             if (MovementInputTime >= MovementInputBuffer)
             {
-                World.TryDoTurn(direction);
+                TurnManager.TryDoTurn(direction);
             }
         }
         else { MovementInputTime = 0; }
