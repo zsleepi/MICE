@@ -12,6 +12,13 @@ public partial class TurnManager : Node
     [Export] World World;
 
     private bool _turnInProgress;
+    private int _turnNumber = 0;
+
+    [Signal] public delegate void TurnStartedEventHandler(int turnNumber);
+    [Signal] public delegate void TurnCompletedEventHandler(int turnNumber);
+    [Signal] public delegate void PlayerActedEventHandler(Vector2I direction);
+
+    public bool IsTurnInProgress() => _turnInProgress;
 
     public void TryDoTurn(Vector2I dir)
     {
@@ -29,11 +36,14 @@ public partial class TurnManager : Node
     private async Task ProcessTurnAsync(Vector2I playerDir)
     {
         _turnInProgress = true;
+        _turnNumber++;
+        EmitSignal(SignalName.TurnStarted, _turnNumber);
 
         var tweens = new List<Tween>();
 
         // player acts first
         tweens.Add(World.ResolveMove(World.Player, playerDir));
+        EmitSignal(SignalName.PlayerActed, playerDir);
 
         float time = 1 / World.Player.GetMoveSpeed();
 
@@ -44,6 +54,7 @@ public partial class TurnManager : Node
         async Task WaitFor(Tween t) => await ToSignal(t, Tween.SignalName.Finished);
         await Task.WhenAll(tweens.Where(t => t != null).Select(WaitFor));
 
+        EmitSignal(SignalName.TurnCompleted, _turnNumber);
         _turnInProgress = false;
     }
 }
