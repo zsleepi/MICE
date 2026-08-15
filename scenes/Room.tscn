@@ -4,6 +4,9 @@
 [ext_resource type="TileSet" uid="uid://btycsdqrc5hvt" path="res://assets/terrain/ground_basic.tres" id="2_hfcue"]
 [ext_resource type="TileSet" uid="uid://blumms7s2ql5i" path="res://assets/terrain/outpost_tiles.tres" id="2_liqgt"]
 
+[sub_resource type="TileSet" id="TileSet_rbqg5"]
+tile_size = Vector2i(18, 18)
+
 [node name="Room2" type="Node2D" unique_id=192711851 node_paths=PackedStringArray("Actors")]
 script = ExtResource("1_llheb")
 Actors = NodePath("ActorLayer/Actors")
@@ -28,5 +31,8 @@ position = Vector2(0, 1)
 follow_viewport_enabled = true
 
 [node name="RoomTransitions" type="Node2D" parent="." unique_id=447006152]
+
+[node name="TransitionsVisual" type="TileMapLayer" parent="RoomTransitions" unique_id=803222818]
+tile_set = SubResource("TileSet_rbqg5")
 
 [node name="SpawnPoints" type="Node2D" parent="." unique_id=1414702436]

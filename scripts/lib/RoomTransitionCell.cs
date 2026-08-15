@@ -48,11 +48,11 @@ public partial class RoomTransitionCell : Node2D
         int maxY = Mathf.Max(TopLeftCell.Y, BottomRightCell.Y);
 
         Vector2 topLeftWorld = DebugTileMap.ToGlobal(
-            DebugTileMap.MapToLocal(new Vector2I(minX, minY))
+            DebugTileMap.MapToLocal(new Vector2I(minX, minY)) + (Vector2)tileSize / 2
         );
 
         Vector2 bottomRightWorld = DebugTileMap.ToGlobal(
-            DebugTileMap.MapToLocal(new Vector2I(maxX + 1, maxY + 1))
+            DebugTileMap.MapToLocal(new Vector2I(maxX + 1, maxY + 1)) + (Vector2)tileSize / 2
         );
 
         Vector2 topLeftLocal = ToLocal(topLeftWorld);
