@@ -15,41 +15,65 @@ public partial class World : Node2D
 	public float StepDuration = 0.11f;
 
     private readonly Grid _grid = new();
-	private bool _TurnInProgress; // true while a turn is animating: this is input cooldown
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		foreach (Vector2I cell in CurrentRoom.Terrain.GetUsedCells())
-		{
-			TileData data = CurrentRoom.Terrain.GetCellTileData(cell);
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        // first time setup to init starting room
+        OnRoomLoaded(CurrentRoom, CurrentRoom.PlayerSpawnCell);
+    }
+
+    public void OnRoomLoaded(Room room, Vector2I playerSpawnCell)
+    {
+        _grid.Clear();
+
+        foreach (Vector2I cell in room.Terrain.GetUsedCells())
+        {
+            TileData data = room.Terrain.GetCellTileData(cell);
             if (data != null && !data.GetCustomData("Walkable").AsBool())
             {
-				_grid.SetImpassable(cell);
+                _grid.SetImpassable(cell);
             }
         }
 
-		// place the player at room's spawn cell
-		Player.Cell = CurrentRoom.PlayerSpawnCell;
-		Player.GlobalPosition = CellToWorld(Player.Cell);
-		_grid.Register(Player, Player.Cell);
+        Player.Cell = playerSpawnCell;
+        Player.GlobalPosition = CellToWorld(playerSpawnCell);
+        _grid.Register(Player, Player.Cell);
 
-		// register actors placed in room as well
-		foreach (NPC npc in CurrentRoom.GetActors())
-		{
-			_grid.Register(npc, npc.Cell);
+        foreach (NPC npc in room.GetActors())
+        {
+            _grid.Register(npc, npc.Cell);
             npc.GlobalPosition = CellToWorld(npc.Cell);
 
-			// TODO: temp thing to see if this works
-			if (npc.ai is HostileAI spider)
-			{
-				spider.Target = Player;
-			}
+            if (npc.ai is HostileAI spider)
+            {
+                spider.Target = Player;
+            }
         }
-	}
 
-	// attempting rewrite of turn system
-	public void ProcessNPCTurns(float time, List<Tween> tweens)
+        UpdateCameraBounds(room);
+    }
+
+    private void UpdateCameraBounds(Room room)
+    {
+        var terrain = room.Terrain;
+        Rect2I usedRect = terrain.GetUsedRect();
+        Vector2 topLeft = terrain.ToGlobal(terrain.MapToLocal(usedRect.Position));
+        Vector2 bottomRight = terrain.ToGlobal(terrain.MapToLocal(
+            usedRect.Position + usedRect.Size));
+
+        var camera = GetViewport().GetCamera2D();
+        if (camera != null)
+        {
+            camera.LimitLeft = (int)topLeft.X;
+            camera.LimitTop = (int)topLeft.Y;
+            camera.LimitRight = (int)bottomRight.X;
+            camera.LimitBottom = (int)bottomRight.Y;
+        }
+    }
+
+    // attempting rewrite of turn system
+    public void ProcessNPCTurns(float time, List<Tween> tweens)
 	{
         // pass time depending on player action speed. increment actor turn cooldowns
         foreach (NPC npc in CurrentRoom.GetActors())
