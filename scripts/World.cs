@@ -68,7 +68,7 @@ public partial class World : Node2D
             camera.LimitLeft = (int)topLeft.X;
             camera.LimitTop = (int)topLeft.Y;
             camera.LimitRight = (int)bottomRight.X;
-            camera.LimitBottom = (int)bottomRight.Y;
+            camera.LimitBottom = (int)bottomRight.Y - Grid.TILE_SIZE; // truncates bottom pt of tiles at bottom of screen (which is good)
         }
     }
 

@@ -7,6 +7,8 @@ using System.Collections.Generic;
 /// </summary>
 public class Grid
 {
+    public const int TILE_SIZE = 18;
+
     private readonly HashSet<Vector2I> _impassable = [];
     private readonly Dictionary<Vector2I, IActor> _occupants = [];
 

@@ -99,5 +99,5 @@ position = Vector2(-621, -99)
 gizmo_extents = 26.2
 script = ExtResource("10_sk6b6")
 Id = "spawn_from_west"
-Terrain = NodePath("../../TerrainLayer/objects")
+Terrain = NodePath("../../RoomTransitions/TransitionsVisual")
 metadata/_custom_type_script = "uid://c2o02i8njk0bl"
