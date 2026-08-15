@@ -82,11 +82,13 @@ TargetRoomPath = "WestPath"
 TargetSpawnId = "spawn_from_east"
 metadata/_custom_type_script = "uid://bol7ycchslc68"
 
-[node name="RT_Upstairs" type="Node2D" parent="RoomTransitions" unique_id=830790540 node_paths=PackedStringArray("DebugTileMap")]
+[node name="RT_ToDown1" type="Node2D" parent="RoomTransitions" unique_id=830790540 node_paths=PackedStringArray("DebugTileMap")]
 script = ExtResource("9_1eum3")
 DebugTileMap = NodePath("../TransitionsVisual")
-TopLeftCell = Vector2i(-15, 45)
-BottomRightCell = Vector2i(-15, 45)
+TopLeftCell = Vector2i(-14, 46)
+BottomRightCell = Vector2i(-14, 46)
+TargetRoomPath = "VillageDownstairs"
+TargetSpawnId = "spawn_from_mid1"
 metadata/_custom_type_script = "uid://bol7ycchslc68"
 
 [node name="TransitionsVisual" type="TileMapLayer" parent="RoomTransitions" unique_id=680718533]
@@ -99,5 +101,12 @@ position = Vector2(-621, -99)
 gizmo_extents = 26.2
 script = ExtResource("10_sk6b6")
 Id = "spawn_from_west"
+Terrain = NodePath("../../RoomTransitions/TransitionsVisual")
+metadata/_custom_type_script = "uid://c2o02i8njk0bl"
+
+[node name="SP_FromDown1" type="Marker2D" parent="SpawnPoints" unique_id=2115673168 node_paths=PackedStringArray("Terrain")]
+position = Vector2(-243, 819)
+script = ExtResource("10_sk6b6")
+Id = "spawn_from_down1"
 Terrain = NodePath("../../RoomTransitions/TransitionsVisual")
 metadata/_custom_type_script = "uid://c2o02i8njk0bl"

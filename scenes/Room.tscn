@@ -7,7 +7,7 @@
 [sub_resource type="TileSet" id="TileSet_rbqg5"]
 tile_size = Vector2i(18, 18)
 
-[node name="Room2" type="Node2D" unique_id=192711851 node_paths=PackedStringArray("Actors")]
+[node name="Room" type="Node2D" unique_id=192711851 node_paths=PackedStringArray("Actors")]
 script = ExtResource("1_llheb")
 Actors = NodePath("ActorLayer/Actors")
 

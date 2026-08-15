@@ -19,8 +19,8 @@ tile_map_data = PackedByteArray("AAALAAQAAQAEAAIAAAAKAAQAAQAEAAEAAAAKAAMAAQAAAAA
 [node name="RT_StartingVillage" type="Node2D" parent="RoomTransitions" parent_id_path=PackedInt32Array(447006152) index="0" unique_id=1561584379 node_paths=PackedStringArray("DebugTileMap")]
 script = ExtResource("2_ehj23")
 DebugTileMap = NodePath("../TransitionsVisual")
-TopLeftCell = Vector2i(19, -10)
-BottomRightCell = Vector2i(19, -1)
+TopLeftCell = Vector2i(19, -9)
+BottomRightCell = Vector2i(19, 2)
 TargetRoomPath = "StartingVillage"
 TargetSpawnId = "spawn_from_west"
 metadata/_custom_type_script = "uid://bol7ycchslc68"
