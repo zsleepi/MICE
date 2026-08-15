@@ -1,15 +1,22 @@
 [gd_scene format=3 uid="uid://drgeqvq2oe3t2"]
 
 [ext_resource type="Script" uid="uid://dj52x3jifhfhc" path="res://scripts/Room.cs" id="1_llheb"]
+[ext_resource type="TileSet" uid="uid://btycsdqrc5hvt" path="res://assets/terrain/ground_basic.tres" id="2_hfcue"]
+[ext_resource type="TileSet" uid="uid://blumms7s2ql5i" path="res://assets/terrain/outpost_tiles.tres" id="2_liqgt"]
 
-[node name="Room" type="Node2D" unique_id=192711851 node_paths=PackedStringArray("Terrain", "Actors")]
+[node name="Room2" type="Node2D" unique_id=192711851 node_paths=PackedStringArray("Actors")]
 script = ExtResource("1_llheb")
-Terrain = NodePath("")
 Actors = NodePath("ActorLayer/Actors")
 
 [node name="TerrainLayer" type="CanvasLayer" parent="." unique_id=417489420]
 layer = -1
 follow_viewport_enabled = true
+
+[node name="ground" type="TileMapLayer" parent="TerrainLayer" unique_id=1980150142]
+tile_set = ExtResource("2_hfcue")
+
+[node name="objects" type="TileMapLayer" parent="TerrainLayer" unique_id=271199215]
+tile_set = ExtResource("2_liqgt")
 
 [node name="ActorLayer" type="CanvasLayer" parent="." unique_id=1588539610]
 follow_viewport_enabled = true

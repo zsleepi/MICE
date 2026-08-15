@@ -23,7 +23,7 @@ public partial class RoomTransitionCell : Node2D
     {
         if (Engine.IsEditorHint() && !string.IsNullOrEmpty(TargetRoomPath))
         {
-            var path = "res://scenes/" + TargetRoomPath + ".tscn";
+            var path = "res://scenes/rooms/" + TargetRoomPath + ".tscn";
             if (!ResourceLoader.Exists(path))
                 GD.PrintErr($"RoomTransitionCell: Target room not found at {path}");
         }
@@ -80,7 +80,7 @@ public partial class RoomTransitionCell : Node2D
     public PackedScene LoadTargetRoom()
     {
         if (_cachedRoom == null)
-            _cachedRoom = ResourceLoader.Load<PackedScene>("res://scenes/" + TargetRoomPath + ".tscn");
+            _cachedRoom = ResourceLoader.Load<PackedScene>("res://scenes/rooms/" + TargetRoomPath + ".tscn");
         return _cachedRoom;
     }
 }

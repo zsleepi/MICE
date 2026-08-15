@@ -24,7 +24,24 @@ public partial class TurnManager : Node
 
         if (dir != Vector2I.Zero)
         {
-            _ = ProcessTurnAsync(dir);
+            _ = SafeProcessTurn(dir);
+        }
+    }
+
+    private async Task SafeProcessTurn(Vector2I dir)
+    {
+        try
+        {
+            await ProcessTurnAsync(dir);
+        }
+        catch (System.Exception e)
+        {
+            GD.PrintErr($"[TurnManager] Turn threw: {e}");
+        }
+        finally
+        {
+            // always release the lock, even if something exploded
+            _turnInProgress = false;
         }
     }
 
@@ -57,7 +74,6 @@ public partial class TurnManager : Node
             await TransitionToRoom(transition);
 
             EmitSignal(SignalName.TurnCompleted, _turnNumber);
-            _turnInProgress = false;
             return;
         }        
 
@@ -66,7 +82,6 @@ public partial class TurnManager : Node
         await Task.WhenAll(tweens.Skip(1).Where(t => t != null).Select(WaitFor));
 
         EmitSignal(SignalName.TurnCompleted, _turnNumber);
-        _turnInProgress = false;
     }
 
     private async Task TransitionToRoom(RoomTransitionCell transition)
