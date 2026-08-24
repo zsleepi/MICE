@@ -34,6 +34,10 @@ public partial class World : Node2D
             {
                 _grid.SetImpassable(cell);
             }
+            if (data != null && data.GetCustomData("ObstructsView").AsBool())
+            {
+                _grid.SetObstruction(cell);
+            }
         }
 
         Player.Cell = playerSpawnCell;
