@@ -27,7 +27,7 @@ namespace MICE.scripts.lib
                         int tileSteps = Math.Max(Math.Abs(difference.X), Math.Abs(difference.Y));
                         for (int i = 0; i < tileSteps; i++)
                         {
-                            Vector2I tileAlongLine = new Vector2I(viewPos.X + difference.X * (i / tileSteps), viewPos.Y + difference.Y*(i/tileSteps));
+                            Vector2I tileAlongLine = new Vector2I(viewPos.X + (int)Math.Round((decimal)(difference.X) * (i / tileSteps)), viewPos.Y + (int)Math.Round((decimal)(difference.Y)*(i/tileSteps)));
                             visibles.Add(tileAlongLine);
                             if (grid.IsViewObstruction(tileAlongLine)) { break; }
                         }
