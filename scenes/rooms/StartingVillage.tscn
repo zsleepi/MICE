@@ -92,6 +92,8 @@ TopLeftCell = Vector2i(-14, 46)
 BottomRightCell = Vector2i(-14, 46)
 TargetRoomPath = "VillageDownstairs"
 TargetSpawnId = "down1"
+IsVertical = true
+AllowUp = false
 metadata/_custom_type_script = "uid://bol7ycchslc68"
 
 [node name="TransitionsVisual" type="TileMapLayer" parent="RoomTransitions" unique_id=680718533]
