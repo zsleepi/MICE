@@ -10,7 +10,7 @@ namespace MICE.scripts.lib
     public static class SightLogic
     {
         // try optimizing with polygon math? https://legends2k.github.io/2d-fov/design.html
-        public static List<Vector2I> GetVisibleTiles(Vector2I viewPos, int sightRange, Grid grid)
+        public static List<Vector2I> GetVisibleTiles(Vector2I viewPos, int sightRange, Grid grid, int darkSight)
         {
             List<Vector2I> visibles = [viewPos];
             Rect2I area = new Rect2I(viewPos.X - sightRange, viewPos.Y - sightRange, sightRange * 2, sightRange * 2);
@@ -27,7 +27,7 @@ namespace MICE.scripts.lib
                         for (int i = 1; i <= tileSteps; i++)
                         {
                             Vector2I tileAlongLine = new Vector2I(viewPos.X + (int)Math.Round((difference.X) * ((decimal)(i) / tileSteps)), viewPos.Y + (int)Math.Round((difference.Y)*((decimal)i /tileSteps)));
-                            if (!visibles.Contains(tileAlongLine)) { visibles.Add(tileAlongLine); }
+                            if (!visibles.Contains(tileAlongLine) && grid.IsLit(tileAlongLine) || !visibles.Contains(tileAlongLine) && IsWithinDistance(viewPos, tileAlongLine, darkSight)) { visibles.Add(tileAlongLine); }
                             if (grid.IsViewObstruction(tileAlongLine)) { break; }
                         }
                     }
@@ -38,7 +38,7 @@ namespace MICE.scripts.lib
 
         public static bool IsWithinDistance(Vector2I origin, Vector2I target, int range)
         {
-            if (GetDistance(origin, target) <= range) { return true; }
+            if (GetDistance(origin, target) < range) { return true; }
             else return false;
         }
 

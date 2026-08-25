@@ -1,4 +1,5 @@
 using Godot;
+using MICE.scripts.lib;
 using MICE.scripts.lib.AI;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,18 @@ public partial class World : Node2D
             if (data != null && data.GetCustomData("ObstructsView").AsBool())
             {
                 _grid.SetObstruction(cell);
+            }
+            if (data != null && data.GetCustomData("LightSource").AsBool())
+            {
+                _grid.SetLightSource(cell);
+            }
+        }
+        foreach (Vector2I lightSource in _grid.GetLightSources())
+        {
+            List<Vector2I> litTiles = SightLogic.GetVisibleTiles(lightSource, 5, _grid, 5);
+            foreach (Vector2I Coord in litTiles)
+            {
+                _grid.SetLit(Coord);
             }
         }
 
