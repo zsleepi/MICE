@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dtxipqgkedfmb"]
+
+[ext_resource type="Texture2D" uid="uid://mjs2wf6ipvkp" path="res://assets/sprites/bright_spot.png" id="1_mhfpv"]
+
+[node name="SightIndicator" type="Sprite2D" unique_id=1011961094]
+position = Vector2(9, 9)
+texture = ExtResource("1_mhfpv")

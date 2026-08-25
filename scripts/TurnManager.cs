@@ -1,4 +1,5 @@
 using Godot;
+using MICE.scripts.lib;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,23 @@ public partial class TurnManager : Node
     [Signal] public delegate void TurnStartedEventHandler(int turnNumber);
     [Signal] public delegate void TurnCompletedEventHandler(int turnNumber);
     [Signal] public delegate void PlayerActedEventHandler(Vector2I direction);
+    [Export] PackedScene sightScene;
+    [Export] Node2D sightIndicators;
+
+    public void DoSight()
+    {
+        foreach (var child in sightIndicators.GetChildren())
+        {
+            child.QueueFree();
+        }
+        List<Vector2I> _coordinates = SightLogic.GetVisibleTiles(World.Player.Cell, 10, World._grid);
+        foreach (Vector2I vector in _coordinates)
+        {
+            Node scene = sightScene.Instantiate();
+            scene.Set(Node2D.PropertyName.Position, new Vector2I(vector.X *18+9, vector.Y * 18+9));
+            sightIndicators.AddChild(scene);
+        }
+    }
 
     public bool IsTurnInProgress() => _turnInProgress;
 
@@ -42,6 +60,7 @@ public partial class TurnManager : Node
         {
             // always release the lock, even if something exploded
             _turnInProgress = false;
+            DoSight();
         }
     }
 

@@ -20,7 +20,7 @@ public class Grid
 
     public bool IsFree(Vector2I cell) =>
         IsWalkable(cell) && !_occupants.ContainsKey(cell);
-    public bool IsViewObstruction(Vector2I cell) => !_viewObstruction.Contains(cell);
+    public bool IsViewObstruction(Vector2I cell) => _viewObstruction.Contains(cell);
 
     public IActor ActorAt(Vector2I cell) =>
         _occupants.TryGetValue(cell, out var a) ? a : null;

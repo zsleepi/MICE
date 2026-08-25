@@ -14,7 +14,7 @@ public partial class World : Node2D
 	[Export] public float BumpDistance = 5f; // pixels to nudge when bumping
 	public float StepDuration = 0.11f;
 
-    private readonly Grid _grid = new();
+    public readonly Grid _grid = new();
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -76,7 +76,6 @@ public partial class World : Node2D
         }
     }
 
-    // attempting rewrite of turn system
     public void ProcessNPCTurns(float time, List<Tween> tweens)
 	{
         // pass time depending on player action speed. increment actor turn cooldowns
