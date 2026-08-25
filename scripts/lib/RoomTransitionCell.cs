@@ -8,6 +8,7 @@ public partial class RoomTransitionCell : Node2D
     // but i like the flexibility of defining a specific area where we allow a room
     // transition
 
+    [Export] public string ID;
     [Export] public TileMapLayer DebugTileMap;
 
     // defining the area of the room transition tiles:
@@ -16,6 +17,10 @@ public partial class RoomTransitionCell : Node2D
 
     [Export] public string TargetRoomPath; // not using packedscene... causes circular reference issues
     [Export] public string TargetSpawnId;
+
+    [Export] public bool IsVertical = false;
+    [Export] public bool AllowUp = true;
+    [Export] public bool AllowDown = true;
 
     private PackedScene _cachedRoom;
 
@@ -61,8 +66,44 @@ public partial class RoomTransitionCell : Node2D
         Rect2 area = new Rect2(topLeftLocal, bottomRightLocal - topLeftLocal);
 
         // finally drawin!!
-        DrawRect(area, new Color(0.2f, 0.5f, 1f, 0.25f), true); // fill
-        DrawRect(area, Colors.Aqua, false);                     // outline
+        // color coding stuff
+        Color fillColor = IsVertical
+            ? new Color(1f, 0.5f, 0.2f, 0.25f)
+            : new Color(0.2f, 0.5f, 1f, 0.25f);
+        Color outlineColor = IsVertical ? Colors.Orange : Colors.Aqua;
+
+        if (IsVertical)
+        {
+            Vector2 center = (topLeftLocal + bottomRightLocal) / 2;
+            float arrowSize = 6f;
+
+            // this took some trial and error...
+            if (AllowUp)
+            {
+                // up arrow
+                DrawLine(
+                    center + new Vector2(-arrowSize, arrowSize),
+                    center + new Vector2(0, -arrowSize),
+                    Colors.OrangeRed, 2f);
+                DrawLine(
+                    center + new Vector2(arrowSize, arrowSize),
+                    center + new Vector2(0, -arrowSize),
+                    Colors.OrangeRed, 2f);
+            }
+
+            if (AllowDown)
+            {
+                // down arrow
+                DrawLine(
+                    center + new Vector2(-arrowSize, -arrowSize),
+                    center + new Vector2(0, arrowSize),
+                    Colors.OrangeRed, 2f);
+                DrawLine(
+                    center + new Vector2(arrowSize, -arrowSize),
+                    center + new Vector2(0, arrowSize),
+                    Colors.OrangeRed, 2f);
+            }
+        }
     }
 
     // checks if a cell is within this area

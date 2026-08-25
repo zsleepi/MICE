@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://drgeqvq2oe3t2" path="res://scenes/Room.tscn" id="1_vbkkw"]
 [ext_resource type="Script" uid="uid://bol7ycchslc68" path="res://scripts/lib/RoomTransitionCell.cs" id="2_5up84"]
-[ext_resource type="Script" uid="uid://c2o02i8njk0bl" path="res://scripts/lib/SpawnPoint.cs" id="2_6r5ty"]
 
 [node name="Room" unique_id=192711851 node_paths=PackedStringArray("Terrain") instance=ExtResource("1_vbkkw")]
 Terrain = NodePath("TerrainLayer/objects")
@@ -15,14 +14,10 @@ tile_map_data = PackedByteArray("AAABAP7/BAADAAkAAAABAP//BAADAAUAAAABAAAABAADAAE
 
 [node name="RT_ToMid1" type="Node2D" parent="RoomTransitions" parent_id_path=PackedInt32Array(447006152) index="1" unique_id=1667419468 node_paths=PackedStringArray("DebugTileMap")]
 script = ExtResource("2_5up84")
+ID = "down1"
 DebugTileMap = NodePath("../TransitionsVisual")
 TargetRoomPath = "StartingVillage"
-TargetSpawnId = "spawn_from_down1"
+TargetSpawnId = "mid1"
+IsVertical = true
+AllowDown = false
 metadata/_custom_type_script = "uid://bol7ycchslc68"
-
-[node name="SP_FromMid1" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(1414702436) index="0" unique_id=1714148354 node_paths=PackedStringArray("Terrain")]
-position = Vector2(-9, 9)
-script = ExtResource("2_6r5ty")
-Id = "spawn_from_mid1"
-Terrain = NodePath("../../RoomTransitions/TransitionsVisual")
-metadata/_custom_type_script = "uid://c2o02i8njk0bl"

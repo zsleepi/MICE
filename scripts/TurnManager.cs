@@ -66,7 +66,7 @@ public partial class TurnManager : Node
             await ToSignal(tweens[0], Tween.SignalName.Finished);
         }
 
-        // did the player land on a transition cell?
+        // horizontal transition check here
         var transition = World.CurrentRoom.GetTransitionAt(World.Player.Cell);
         if (transition != null)
         {
@@ -75,7 +75,7 @@ public partial class TurnManager : Node
 
             EmitSignal(SignalName.TurnCompleted, _turnNumber);
             return;
-        }        
+        }
 
         // wait for all remaining tweens (NPC moves) to finish
         async Task WaitFor(Tween t) => await ToSignal(t, Tween.SignalName.Finished);
@@ -94,19 +94,41 @@ public partial class TurnManager : Node
         }
 
         var newRoom = newRoomScene.Instantiate<Room>();
+        newRoom.Position = new Vector2(-999, -999); // dumb sentinel value lol
 
         // triggers Room._Ready, caching spawn points and transitions
         World.AddChild(newRoom);
 
-        // find the spawn point in the new room
-        var spawn = newRoom.GetSpawnPoint(transition.TargetSpawnId);
-        if (spawn == null)
+        Vector2I spawnCell;
+
+        if (transition.IsVertical)
         {
-            GD.PrintErr($"TurnManager: Spawn point '{transition.TargetSpawnId}' not found in target room!");
-            World.RemoveChild(newRoom);
-            newRoom.QueueFree();
-            return;
+            // find partner staircase in dest room
+            var partner = newRoom.GetTransitionById(transition.TargetSpawnId);
+            if (partner == null) // womp womp
+            {
+                GD.PrintErr($"[Transition] Partner staircase '{transition.TargetSpawnId}' not found in {newRoom.Name}");
+                World.RemoveChild(newRoom);
+                newRoom.QueueFree();
+                return;
+            }
+
+            spawnCell = partner.TopLeftCell; // because vertical movement should be one tile only
         }
+        else
+        {
+            // find the spawn point in the new room
+            var spawn = newRoom.GetSpawnPoint(transition.TargetSpawnId);
+            if (spawn == null)
+            {
+                GD.PrintErr($"TurnManager: Spawn point '{transition.TargetSpawnId}' not found in target room!");
+                World.RemoveChild(newRoom);
+                newRoom.QueueFree();
+                return;
+            }
+
+            spawnCell = spawn.GetCell();
+        }        
 
         // remove old room
         var oldRoom = World.CurrentRoom;
@@ -117,6 +139,51 @@ public partial class TurnManager : Node
         World.CurrentRoom = newRoom;
 
         // initialize new room stuff
-        World.OnRoomLoaded(newRoom, spawn.GetCell());
+        World.OnRoomLoaded(newRoom, spawnCell);
+
+        // huhhhh
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+    }
+
+    public void TryVerticalTransition(Vector2I direction)
+    {
+        if (_turnInProgress) return;
+
+        var transition = World.CurrentRoom.GetVerticalTransitionAt(
+            World.Player.Cell, direction);
+
+        if (transition != null)
+        {
+            _ = SafeVerticalTransition(transition);
+        }
+    }
+
+    private async Task SafeVerticalTransition(RoomTransitionCell transition)
+    {
+        try
+        {
+            _turnInProgress = true;
+            _turnNumber++;
+            EmitSignal(SignalName.TurnStarted, _turnNumber);
+
+            var hopTween = CreateTween();
+            hopTween.TweenProperty(World.Player, "scale",
+                new Vector2(0.8f, 1.2f), 0.1f);
+            hopTween.TweenProperty(World.Player, "scale",
+                Vector2.One, 0.1f);
+            await ToSignal(hopTween, Tween.SignalName.Finished);
+
+            await TransitionToRoom(transition);
+
+            EmitSignal(SignalName.TurnCompleted, _turnNumber);
+        }
+        catch (System.Exception e) // bla bla error handlingggg
+        {
+            GD.PrintErr($"[TurnManager] vertical transition threw: {e}");
+        }
+        finally
+        {
+            _turnInProgress = false;
+        }
     }
 }

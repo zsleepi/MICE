@@ -37,7 +37,28 @@ public partial class Room : Node2D
     public RoomTransitionCell GetTransitionAt(Vector2I cell)
     {
         foreach (var tc in _transitionCells)
-            if (tc.Contains(cell)) return tc;
+            if (!tc.IsVertical && tc.Contains(cell)) return tc;
+        return null;
+    }
+
+    public RoomTransitionCell GetVerticalTransitionAt(Vector2I cell, Vector2I direction)
+    {
+        foreach (var tc in _transitionCells)
+        {
+            if (!tc.IsVertical) continue;
+            if (!tc.Contains(cell)) continue;
+
+            // only trigger if the player is pressing the right direction
+            if (tc.AllowUp && direction.Y < 0) return tc;   // Up = negative Y in Godot
+            if (tc.AllowDown && direction.Y > 0) return tc;  // Down = positive Y
+        }
+        return null;
+    }
+
+    public RoomTransitionCell GetTransitionById(string id)
+    {
+        foreach (var tc in _transitionCells)
+            if (tc.ID == id) return tc;        
         return null;
     }
 }

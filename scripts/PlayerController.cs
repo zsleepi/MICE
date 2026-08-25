@@ -12,6 +12,7 @@ public partial class PlayerController : Node
     public override void _Process(double delta)
 	{
         HandleMovementInput(delta);
+        HandleVerticalTransitionInput();
         InventoryDebug();
     }
 
@@ -38,6 +39,20 @@ public partial class PlayerController : Node
             }
         }
         else { MovementInputTime = 0; }
+    }
+
+    private void HandleVerticalTransitionInput()
+    {
+        if (TurnManager.IsTurnInProgress()) return;
+
+        if (Input.IsActionJustPressed("travel_up"))
+        {
+            TurnManager.TryVerticalTransition(Vector2I.Up);
+        }
+        else if (Input.IsActionJustPressed("travel_down"))
+        {
+            TurnManager.TryVerticalTransition(Vector2I.Down);
+        }
     }
 
     internal void InventoryDebug()
