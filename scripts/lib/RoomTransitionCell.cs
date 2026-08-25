@@ -72,6 +72,9 @@ public partial class RoomTransitionCell : Node2D
             : new Color(0.2f, 0.5f, 1f, 0.25f);
         Color outlineColor = IsVertical ? Colors.Orange : Colors.Aqua;
 
+        DrawRect(area, fillColor, true);
+        DrawRect(area, outlineColor, false);
+
         if (IsVertical)
         {
             Vector2 center = (topLeftLocal + bottomRightLocal) / 2;

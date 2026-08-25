@@ -113,7 +113,6 @@ public partial class TurnManager : Node
         }
 
         var newRoom = newRoomScene.Instantiate<Room>();
-        newRoom.Position = new Vector2(-999, -999); // dumb sentinel value lol
 
         // triggers Room._Ready, caching spawn points and transitions
         World.AddChild(newRoom);
