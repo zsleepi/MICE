@@ -46,5 +46,7 @@ public class Grid
         _impassable.Clear();
         _occupants.Clear();
         _viewObstruction.Clear();
+        _lit.Clear();
+        _lightSource.Clear();
     }
 }

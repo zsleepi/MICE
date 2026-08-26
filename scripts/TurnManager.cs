@@ -45,7 +45,6 @@ public partial class TurnManager : Node
             _ = SafeProcessTurn(dir);
         }
     }
-
     private async Task SafeProcessTurn(Vector2I dir)
     {
         try
@@ -161,6 +160,7 @@ public partial class TurnManager : Node
 
         // huhhhh
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        DoSight();
     }
 
     public void TryVerticalTransition(Vector2I direction)

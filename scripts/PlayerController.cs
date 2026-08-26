@@ -43,8 +43,6 @@ public partial class PlayerController : Node
 
     private void HandleVerticalTransitionInput()
     {
-        if (TurnManager.IsTurnInProgress()) return;
-
         if (Input.IsActionJustPressed("travel_up"))
         {
             TurnManager.TryVerticalTransition(Vector2I.Up);

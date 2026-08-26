@@ -34,6 +34,16 @@ public partial class RoomTransitionCell : Node2D
         }
     }
 
+    public void UpdatePositionInEditor()
+    {
+        Vector2I mutatePositionBy = new Vector2I((int)this.Position.X / 18, (int)this.Position.Y / 18);
+        TopLeftCell.X += mutatePositionBy.X;
+        TopLeftCell.Y += mutatePositionBy.Y;
+        BottomRightCell.X += mutatePositionBy.X;
+        BottomRightCell.Y += mutatePositionBy.Y;
+        this.Set("position", Vector2I.Zero);
+    }
+
     // this helps us see the area in the godot editor!
     public override void _Draw()
     {
@@ -43,7 +53,7 @@ public partial class RoomTransitionCell : Node2D
 
         if (DebugTileMap == null || DebugTileMap.TileSet == null)
             return;
-
+        UpdatePositionInEditor();
         // gets the right tile size
         Vector2I tileSize = DebugTileMap.TileSet.TileSize;
 

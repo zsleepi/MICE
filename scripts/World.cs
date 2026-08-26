@@ -78,6 +78,7 @@ public partial class World : Node2D
         Vector2 topLeft = terrain.ToGlobal(terrain.MapToLocal(usedRect.Position));
         Vector2 bottomRight = terrain.ToGlobal(terrain.MapToLocal(
             usedRect.Position + usedRect.Size));
+        topLeft -= new Vector2I(9, 9); bottomRight -= new Vector2I(9,9);
 
         var camera = GetViewport().GetCamera2D();
         if (camera != null)
