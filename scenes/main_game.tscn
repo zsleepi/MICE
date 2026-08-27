@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://pyqvimv5rp77" path="res://scenes/World.tscn" id="1_s3esy"]
 [ext_resource type="Script" uid="uid://dses3hxy2o6om" path="res://scripts/PlayerController.cs" id="1_ygxny"]
+[ext_resource type="Script" uid="uid://c0wgfqhsusqv7" path="res://scripts/CameraController.cs" id="2_2l77h"]
 [ext_resource type="PackedScene" uid="uid://q4h1byp1fbne" path="res://scenes/UI/base_interface.tscn" id="2_72e8q"]
 [ext_resource type="Script" uid="uid://cekqhw6mxvn74" path="res://scripts/TurnManager.cs" id="2_wi4c7"]
 [ext_resource type="PackedScene" uid="uid://dtxipqgkedfmb" path="res://scenes/sight_indicator.tscn" id="3_70vka"]
@@ -17,6 +18,11 @@ TurnManager = NodePath("../TurnManager")
 Player = NodePath("../World/Player")
 MovementInputBuffer = 0.04
 
+[node name="CameraController" type="Node" parent="." unique_id=686207608 node_paths=PackedStringArray("_camera", "world")]
+script = ExtResource("2_2l77h")
+_camera = NodePath("../Camera2D")
+world = NodePath("../World")
+
 [node name="TurnManager" type="Node" parent="." unique_id=1434406166 node_paths=PackedStringArray("World", "sightIndicators")]
 script = ExtResource("2_wi4c7")
 World = NodePath("../World")
@@ -26,6 +32,20 @@ sightIndicators = NodePath("../SightIndicators")
 [node name="World" parent="." unique_id=1152574541 instance=ExtResource("1_s3esy")]
 
 [node name="SightIndicators" type="Node2D" parent="." unique_id=1522893127]
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="." unique_id=1491375939]
+copy_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="BackBufferCopy" unique_id=544485449]
+visible = false
+z_index = 50
+offset_left = -1356.0
+offset_top = -611.0
+offset_right = 1793.0
+offset_bottom = 2146.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
 
 [node name="HUDLayer" type="CanvasLayer" parent="." unique_id=2089947931]
 layer = 10
@@ -43,3 +63,11 @@ grow_vertical = 2
 script = ExtResource("3_d2op2")
 playerInventoryScene = ExtResource("4_0rdsr")
 playerInventoryGridScene = ExtResource("5_ipu61")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1841240376]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[editable path="World"]
+[editable path="World/CurrentRoom"]

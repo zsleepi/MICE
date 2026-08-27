@@ -20,7 +20,7 @@ public partial class TurnManager : Node
         {
             child.QueueFree();
         }
-        List<Vector2I> _coordinates = SightLogic.GetVisibleTiles(World.Player.Cell, 10, World._grid, 5);
+        List<Vector2I> _coordinates = SightLogic.GetVisibleTiles(World.Player.Cell, 15, World._grid, 8);
         foreach (Vector2I vector in _coordinates)
         {
             Node scene = sightScene.Instantiate();

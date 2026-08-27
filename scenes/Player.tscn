@@ -14,9 +14,6 @@ texture = ExtResource("2_3li8b")
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=601161640]
-zoom = Vector2(2, 2)
-
 [node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=902712897]
 current = true
 

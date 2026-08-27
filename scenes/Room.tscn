@@ -12,7 +12,7 @@ script = ExtResource("1_llheb")
 Actors = NodePath("ActorLayer/Actors")
 
 [node name="TerrainLayer" type="CanvasLayer" parent="." unique_id=417489420]
-layer = -1
+layer = -3
 follow_viewport_enabled = true
 
 [node name="ground" type="TileMapLayer" parent="TerrainLayer" unique_id=1980150142]
@@ -22,12 +22,14 @@ tile_set = ExtResource("2_hfcue")
 tile_set = ExtResource("2_liqgt")
 
 [node name="ActorLayer" type="CanvasLayer" parent="." unique_id=1588539610]
+layer = -2
 follow_viewport_enabled = true
 
 [node name="Actors" type="Node2D" parent="ActorLayer" unique_id=1490750644]
 position = Vector2(0, 1)
 
 [node name="EffectsLayer" type="CanvasLayer" parent="." unique_id=642830168]
+layer = -1
 follow_viewport_enabled = true
 
 [node name="RoomTransitions" type="Node2D" parent="." unique_id=447006152]
