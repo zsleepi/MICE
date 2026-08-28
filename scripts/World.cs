@@ -67,27 +67,6 @@ public partial class World : Node2D
                 spider.Target = Player;
             }
         }
-
-        UpdateCameraBounds(room);
-    }
-
-    private void UpdateCameraBounds(Room room)
-    {
-        var terrain = room.Terrain;
-        Rect2I usedRect = terrain.GetUsedRect();
-        Vector2 topLeft = terrain.ToGlobal(terrain.MapToLocal(usedRect.Position));
-        Vector2 bottomRight = terrain.ToGlobal(terrain.MapToLocal(
-            usedRect.Position + usedRect.Size));
-        topLeft -= new Vector2I(9, 9); bottomRight -= new Vector2I(9,9);
-
-        var camera = GetViewport().GetCamera2D();
-        if (camera != null)
-        {
-            camera.LimitLeft = (int)topLeft.X;
-            camera.LimitTop = (int)topLeft.Y;
-            camera.LimitRight = (int)bottomRight.X;
-            camera.LimitBottom = (int)bottomRight.Y;
-        }
     }
 
     public void ProcessNPCTurns(float time, List<Tween> tweens)

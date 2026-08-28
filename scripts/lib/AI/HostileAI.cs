@@ -12,7 +12,8 @@ namespace MICE.scripts.lib.AI
         private Vector2I _currentDirection = Vector2I.Zero;
         private int _pathfindCooldown = 0;
         private Queue<Vector2I> _queuedMoves = new Queue<Vector2I>();
-        private bool LastMovementBumped = false;
+
+        private Queue<ITask> _queuedTasks = [];
 
         public void TakeTurn(List<Tween> tweens, Grid grid, Room room)
         {
@@ -43,12 +44,7 @@ namespace MICE.scripts.lib.AI
         {
             if (didBump)
             {
-                LastMovementBumped = true;
                 owner.AudioPlayer.Play();
-            }
-            else
-            {
-                LastMovementBumped = false;
             }
         }
 
@@ -89,7 +85,7 @@ namespace MICE.scripts.lib.AI
 
         public Vector2I DecideDirection(Grid grid)
         {
-            if (_queuedMoves.Count == 0 || LastMovementBumped || _pathfindCooldown <= 0)
+            if (_queuedMoves.Count == 0 || _pathfindCooldown <= 0)
             {
                 if (Target != null) { TargetCell = Target.Cell; }
                 _queuedMoves = GridUtils.BreadthFirstSearch(owner.Cell, TargetCell, grid, 30000);

@@ -11,22 +11,18 @@ public partial class TurnManager : Node
     [Signal] public delegate void TurnStartedEventHandler(int turnNumber);
     [Signal] public delegate void TurnCompletedEventHandler(int turnNumber);
     [Signal] public delegate void PlayerActedEventHandler(Vector2I direction);
-    [Export] PackedScene sightScene;
-    [Export] Node2D sightIndicators;
+    [Export] MaskTiles sightMask;
 
     public void DoSight()
     {
-        foreach (var child in sightIndicators.GetChildren())
+        List<Vector2I> _list = SightLogic.GetVisibleTiles(World.Player.Cell, 15, World._grid, 8);
+        // recast
+        Godot.Collections.Array<Vector2I> _array = [];
+        foreach (Vector2I cell in _list)
         {
-            child.QueueFree();
+            _array.Add(cell);
         }
-        List<Vector2I> _coordinates = SightLogic.GetVisibleTiles(World.Player.Cell, 15, World._grid, 8);
-        foreach (Vector2I vector in _coordinates)
-        {
-            Node scene = sightScene.Instantiate();
-            scene.Set(Node2D.PropertyName.Position, new Vector2I(vector.X *18+9, vector.Y * 18+9));
-            sightIndicators.AddChild(scene);
-        }
+        sightMask.DoSight(_array);
     }
 
     public bool IsTurnInProgress() => _turnInProgress;

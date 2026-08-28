@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public partial class PlayerController : Node
 {
     [Export] TurnManager TurnManager;
+    [Export] CameraController CameraController;
     [Export] Player Player;
     [Export] private double MovementInputBuffer = 0.05;
     private double MovementInputTime = 0;
@@ -32,6 +33,7 @@ public partial class PlayerController : Node
         var direction = GetInputDirection();
         if (direction != Vector2I.Zero)
         {
+            CameraController.Unstill(Player);
             MovementInputTime += delta;
             if (MovementInputTime >= MovementInputBuffer)
             {
