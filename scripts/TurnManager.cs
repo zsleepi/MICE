@@ -7,24 +7,11 @@ using System.Threading.Tasks;
 public partial class TurnManager : Node
 {
     [Export] World World;
+    [Export] PlayerSightManager PlayerSight;
 
     [Signal] public delegate void TurnStartedEventHandler(int turnNumber);
     [Signal] public delegate void TurnCompletedEventHandler(int turnNumber);
     [Signal] public delegate void PlayerActedEventHandler(Vector2I direction);
-    [Export] MaskTiles sightMask;
-
-    public void DoSight()
-    {
-        List<Vector2I> _list = SightLogic.GetVisibleTiles(World.Player.Cell, 15, World._grid, 8);
-        // recast
-        Godot.Collections.Array<Vector2I> _array = [];
-        foreach (Vector2I cell in _list)
-        {
-            _array.Add(cell);
-        }
-        sightMask.DoSight(_array);
-    }
-
     public bool IsTurnInProgress() => _turnInProgress;
 
     private bool _turnInProgress;
@@ -55,7 +42,6 @@ public partial class TurnManager : Node
         {
             // always release the lock, even if something exploded
             _turnInProgress = false;
-            DoSight();
         }
     }
 
@@ -156,7 +142,6 @@ public partial class TurnManager : Node
 
         // huhhhh
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        DoSight();
     }
 
     public void TryVerticalTransition(Vector2I direction)

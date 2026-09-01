@@ -5,6 +5,8 @@
 [ext_resource type="AudioStream" uid="uid://bsoaj23xhvqdb" path="res://assets/sfx/squeak.wav" id="3_3li8b"]
 
 [node name="Player" type="Node2D" unique_id=1236389005 node_paths=PackedStringArray("Sprite")]
+z_index = -2
+z_as_relative = false
 script = ExtResource("1_v6fml")
 Species = "mouse"
 Sprite = NodePath("Sprite2D")

@@ -5,20 +5,27 @@ using System.Drawing;
 
 public partial class CameraController : Node
 {
+    // References
     [Export] private Camera2D _camera;
-    [Export] private World world;
+    [Export] private World _world;
+
+    // Constants (Configurable)
+    private static readonly float[] _ZOOM_LEVELS = [1, 1.2f, 1.45f, 1.7f, 2, 2.5f, 3, 4, 5, 6, 8, 11, 15, 20];
+    private static readonly float _LAZY_FOLLOW_MARGIN = 0.1f;
+
+    // States
+    private int _currentZoomLevel = 1;
     private string _cameraMode = "following";
     private Player _cameraTarget;
-    [Export] private float _lazyCameraTrackingMargin = 0.1f;
 
     public override void _Ready()
     {
-        SetCameraFollow(world.Player);
+        SetCameraFollow(_world.Player);
     }
 
     public override void _Process(double delta)
     {
-        UpdateCameraBounds(world.CurrentRoom);
+        UpdateCameraBounds(_world.CurrentRoom);
         HandleCentering();
         HandleCameraZoom();
         HandleCameraDrag();
@@ -34,23 +41,22 @@ public partial class CameraController : Node
         _cameraMode = "following";
         _camera.PositionSmoothingEnabled = true;
     }
-
-    public void Unstill(Player actor)
-    {
-        if (_cameraMode == "still") { SetCameraLazyFollow(actor); }
-    }
     public void SetCameraLazyFollow(Player actor)
     {
         _cameraTarget = actor;
         _cameraMode = "lazyFollow";
         _camera.PositionSmoothingEnabled = true;
     }
-
-    public void HandleCentering()
+    internal void SetCameraStill()
     {
-        if (Input.IsActionJustPressed("center_camera")) { SetCameraFollow(world.Player); }
+        _cameraMode = "still";
+        _camera.PositionSmoothingEnabled = false;
     }
 
+    public void Unstill(Player actor)
+    {
+        if (_cameraMode == "still") { SetCameraLazyFollow(actor); }
+    }
     public void FollowTarget()
     {
         _camera.Position = _cameraTarget.Position;
@@ -59,12 +65,14 @@ public partial class CameraController : Node
     public void LazyFollowTarget()
     {
         Rect2 rect = GetCameraRect();
-        Vector2 margin = rect.Size * _lazyCameraTrackingMargin;
+        Vector2 margin = rect.Size * _LAZY_FOLLOW_MARGIN;
         rect.Size -= margin*2;
         rect.Position += margin;
         if (!rect.HasPoint(_cameraTarget.Position))
         {
-            _camera.Position = _cameraTarget.Position;
+            Vector2 dif = _cameraTarget.Position - _camera.Position;
+            dif *= 1.5f;
+            _camera.Position += dif;
         }
     }
 
@@ -75,12 +83,6 @@ public partial class CameraController : Node
         Vector2 pos = _camera.GetScreenCenterPosition();
         Vector2 size = GetViewport().GetVisibleRect().Size / _ZOOM_LEVELS[_currentZoomLevel];
         return new Rect2(pos-size/2, size);
-    }
-
-    internal void SetCameraStill()
-    {
-        _cameraMode = "still";
-        _camera.PositionSmoothingEnabled = false;
     }
     internal void HandleCameraDrag()
     {
@@ -94,23 +96,25 @@ public partial class CameraController : Node
         }
         _prevMousePos = _mousePos;
     }
-
-    private readonly float[] _ZOOM_LEVELS = [1, 1.2f, 1.45f, 1.7f, 2, 2.5f, 3, 4, 5, 6, 8, 11, 15, 20];
-    private int _currentZoomLevel = 1;
-
     private void HandleCameraZoom()
     { 
 	    if (Input.IsActionJustPressed("zoom_in"))
         {
+            if (_cameraMode == "lazyFollow") { SetCameraStill(); }
             _currentZoomLevel += 1;
             _currentZoomLevel = Math.Min(_currentZoomLevel, _ZOOM_LEVELS.Length - 1);
         }
 	    if (Input.IsActionJustPressed("zoom_out"))
         {
+            if (_cameraMode == "lazyFollow") { SetCameraStill(); }
             _currentZoomLevel -= 1;
             _currentZoomLevel = Math.Max(_currentZoomLevel, 0);
         }
         _camera.Zoom = new Vector2(_ZOOM_LEVELS[_currentZoomLevel], _ZOOM_LEVELS[_currentZoomLevel]);
+    }
+    public void HandleCentering()
+    {
+        if (Input.IsActionJustPressed("center_camera")) { SetCameraFollow(_world.Player); }
     }
 
     private void UpdateCameraBounds(Room room)
