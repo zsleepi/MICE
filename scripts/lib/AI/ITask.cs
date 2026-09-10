@@ -11,8 +11,8 @@ namespace MICE.scripts.lib.AI
         public abstract void DoTask();
         public abstract void DeleteTask();
         public abstract void CheckTaskFinished();
-        public abstract float GetPriority();
         public abstract string GetTaskName();
         public abstract string GetTaskDescription();
+        public abstract float GetPriority();
     }
 }

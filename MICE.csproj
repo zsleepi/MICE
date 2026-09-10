@@ -7,4 +7,7 @@
   <ItemGroup>
     <None Include="project.godot" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="scripts\lib\AI\tasks\" />
+  </ItemGroup>
 </Project>

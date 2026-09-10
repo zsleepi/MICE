@@ -51,7 +51,7 @@ public partial class TurnManager : Node
         _turnNumber++;
         EmitSignal(SignalName.TurnStarted, _turnNumber);
 
-        var tweens = new List<Tween>();
+        var tweens = new List<Tween>(); // TODO: deprecate and move to an animationHandler
 
         // player acts first
         tweens.Add(World.ResolveMove(World.Player, playerDir));
