@@ -10,28 +10,28 @@ namespace MICE.scripts.lib.AI
         private Vector2I _currentDirection = Vector2I.Zero;
         private int _turnsUntilChange = 0;
 
-        public void TakeTurn(List<Tween> tweens, Grid grid, Room room)
+        public void TakeTurn(List<Tween> tweens, Room room)
         {
-            var direction = DecideDirection(grid);
+            var direction = DecideDirection();
             TickTurn();
-            tweens.Add(ResolveMove(direction, grid, room));
+            tweens.Add(ResolveMove(direction, room));
             FaceDirection(direction);
             owner.turnCooldown += 1 / owner.GetMoveSpeed();
         }
 
         private Vector2 CellToWorld(Vector2I cell, Room CurrentRoom) => CurrentRoom.Terrain.ToGlobal(CurrentRoom.Terrain.MapToLocal(cell));
 
-        private Tween ResolveMove(Vector2I dir, Grid _grid, Room room)
+        private Tween ResolveMove(Vector2I dir, Room room)
         {
             if (dir == Vector2I.Zero) return null;
 
             Vector2I from = owner.Cell;
             Vector2I to = from + dir;
 
-            if (_grid.IsFree(to)) // freedom to do the movement
+            if (Grid.IsFree(to)) // freedom to do the movement
             {
                 HandleBump(false);
-                _grid.Move(from, to);
+                Grid.Move(from, to);
                 owner.Cell = to;
 
                 Tween t = owner.CreateTween();
@@ -69,7 +69,7 @@ namespace MICE.scripts.lib.AI
             if (dir.X != 0) owner.Sprite.FlipH = dir.X > 0;
         }
 
-        public Vector2I DecideDirection(Grid grid)
+        public Vector2I DecideDirection()
         {
             if (_turnsUntilChange > 0)
             {

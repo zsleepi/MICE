@@ -15,12 +15,12 @@ namespace MICE.scripts.lib.AI
 
         private Queue<ITask> _queuedTasks = [];
 
-        public void TakeTurn(List<Tween> tweens, Grid grid, Room room)
+        public void TakeTurn(List<Tween> tweens, Room room)
         {
             TickTurn();
-            var direction = DecideDirection(grid);
+            var direction = DecideDirection();
 
-            tweens.Add(ResolveMove(direction, grid, room));
+            tweens.Add(ResolveMove(direction, room));
             FaceDirection(direction);
             owner.turnCooldown += 1 / owner.GetMoveSpeed();
         }
@@ -51,17 +51,17 @@ namespace MICE.scripts.lib.AI
         private Vector2 CellToWorld(Vector2I cell, Room CurrentRoom) => CurrentRoom.Terrain.ToGlobal(CurrentRoom.Terrain.MapToLocal(cell));
 
         // resolves intent, then starts the tween (and returns it)
-        private Tween ResolveMove(Vector2I dir, Grid _grid, Room room)
+        private Tween ResolveMove(Vector2I dir, Room room)
         {
             if (dir == Vector2I.Zero) return null;
 
             Vector2I from = owner.Cell;
             Vector2I to = from + dir;
 
-            if (_grid.IsFree(to)) // freedom to do the movement
+            if (Grid.IsFree(to)) // freedom to do the movement
             {
                 HandleBump(false);
-                _grid.Move(from, to);
+                Grid.Move(from, to);
                 owner.Cell = to;
 
                 Tween t = owner.CreateTween();
@@ -83,12 +83,12 @@ namespace MICE.scripts.lib.AI
             }
         }
 
-        public Vector2I DecideDirection(Grid grid)
+        public Vector2I DecideDirection()
         {
             if (_queuedMoves.Count == 0 || _pathfindCooldown <= 0)
             {
                 if (Target != null) { TargetCell = Target.Cell; }
-                _queuedMoves = GridUtils.BreadthFirstSearch(owner.Cell, TargetCell, grid, 30000);
+                _queuedMoves = GridUtils.BreadthFirstSearch(owner.Cell, TargetCell, 30000);
                 _pathfindCooldown = (int)GD.RandRange(10, 15);
             }
             _currentDirection = _queuedMoves.Dequeue();

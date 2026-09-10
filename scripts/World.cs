@@ -15,8 +15,6 @@ public partial class World : Node2D
 	[Export] public float BumpDistance = 5f; // pixels to nudge when bumping
 	public float StepDuration = 0.11f;
 
-    public readonly Grid _grid = new();
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -26,40 +24,40 @@ public partial class World : Node2D
 
     public void OnRoomLoaded(Room room, Vector2I playerSpawnCell)
     {
-        _grid.Clear();
+        Grid.Clear();
 
         foreach (Vector2I cell in room.Terrain.GetUsedCells())
         {
             TileData data = room.Terrain.GetCellTileData(cell);
             if (data != null && !data.GetCustomData("Walkable").AsBool())
             {
-                _grid.SetImpassable(cell);
+                Grid.SetImpassable(cell);
             }
             if (data != null && data.GetCustomData("ObstructsView").AsBool())
             {
-                _grid.SetObstruction(cell);
+                Grid.SetObstruction(cell);
             }
             if (data != null && data.GetCustomData("LightSource").AsBool())
             {
-                _grid.SetLightSource(cell);
+                Grid.SetLightSource(cell);
             }
         }
-        foreach (Vector2I lightSource in _grid.GetLightSources())
+        foreach (Vector2I lightSource in Grid.GetLightSources())
         {
-            List<Vector2I> litTiles = SightLogic.GetVisibleTiles(lightSource, 5, _grid, 5);
+            List<Vector2I> litTiles = SightLogic.GetVisibleTiles(lightSource, 5, 5);
             foreach (Vector2I Coord in litTiles)
             {
-                _grid.SetLit(Coord);
+                Grid.SetLit(Coord);
             }
         }
 
         Player.Cell = playerSpawnCell;
         Player.GlobalPosition = CellToWorld(playerSpawnCell);
-        _grid.Register(Player, Player.Cell);
+        Grid.Register(Player, Player.Cell);
 
         foreach (NPC npc in room.GetActors())
         {
-            _grid.Register(npc, npc.Cell);
+            Grid.Register(npc, npc.Cell);
             npc.GlobalPosition = CellToWorld(npc.Cell);
 
             if (npc.ai is HostileAI spider)
@@ -82,7 +80,7 @@ public partial class World : Node2D
 		do {
             turnsRemaining = false;
             foreach (NPC npc in CurrentRoom.GetActors().OrderBy(a => a.turnCooldown)) {
-				if (npc.turnCooldown <= 0) { npc.ai.TakeTurn(tweens, _grid, CurrentRoom); } // ideally we wouldnt need to pass all this stuff down
+				if (npc.turnCooldown <= 0) { npc.ai.TakeTurn(tweens, CurrentRoom); } // ideally we wouldnt need to pass all this stuff down
                 if (npc.turnCooldown <= 0) { turnsRemaining = true; }
             }
 		} while (turnsRemaining);
@@ -96,10 +94,10 @@ public partial class World : Node2D
 		Vector2I from = actor.Cell;
 		Vector2I to = from + dir;
 
-		if (_grid.IsFree(to)) // freedom to do the movement
+		if (Grid.IsFree(to)) // freedom to do the movement
 		{
             actor.HandleBump(false);
-            _grid.Move(from, to);
+            Grid.Move(from, to);
 			actor.Cell = to;
 
 			Tween t = CreateTween();
