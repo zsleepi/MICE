@@ -17,12 +17,12 @@ namespace MICE.scripts.lib.AI
 
         public void TakeTurn(List<Tween> tweens, Grid grid, Room room)
         {
-            TickTurn();
+            _pathfindCooldown--;
             var direction = DecideDirection(grid);
 
             tweens.Add(ResolveMove(direction, grid, room));
             FaceDirection(direction);
-            owner.turnCooldown += 1 / owner.GetMoveSpeed();
+            owner.turnCooldown += 1 / (float)owner.MovementSpeed.GetMod();
         }
 
         public void Attach(NPC npc)
@@ -30,22 +30,9 @@ namespace MICE.scripts.lib.AI
             owner = npc;
         }
 
-        public void TickTurn()
-        {
-            _pathfindCooldown--;
-        }
-
         public void FaceDirection(Vector2I dir)
         {
             if (dir.X != 0) owner.Sprite.FlipH = dir.X > 0;
-        }
-
-        public void HandleBump(bool didBump)
-        {
-            if (didBump)
-            {
-                owner.AudioPlayer.Play();
-            }
         }
 
         private Vector2 CellToWorld(Vector2I cell, Room CurrentRoom) => CurrentRoom.Terrain.ToGlobal(CurrentRoom.Terrain.MapToLocal(cell));
@@ -60,25 +47,23 @@ namespace MICE.scripts.lib.AI
 
             if (_grid.IsFree(to)) // freedom to do the movement
             {
-                HandleBump(false);
                 _grid.Move(from, to);
                 owner.Cell = to;
 
                 Tween t = owner.CreateTween();
                 t.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
-                t.TweenProperty(owner.Node, "global_position", CellToWorld(to, room), 0.11f);
+                t.TweenProperty(owner, "global_position", CellToWorld(to, room), 0.11f);
                 return t;
             }
             else // blocked: playing the bump!
             {
-                HandleBump(true);
                 Vector2 rest = CellToWorld(from, room);
                 Vector2 nudge = rest + (Vector2)dir * 5f;
                 Tween t = owner.CreateTween();
 
                 // duration modifier kind of arbitrary... but i think this feels good
-                t.TweenProperty(owner.Node, "global_position", nudge, 0.11f * 0.5);
-                t.TweenProperty(owner.Node, "global_position", rest, 0.11f * 0.5);
+                t.TweenProperty(owner, "global_position", nudge, 0.11f * 0.5);
+                t.TweenProperty(owner, "global_position", rest, 0.11f * 0.5);
                 return t;
             }
         }

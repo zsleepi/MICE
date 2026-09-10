@@ -98,25 +98,23 @@ public partial class World : Node2D
 
 		if (_grid.IsFree(to)) // freedom to do the movement
 		{
-            actor.HandleBump(false);
             _grid.Move(from, to);
 			actor.Cell = to;
 
 			Tween t = CreateTween();
 			t.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
-			t.TweenProperty(actor.Node, "global_position", CellToWorld(to), StepDuration);
+			t.TweenProperty((Node2D)actor, "global_position", CellToWorld(to), StepDuration);
 			return t;
 		}
         else // blocked: playing the bump!
         {
-            actor.HandleBump(true);
             Vector2 rest = CellToWorld(from);
 			Vector2 nudge = rest + (Vector2)dir * BumpDistance;
 			Tween t = CreateTween();
 
 			// duration modifier kind of arbitrary... but i think this feels good
-			t.TweenProperty(actor.Node, "global_position", nudge, StepDuration * 0.5);
-			t.TweenProperty(actor.Node, "global_position", rest, StepDuration * 0.5);
+			t.TweenProperty((Node2D)actor, "global_position", nudge, StepDuration * 0.5);
+			t.TweenProperty((Node2D)actor, "global_position", rest, StepDuration * 0.5);
 			return t;
 		}
 	}

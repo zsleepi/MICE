@@ -26,15 +26,9 @@ public partial class NPC : Actor, IActor
     public override void _Ready()
     {
         SetAI(DetermineAi(AItype));
-        AudioPlayer = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
         Sprite.Texture = SpriteUtils.GetCharSprite(Species, "", 1);
         signature = SpeciesData.GetSpecies(Species).BaseSig;
         UpdateSprite();
-    }
-
-    public override void HandleBump(bool didBump)
-    {
-        ai.HandleBump(didBump);
     }
 
     private INPCController DetermineAi(string AItype)

@@ -24,7 +24,7 @@ public partial class PlayerSightManager : Node
     public HashSet<Vector2I> GetSeenTiles() => _seenTiles;
     public void DoSight()
     {
-        List<Vector2I> cells = SightLogic.GetVisibleTilesOptimized(player.Cell, 15, world._grid, 5);
+        List<Vector2I> cells = SightLogic.GetVisibleTilesOptimized(player.Cell, (int)player.SightRange.GetMod(), world._grid, (int)player.DarkSightRange.GetMod());
         masktiles.SetMaskedCells(cells);
         foreach (Vector2I cell in cells)
         {

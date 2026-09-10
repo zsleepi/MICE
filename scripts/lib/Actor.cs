@@ -2,6 +2,7 @@ using Godot;
 using MICE.scripts.data;
 using MICE.scripts.lib;
 using MICE.scripts.lib.itemlogic;
+using MICE.scripts.lib.stats;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,8 +12,6 @@ using System.Runtime.InteropServices.JavaScript;
 public partial class Actor : Node2D, IActor
 {
     [Export] public Vector2I Cell { get; set; }
-    public Node2D Node => this;
-
     [Export] public string Species;
     [Export] public Sprite2D Sprite { get; set; }
     public Signature signature { get; set; }
@@ -23,18 +22,13 @@ public partial class Actor : Node2D, IActor
     public Health health { get; set; }
     public Psyche psyche { get; set; }
 
-    [Export] public float baseMovement = 10;
-    public float GetMoveSpeed()
-    {
-        return baseMovement;
-    }
+    public MutableStat MovementSpeed = new MutableStat(10);
+    public MutableStat SightRange = new MutableStat(15);
+    public MutableStat DarkSightRange = new MutableStat(5);
 
-    // Actor plays audio using this node
-    public AudioStreamPlayer2D AudioPlayer;
 
     public override void _Ready()
     {
-        AudioPlayer = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
         Sprite.Texture = SpriteUtils.GetCharSprite(Species, "", 1);
         signature = SpeciesData.GetSpecies(Species).BaseSig;
         UpdateSprite();
@@ -54,10 +48,5 @@ public partial class Actor : Node2D, IActor
     public void FaceDirection(Vector2I dir)
     {
         if (dir.X != 0) Sprite.FlipH = dir.X > 0;
-    }
-
-    public virtual void HandleBump(bool didBump)
-    {
-        if (didBump) { AudioPlayer.Play(); }
     }
 }

@@ -58,7 +58,7 @@ public partial class TurnManager : Node
         EmitSignal(SignalName.PlayerActed, playerDir);
 
         // no transition so NPC turns are normal. runs concurrently w/ user in the background
-        float time = 1 / World.Player.GetMoveSpeed();
+        float time = 1 / (float)World.Player.MovementSpeed.GetMod();
         World.ProcessNPCTurns(time, tweens);
 
         if (tweens[0] != null)
