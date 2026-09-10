@@ -15,7 +15,7 @@ namespace MICE.scripts.lib
         };
 
         // attempting to write a pathfinding algo from scratch :P should output a directional vector that follows the path to the destination
-        public static Queue<Vector2I> BreadthFirstSearch(Vector2I start, Vector2I destination, Grid grid, int maxIterations = 4000)
+        public static Queue<Vector2I> BreadthFirstSearch(Vector2I start, Vector2I destination, int maxIterations = 4000)
         {
             // randomize order that directions are checked in
             var _unorderedDirections = _directions.OrderBy(x => Guid.NewGuid()).ToArray();
@@ -57,7 +57,7 @@ namespace MICE.scripts.lib
 
                     // conditions to skip this neighbor
                     if (visited.Contains(neighbor)) { continue; }
-                    if (!grid.IsFree(neighbor)) { continue; }
+                    if (!Grid.IsFree(neighbor)) { continue; }
 
                     // otherwise, add it and log where we're coming from
                     visited.Add(neighbor);

@@ -10,7 +10,7 @@ namespace MICE.scripts.lib
     public static class SightLogic
     {
         // try optimizing with polygon math? https://legends2k.github.io/2d-fov/design.html
-        public static List<Vector2I> GetVisibleTiles(Vector2I viewPos, int sightRange, Grid grid, int darkSight)
+        public static List<Vector2I> GetVisibleTiles(Vector2I viewPos, int sightRange, int darkSight)
         {
             List<Vector2I> visibles = [viewPos];
             Rect2I area = new Rect2I(viewPos.X - sightRange, viewPos.Y - sightRange, sightRange * 2, sightRange * 2);
@@ -27,8 +27,8 @@ namespace MICE.scripts.lib
                         for (int i = 1; i <= tileSteps; i++)
                         {
                             Vector2I tileAlongLine = new Vector2I(viewPos.X + (int)Math.Round((difference.X) * ((decimal)(i) / tileSteps)), viewPos.Y + (int)Math.Round((difference.Y)*((decimal)i /tileSteps)));
-                            if (!visibles.Contains(tileAlongLine) && grid.IsLit(tileAlongLine) || !visibles.Contains(tileAlongLine) && IsWithinDistance(viewPos, tileAlongLine, darkSight)) { visibles.Add(tileAlongLine); }
-                            if (grid.IsViewObstruction(tileAlongLine)) { break; }
+                            if (!visibles.Contains(tileAlongLine) && Grid.IsLit(tileAlongLine) || !visibles.Contains(tileAlongLine) && IsWithinDistance(viewPos, tileAlongLine, darkSight)) { visibles.Add(tileAlongLine); }
+                            if (Grid.IsViewObstruction(tileAlongLine)) { break; }
                         }
                     }
                 }
@@ -43,7 +43,7 @@ namespace MICE.scripts.lib
             return null;
         }
 
-        public static List<Vector2I> GetVisibleTilesRaycast(Vector2I _viewPos, int _sightRange, Grid _grid, int _darkSightRange)
+        public static List<Vector2I> GetVisibleTilesRaycast(Vector2I _viewPos, int _sightRange, int _darkSightRange)
         {
             List<Vector2I> _visibles = new List<Vector2I>();
             int raycasts = 8 + (int)Math.Ceiling(_sightRange * 2 * Math.PI);
@@ -57,15 +57,15 @@ namespace MICE.scripts.lib
                 while (IsWithinDistance(_viewPos, new Vector2I((int)Math.Round(_rayVector.X), (int)Math.Round(_rayVector.Y)), _sightRange))
                 {
                     Vector2I _rayTile = new Vector2I((int)Math.Round(_rayVector.X), (int)Math.Round(_rayVector.Y));
-                    if (_grid.IsLit(_rayTile) || IsWithinDistance(_viewPos, _rayTile, _darkSightRange)) { _visibles.Add(_rayTile); }
-                    if (_grid.IsViewObstruction(_rayTile)) { break; }
+                    if (Grid.IsLit(_rayTile) || IsWithinDistance(_viewPos, _rayTile, _darkSightRange)) { _visibles.Add(_rayTile); }
+                    if (Grid.IsViewObstruction(_rayTile)) { break; }
                     _rayVector += _stepIncrement;
                 }
             }
             return _visibles;
         }
 
-        public static List<Vector2I> GetVisibleTilesOptimized(Vector2I _viewPos, int _sightRange, Grid _grid, int _darkSightRange)
+        public static List<Vector2I> GetVisibleTilesOptimized(Vector2I _viewPos, int _sightRange, int _darkSightRange)
         {
             List<Vector2I> _visibles = [_viewPos];
             HashSet<Vector2I> _viableTiles = [_viewPos];
@@ -83,11 +83,11 @@ namespace MICE.scripts.lib
                     {
                         _rayVector += _stepIncrement;
                         Vector2I _intersectedTile = new Vector2I((int)Math.Round(_rayVector.X), (int)Math.Round(_rayVector.Y));
-                        if (_grid.IsViewObstruction(_intersectedTile)) { break; }
+                        if (Grid.IsViewObstruction(_intersectedTile)) { break; }
                         if (_viableTiles.Contains(_intersectedTile))
                         {
                             _viableTiles.Add(cell);
-                            if (IsWithinDistance(_viewPos, cell, _darkSightRange) || _grid.IsLit(cell)) { _visibles.Add(cell); }
+                            if (IsWithinDistance(_viewPos, cell, _darkSightRange) || Grid.IsLit(cell)) { _visibles.Add(cell); }
                             break;
                         }
                     }
