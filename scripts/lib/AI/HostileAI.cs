@@ -18,7 +18,7 @@ namespace MICE.scripts.lib.AI
         public void TakeTurn(List<Tween> tweens, Room room)
         {
             _pathfindCooldown--;
-            var direction = DecideDirection(grid);
+            var direction = DecideDirection();
 
             tweens.Add(ResolveMove(direction, room));
             FaceDirection(direction);
@@ -47,7 +47,7 @@ namespace MICE.scripts.lib.AI
 
             if (Grid.IsFree(to)) // freedom to do the movement
             {
-                _grid.Move(from, to);
+                Grid.Move(from, to);
                 owner.Cell = to;
 
                 Tween t = owner.CreateTween();

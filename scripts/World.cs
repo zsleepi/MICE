@@ -96,7 +96,8 @@ public partial class World : Node2D
 
 		if (Grid.IsFree(to)) // freedom to do the movement
 		{
-            actor.HandleBump(false);
+            // no more handleBump
+            // actor.HandleBump(false);
             Grid.Move(from, to);
 			actor.Cell = to;
 

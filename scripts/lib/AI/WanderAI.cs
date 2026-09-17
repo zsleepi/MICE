@@ -12,10 +12,10 @@ namespace MICE.scripts.lib.AI
 
         public void TakeTurn(List<Tween> tweens, Room room)
         {
-            var direction = DecideDirection(grid);
+            var direction = DecideDirection();
             _currentDirection = Vector2I.Zero;
             _turnsUntilChange--;
-            tweens.Add(ResolveMove(direction, grid, room));
+            tweens.Add(ResolveMove(direction, room));
             FaceDirection(direction);
             owner.turnCooldown += 1 / (float)owner.MovementSpeed.GetMod();
         }
@@ -31,7 +31,7 @@ namespace MICE.scripts.lib.AI
 
             if (Grid.IsFree(to)) // freedom to do the movement
             {
-                _grid.Move(from, to);
+                Grid.Move(from, to);
                 owner.Cell = to;
 
                 Tween t = owner.CreateTween();
