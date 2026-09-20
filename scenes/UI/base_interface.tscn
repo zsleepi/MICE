@@ -1,5 +1,67 @@
 [gd_scene format=3 uid="uid://q4h1byp1fbne"]
 
+[ext_resource type="FontFile" uid="uid://cg607pwvcmou8" path="res://assets/fonts/dogica.ttf" id="1_jsup8"]
+[ext_resource type="FontFile" uid="uid://crlfi80y4m8ct" path="res://assets/fonts/Retrobyte-4nMol.ttf" id="2_3eg8s"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rbqg5"]
+font = ExtResource("1_jsup8")
+font_size = 14
+outline_size = 1
+outline_color = Color(1, 0, 1, 1)
+stacked_outline_count = 1
+stacked_outline_0/size = 1
+stacked_outline_0/color = Color(0, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5ppo7"]
+font = ExtResource("2_3eg8s")
+font_size = 10
+font_color = Color(1, 0, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qljgd"]
+font = ExtResource("2_3eg8s")
+font_size = 13
+
+[sub_resource type="LabelSettings" id="LabelSettings_qghfv"]
+font = ExtResource("2_3eg8s")
+font_size = 15
+
+[sub_resource type="LabelSettings" id="LabelSettings_lkep4"]
+font = ExtResource("2_3eg8s")
+font_size = 11
+font_color = Color(0.46618086, 0.4661808, 0.4661808, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lphu2"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fk3vk"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+corner_detail = 5
+
 [node name="BaseInterface" type="Control" unique_id=1395529591]
 layout_mode = 3
 anchors_preset = 15
@@ -21,6 +83,217 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_vertical = 0
+
+[node name="Lbl_MenuNav" type="Label" parent="VBoxContainer/InfoPanel" unique_id=23230301]
+layout_mode = 0
+offset_right = 216.0
+offset_bottom = 35.0
+text = "(esc) Menu | (M) Map | (C) Character | (Q) Quests"
+label_settings = SubResource("LabelSettings_rbqg5")
+vertical_alignment = 1
+
+[node name="P1UI" type="Panel" parent="VBoxContainer/InfoPanel" unique_id=1537470968]
+layout_mode = 0
+offset_right = 5.0
+offset_bottom = 5.0
+
+[node name="Lbl_P1Stats" type="Label" parent="VBoxContainer/InfoPanel/P1UI" unique_id=1425749529]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 56.0
+offset_right = 176.0
+offset_bottom = 72.0
+text = "CON  STR  DEX  INT  PSI  CHA"
+label_settings = SubResource("LabelSettings_5ppo7")
+
+[node name="Lbl_P1Stats2" type="Label" parent="VBoxContainer/InfoPanel/P1UI" unique_id=34486572]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 64.0
+offset_right = 176.0
+offset_bottom = 80.0
+text = " 8    9    10   8   14   7"
+label_settings = SubResource("LabelSettings_qljgd")
+
+[node name="Lbl_P1Name" type="Label" parent="VBoxContainer/InfoPanel/P1UI" unique_id=1446141176]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 32.0
+offset_right = 176.0
+offset_bottom = 48.0
+text = "Chanter"
+label_settings = SubResource("LabelSettings_qghfv")
+
+[node name="Lbl_P1Race" type="Label" parent="VBoxContainer/InfoPanel/P1UI" unique_id=596165862]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 40.0
+offset_right = 176.0
+offset_bottom = 56.0
+text = "Chiri"
+label_settings = SubResource("LabelSettings_lkep4")
+vertical_alignment = 2
+
+[node name="Pn_P1Portrait" type="Panel" parent="VBoxContainer/InfoPanel/P1UI" unique_id=211402571]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 48.0
+offset_bottom = 72.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_lphu2")
+
+[node name="P2UI" type="Panel" parent="VBoxContainer/InfoPanel" unique_id=626679324]
+layout_mode = 0
+offset_left = 176.0
+offset_right = 181.0
+offset_bottom = 5.0
+
+[node name="Lbl_P2Stats" type="Label" parent="VBoxContainer/InfoPanel/P2UI" unique_id=546208126]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 56.0
+offset_right = 176.0
+offset_bottom = 72.0
+text = "CON  STR  DEX  INT  PSI  CHA"
+label_settings = SubResource("LabelSettings_5ppo7")
+
+[node name="Lbl_P2Stats2" type="Label" parent="VBoxContainer/InfoPanel/P2UI" unique_id=1486721609]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 64.0
+offset_right = 176.0
+offset_bottom = 80.0
+text = " 11   12   7    10   7   9"
+label_settings = SubResource("LabelSettings_qljgd")
+
+[node name="Lbl_P2Name" type="Label" parent="VBoxContainer/InfoPanel/P2UI" unique_id=774426589]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 32.0
+offset_right = 176.0
+offset_bottom = 48.0
+text = "Billy"
+label_settings = SubResource("LabelSettings_qghfv")
+
+[node name="Lbl_P2Race" type="Label" parent="VBoxContainer/InfoPanel/P2UI" unique_id=1066873356]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 40.0
+offset_right = 176.0
+offset_bottom = 56.0
+text = "Myr"
+label_settings = SubResource("LabelSettings_lkep4")
+vertical_alignment = 2
+
+[node name="Pn_P2Portrait" type="Panel" parent="VBoxContainer/InfoPanel/P2UI" unique_id=114456602]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 48.0
+offset_bottom = 72.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_lphu2")
+
+[node name="P3UI" type="Panel" parent="VBoxContainer/InfoPanel" unique_id=1717925258]
+layout_mode = 0
+offset_left = 352.0
+offset_right = 357.0
+offset_bottom = 5.0
+
+[node name="Lbl_P3Stats" type="Label" parent="VBoxContainer/InfoPanel/P3UI" unique_id=1855027168]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 56.0
+offset_right = 176.0
+offset_bottom = 72.0
+text = "CON  STR  DEX  INT  PSI  CHA"
+label_settings = SubResource("LabelSettings_5ppo7")
+
+[node name="Lbl_P3Stats2" type="Label" parent="VBoxContainer/InfoPanel/P3UI" unique_id=483773924]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 64.0
+offset_right = 176.0
+offset_bottom = 80.0
+text = "12    7    14   9   10  11"
+label_settings = SubResource("LabelSettings_qljgd")
+
+[node name="Lbl_P3Name" type="Label" parent="VBoxContainer/InfoPanel/P3UI" unique_id=526983626]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 32.0
+offset_right = 176.0
+offset_bottom = 48.0
+text = "Prin"
+label_settings = SubResource("LabelSettings_qghfv")
+
+[node name="Lbl_P3Race" type="Label" parent="VBoxContainer/InfoPanel/P3UI" unique_id=1244816934]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 40.0
+offset_right = 176.0
+offset_bottom = 56.0
+text = "Micefolk"
+label_settings = SubResource("LabelSettings_lkep4")
+vertical_alignment = 2
+
+[node name="Pn_P3Portrait" type="Panel" parent="VBoxContainer/InfoPanel/P3UI" unique_id=1496464629]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 48.0
+offset_bottom = 72.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_lphu2")
+
+[node name="P4UI" type="Panel" parent="VBoxContainer/InfoPanel" unique_id=2035522919]
+layout_mode = 0
+offset_left = 528.0
+offset_right = 533.0
+offset_bottom = 5.0
+
+[node name="Lbl_P3Stats" type="Label" parent="VBoxContainer/InfoPanel/P4UI" unique_id=2101950638]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 56.0
+offset_right = 176.0
+offset_bottom = 72.0
+text = "CON  STR  DEX  INT  PSI  CHA"
+label_settings = SubResource("LabelSettings_5ppo7")
+
+[node name="Lbl_P3Stats2" type="Label" parent="VBoxContainer/InfoPanel/P4UI" unique_id=1179695309]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 64.0
+offset_right = 176.0
+offset_bottom = 80.0
+text = "  -    -     -     -    -    -"
+label_settings = SubResource("LabelSettings_qljgd")
+
+[node name="Lbl_P3Name" type="Label" parent="VBoxContainer/InfoPanel/P4UI" unique_id=173087897]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 32.0
+offset_right = 176.0
+offset_bottom = 48.0
+text = "-"
+label_settings = SubResource("LabelSettings_qghfv")
+
+[node name="Lbl_P3Race" type="Label" parent="VBoxContainer/InfoPanel/P4UI" unique_id=615056883]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 40.0
+offset_right = 176.0
+offset_bottom = 56.0
+text = "-"
+label_settings = SubResource("LabelSettings_lkep4")
+vertical_alignment = 2
+
+[node name="Pn_P3Portrait" type="Panel" parent="VBoxContainer/InfoPanel/P4UI" unique_id=111513566]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 48.0
+offset_bottom = 72.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_fk3vk")
 
 [node name="LogPanel" type="Panel" parent="VBoxContainer" unique_id=658439025]
 custom_minimum_size = Vector2(160, 100)
