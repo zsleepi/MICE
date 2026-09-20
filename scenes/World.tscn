@@ -10,6 +10,5 @@ CurrentRoom = NodePath("CurrentRoom")
 Player = NodePath("Player")
 
 [node name="Player" parent="." unique_id=1236389005 instance=ExtResource("3_1lgw5")]
-position = Vector2(9, 9)
 
 [node name="CurrentRoom" parent="." unique_id=192711851 instance=ExtResource("3_7g83o")]

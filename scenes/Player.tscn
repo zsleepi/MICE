@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bcc8ba4863c1o" path="res://scripts/Player.cs" id="1_v6fml"]
 [ext_resource type="Texture2D" uid="uid://caxub4dwu5fw4" path="res://assets/sprites/chars/micefolk.png" id="2_3li8b"]
 [ext_resource type="AudioStream" uid="uid://bsoaj23xhvqdb" path="res://assets/sfx/squeak.wav" id="3_3li8b"]
+[ext_resource type="Script" uid="uid://ck4rkg8pmu4vp" path="res://scripts/ActorSprite.cs" id="3_mdl7e"]
 
 [node name="Player" type="Node2D" unique_id=1236389005 node_paths=PackedStringArray("Sprite")]
 z_index = -2
@@ -11,10 +12,12 @@ script = ExtResource("1_v6fml")
 Species = "mouse"
 Sprite = NodePath("Sprite2D")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1531296895]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1531296895 node_paths=PackedStringArray("parent")]
 texture = ExtResource("2_3li8b")
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
+script = ExtResource("3_mdl7e")
+parent = NodePath("..")
 
 [node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=902712897]
 current = true

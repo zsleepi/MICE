@@ -14,6 +14,7 @@ public partial class PlayerSightManager : Node
     public override void _Ready()
     {
         turnManager.PlayerActed += OnPlayerActed;
+        world.RoomLoaded += OnRoomLoaded;
     }
 
     private void OnPlayerActed(Vector2I _)
@@ -21,10 +22,15 @@ public partial class PlayerSightManager : Node
         DoSight();
     }
 
+    private void OnRoomLoaded()
+    {
+        DoSight();
+    }
+
     public HashSet<Vector2I> GetSeenTiles() => _seenTiles;
     public void DoSight()
     {
-        List<Vector2I> cells = SightLogic.GetVisibleTilesOptimized(player.Cell, 15, 5);
+        HashSet<Vector2I> cells = SightLogic.GetSensedTiles(player);
         masktiles.SetMaskedCells(cells);
         foreach (Vector2I cell in cells)
         {

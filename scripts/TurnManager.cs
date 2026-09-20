@@ -21,7 +21,7 @@ public partial class TurnManager : Node
     {
         if (_turnInProgress) return;
 
-        World.Player.FaceDirection(dir);
+        World.Player.Sprite.FaceDirection(dir);
 
         if (dir != Vector2I.Zero)
         {
@@ -54,14 +54,14 @@ public partial class TurnManager : Node
         var tweens = new List<Tween>(); // TODO: deprecate and move to an animationHandler
 
         // player acts first
-        tweens.Add(World.ResolveMove(World.Player, playerDir));
+        tweens.Add(World.ResolveMove(World.Player, playerDir)); 
         EmitSignal(SignalName.PlayerActed, playerDir);
 
         // no transition so NPC turns are normal. runs concurrently w/ user in the background
         float time = 1 / (float)World.Player.MovementSpeed.GetMod();
-        World.ProcessNPCTurns(time, tweens);
+        World.ProcessNPCTurns(time, tweens); // let actors communicate with animationHandler for tweens
 
-        if (tweens[0] != null)
+        if (tweens[0] != null) // swap this to wait for animationManager to finish
         {
             await ToSignal(tweens[0], Tween.SignalName.Finished);
         }
@@ -138,7 +138,7 @@ public partial class TurnManager : Node
         World.CurrentRoom = newRoom;
 
         // initialize new room stuff
-        World.OnRoomLoaded(newRoom, spawnCell);
+        World.OnRoomLoaded(spawnCell);
 
         // huhhhh
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);

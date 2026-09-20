@@ -4,7 +4,7 @@ uniform sampler2D screen_texture: hint_screen_texture;
 
 vec3 monochromeColor(vec3 Color) {
 	float averagedColor = (Color.r + Color.g + Color.b) / 7.0;
-	return vec3(averagedColor*1.2,averagedColor,averagedColor*1.5);
+	return vec3(averagedColor*1.1,averagedColor,averagedColor*1.4);
 }
 
 void fragment() {

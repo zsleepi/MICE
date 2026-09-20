@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c1lydlvx7t8yj"
-path="res://.godot/imported/841-245-Mario-Voice-Activated_45ea0066-ac56-4bb2-9fa4-4555bda07367.68e2e0bdd48e8cc45cc0b0348523ad87-331788112.jpeg-bb17af9c970364f24a7962d12acfc42e.ctex"
+uid="uid://dat3ac3mn2p8o"
+path="res://.godot/imported/water.png-90373b11a346f3eb1e140bb4fb37ed36.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/particles/841-245-Mario-Voice-Activated_45ea0066-ac56-4bb2-9fa4-4555bda07367.68e2e0bdd48e8cc45cc0b0348523ad87-331788112.jpeg"
-dest_files=["res://.godot/imported/841-245-Mario-Voice-Activated_45ea0066-ac56-4bb2-9fa4-4555bda07367.68e2e0bdd48e8cc45cc0b0348523ad87-331788112.jpeg-bb17af9c970364f24a7962d12acfc42e.ctex"]
+source_file="res://assets/sprites/tiles/water.png"
+dest_files=["res://.godot/imported/water.png-90373b11a346f3eb1e140bb4fb37ed36.ctex"]
 
 [params]
 

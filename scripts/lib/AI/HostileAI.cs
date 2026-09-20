@@ -18,21 +18,16 @@ namespace MICE.scripts.lib.AI
         public void TakeTurn(List<Tween> tweens, Room room)
         {
             _pathfindCooldown--;
-            var direction = DecideDirection(grid);
+            var direction = DecideDirection();
 
             tweens.Add(ResolveMove(direction, room));
-            FaceDirection(direction);
+            owner.Sprite.FaceDirection(direction);
             owner.turnCooldown += 1 / (float)owner.MovementSpeed.GetMod();
         }
 
         public void Attach(NPC npc)
         {
             owner = npc;
-        }
-
-        public void FaceDirection(Vector2I dir)
-        {
-            if (dir.X != 0) owner.Sprite.FlipH = dir.X > 0;
         }
 
         private Vector2 CellToWorld(Vector2I cell, Room CurrentRoom) => CurrentRoom.Terrain.ToGlobal(CurrentRoom.Terrain.MapToLocal(cell));
@@ -47,7 +42,7 @@ namespace MICE.scripts.lib.AI
 
             if (Grid.IsFree(to)) // freedom to do the movement
             {
-                _grid.Move(from, to);
+                Grid.Move(from, to);
                 owner.Cell = to;
 
                 Tween t = owner.CreateTween();

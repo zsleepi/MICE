@@ -7,7 +7,7 @@ namespace MICE.scripts.lib
 {
     internal static class GridUtils
     {
-        public static readonly Vector2I[] _directions =
+        public static readonly Vector2I[] Directions =
         {
             new Vector2I(0, 1), new Vector2I(1, 1), new Vector2I(0, -1),
             new Vector2I(-1, -1), new Vector2I(1, 0), new Vector2I(-1, 0),
@@ -18,7 +18,7 @@ namespace MICE.scripts.lib
         public static Queue<Vector2I> BreadthFirstSearch(Vector2I start, Vector2I destination, int maxIterations = 4000)
         {
             // randomize order that directions are checked in
-            var _unorderedDirections = _directions.OrderBy(x => Guid.NewGuid()).ToArray();
+            var _unorderedDirections = Directions.OrderBy(x => Guid.NewGuid()).ToArray();
 
             var _finalPath = new Queue<Vector2I>();
             if (start == destination)
@@ -86,6 +86,111 @@ namespace MICE.scripts.lib
             }
             var _pathBack = new Queue<Vector2I>(_finalPath.Reverse());
             return _pathBack;
+        }
+
+        public static List<Vector2I> GetSquarePerimeter(Vector2I center, int radius)
+        {
+            if (radius == 0) return new List<Vector2I> { center };
+
+            var perimeter = new List<Vector2I>(radius * 8);
+
+            int minX = center.X - radius;
+            int maxX = center.X + radius;
+            int minY = center.Y - radius;
+            int maxY = center.Y + radius;
+
+            // top edge (with corners)
+            for (int x = minX; x <= maxX; x++)
+                perimeter.Add(new Vector2I(x, minY));
+
+            // bottom edge (with corners)
+            for (int x = minX; x <= maxX; x++)
+                perimeter.Add(new Vector2I(x, maxY));
+
+            // left edge (no corners)
+            for (int y = minY + 1; y <= maxY - 1; y++)
+                perimeter.Add(new Vector2I(minX, y));
+
+            // right edge (no corners)
+            for (int y = minY + 1; y <= maxY - 1; y++)
+                perimeter.Add(new Vector2I(maxX, y));
+
+            return perimeter;
+        }
+
+        public static bool IsWithinDistance(Vector2I origin, Vector2I target, int range)
+        {
+            if (GetDistance(origin, target) < range) { return true; }
+            else return false;
+        }
+
+        public static double GetDistance(Vector2I point1, Vector2I point2)
+        {
+            double distance = Math.Sqrt(Math.Pow(point1.X - point2.X, 2) + Math.Pow(point1.Y - point2.Y, 2));
+            return distance;
+        }
+
+        public static List<Vector2I> GetVisibleArea(Vector2I origin, int range)
+        {
+            Vector2I _viewPos = origin;
+            int _sightRange = range;
+
+            List<Vector2I> _visibles = [_viewPos];
+            HashSet<Vector2I> _viableTiles = [_viewPos];
+
+            for (int iteration = 1; iteration <= _sightRange; iteration++)
+            {
+                List<Vector2I> _squarePerimeter = GridUtils.GetSquarePerimeter(_viewPos, iteration);
+                foreach (Vector2I cell in _squarePerimeter)
+                {
+                    if (!GridUtils.IsWithinDistance(_viewPos, cell, _sightRange)) { continue; }
+                    Vector2I _dif = _viewPos - cell;
+                    Vector2 _stepIncrement = new Vector2((float)_dif.X / iteration, (float)_dif.Y / iteration);
+                    Vector2 _rayVector = new Vector2(cell.X, cell.Y);
+                    for (int i = 0; i <= iteration; i++)
+                    {
+                        _rayVector += _stepIncrement;
+                        Vector2I _intersectedTile = new Vector2I((int)Math.Round(_rayVector.X), (int)Math.Round(_rayVector.Y));
+                        if (Grid.IsViewObstruction(_intersectedTile) && _intersectedTile != _viewPos) { break; }
+                        if (_viableTiles.Contains(_intersectedTile))
+                        {
+                            _viableTiles.Add(cell);
+                            _visibles.Add(cell);
+                            break;
+                        }
+                    }
+                }
+            }
+            return _visibles;
+        }
+
+        public static List<Rect2I> SliceRectHorizontal(Rect2I input, int sliceAt)
+        {
+            List<Rect2I> slicedRects = [];
+            sliceAt = Math.Clamp(sliceAt, 1, input.Size.Y - 1);
+            Rect2I slicedRect = new Rect2I(input.Position, new Vector2I(input.Size.X, sliceAt));
+            Rect2I remainder = new Rect2I(new Vector2I(input.Position.X, input.Position.Y + sliceAt), new Vector2I(input.Size.X, input.Size.Y - sliceAt));
+            slicedRects.Add(slicedRect);
+            slicedRects.Add(remainder);
+            return slicedRects;
+        }
+
+        public static List<Rect2I> SliceRectVertical(Rect2I input, int sliceAt)
+        {
+            List<Rect2I> slicedRects = [];
+            sliceAt = Math.Clamp(sliceAt, 1, input.Size.X - 1);
+            Rect2I slicedRect = new Rect2I(input.Position, new Vector2I(sliceAt, input.Size.Y));
+            Rect2I remainder = new Rect2I(new Vector2I(input.Position.X + sliceAt, input.Position.Y), new Vector2I(input.Size.X - sliceAt, input.Size.Y));
+            slicedRects.Add(slicedRect);
+            slicedRects.Add(remainder);
+            return slicedRects;
+        }
+
+        public static Rect2I ShrinkRect(Rect2I input, int shrinkBy)
+        {
+            Vector2I _reductionVector = new Vector2I(shrinkBy, shrinkBy);
+            Rect2I _shrunkRect = new Rect2I(input.Position - _reductionVector, input.Size - _reductionVector * 2);
+            return _shrunkRect;
         }
     }
 }

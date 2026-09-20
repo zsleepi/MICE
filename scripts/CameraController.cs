@@ -25,7 +25,6 @@ public partial class CameraController : Node
 
     public override void _Process(double delta)
     {
-        UpdateCameraBounds(_world.CurrentRoom);
         HandleCentering();
         HandleCameraZoom();
         HandleCameraDrag();
@@ -34,7 +33,7 @@ public partial class CameraController : Node
         if (_cameraMode == "lazyFollow") { LazyFollowTarget(); }
     }
 
-
+    // state setters
     public void SetCameraFollow(Player actor)
     {
         _cameraTarget = actor;
@@ -57,9 +56,11 @@ public partial class CameraController : Node
     {
         if (_cameraMode == "still") { SetCameraLazyFollow(actor); }
     }
+
+    // state operators
     public void FollowTarget()
     {
-        _camera.Position = _cameraTarget.Position;
+        SetCameraPosition(_cameraTarget.Position);
     }
 
     public void LazyFollowTarget()
@@ -72,18 +73,12 @@ public partial class CameraController : Node
         {
             Vector2 dif = _cameraTarget.Position - _camera.Position;
             dif *= 1.5f;
-            _camera.Position += dif;
+            SetCameraPosition(_camera.Position + dif);
         }
     }
 
+    // input handlers
     private Vector2 _prevMousePos;
-
-    internal Rect2 GetCameraRect()
-    {
-        Vector2 pos = _camera.GetScreenCenterPosition();
-        Vector2 size = GetViewport().GetVisibleRect().Size / _ZOOM_LEVELS[_currentZoomLevel];
-        return new Rect2(pos-size/2, size);
-    }
     internal void HandleCameraDrag()
     {
         Vector2 _mousePos = GetViewport().GetMousePosition();
@@ -92,7 +87,7 @@ public partial class CameraController : Node
             if (_prevMousePos == null) { _prevMousePos = _mousePos; }
             Vector2 _velocity = _prevMousePos - _mousePos;
             SetCameraStill();
-            _camera.Position = _camera.GetScreenCenterPosition() + _velocity / _ZOOM_LEVELS[_currentZoomLevel];
+            SetCameraPosition(_camera.GetScreenCenterPosition() + _velocity / _ZOOM_LEVELS[_currentZoomLevel]);
         }
         _prevMousePos = _mousePos;
     }
@@ -117,18 +112,37 @@ public partial class CameraController : Node
         if (Input.IsActionJustPressed("center_camera")) { SetCameraFollow(_world.Player); }
     }
 
-    private void UpdateCameraBounds(Room room)
+    // utils
+    private Rect2 GetRoomBounds()
     {
-        var terrain = room.Terrain;
+        var terrain = _world.CurrentRoom.Terrain;
         Rect2I usedRect = terrain.GetUsedRect();
         Vector2 topLeft = terrain.ToGlobal(terrain.MapToLocal(usedRect.Position));
-        Vector2 bottomRight = terrain.ToGlobal(terrain.MapToLocal(
-            usedRect.Position + usedRect.Size));
+        Vector2 bottomRight = terrain.ToGlobal(terrain.MapToLocal(usedRect.Position + usedRect.Size));
         topLeft -= new Vector2I(9, 9); bottomRight -= new Vector2I(9, 9);
+        Rect2 RoomBounds = new Rect2(topLeft, bottomRight-topLeft);
+        return RoomBounds;
+    }
+    internal Rect2 GetCameraRect()
+    {
+        Vector2 pos = _camera.GetScreenCenterPosition();
+        Vector2 size = GetViewport().GetVisibleRect().Size / _ZOOM_LEVELS[_currentZoomLevel];
+        return new Rect2(pos - size / 2, size);
+    }
 
-        _camera.LimitLeft = (int)topLeft.X;
-        _camera.LimitTop = (int)topLeft.Y;
-        _camera.LimitRight = (int)bottomRight.X;
-        _camera.LimitBottom = (int)bottomRight.Y;
+    internal Vector2 GetBoundedPosition(Vector2 _cameraPosition)
+    {
+        Rect2 cameraBounds = GetCameraRect();
+        Rect2 roomBounds = GetRoomBounds();
+
+        Vector2 newPosition = _cameraPosition;
+        newPosition.X = Math.Clamp(_cameraPosition.X, roomBounds.Position.X + cameraBounds.Size.X / 2, roomBounds.End.X - cameraBounds.Size.X / 2);
+        newPosition.Y = Math.Clamp(_cameraPosition.Y, roomBounds.Position.Y + cameraBounds.Size.Y / 2, roomBounds.End.Y - cameraBounds.Size.Y / 2);
+        return newPosition;
+    }
+
+    internal void SetCameraPosition(Vector2 position)
+    {
+        _camera.Position = GetBoundedPosition(position);
     }
 }

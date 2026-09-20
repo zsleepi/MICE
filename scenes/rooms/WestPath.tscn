@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://drag8cpi1731b"]
 
 [ext_resource type="PackedScene" uid="uid://drgeqvq2oe3t2" path="res://scenes/Room.tscn" id="1_pkbl5"]
-[ext_resource type="PackedScene" uid="uid://cx4jk64pc4mis" path="res://scenes/Fox.tscn" id="2_75u2u"]
+[ext_resource type="PackedScene" uid="uid://cx4jk64pc4mis" path="res://scenes/NPCs/Fox.tscn" id="2_75u2u"]
 [ext_resource type="Script" uid="uid://bol7ycchslc68" path="res://scripts/lib/RoomTransitionCell.cs" id="2_ehj23"]
 [ext_resource type="Script" uid="uid://c2o02i8njk0bl" path="res://scripts/lib/SpawnPoint.cs" id="3_pfo5m"]
 

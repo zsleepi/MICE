@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public partial class MaskTiles : TileMapLayer
 {
-    public void SetMaskedCells(List<Vector2I> cells)
+    public void SetMaskedCells(HashSet<Vector2I> cells)
     {
         this.Clear();
         // recast

@@ -26,9 +26,6 @@ public partial class NPC : Actor, IActor
     public override void _Ready()
     {
         SetAI(DetermineAi(AItype));
-        Sprite.Texture = SpriteUtils.GetCharSprite(Species, "", 1);
-        signature = SpeciesData.GetSpecies(Species).BaseSig;
-        UpdateSprite();
     }
 
     private INPCController DetermineAi(string AItype)

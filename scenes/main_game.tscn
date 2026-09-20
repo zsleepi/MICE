@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://cu62pvmmgm45y" path="res://scripts/UI/InteractionManager.cs" id="3_d2op2"]
 [ext_resource type="Script" uid="uid://bw8s5seq05w01" path="res://scripts/PlayerSightManager.cs" id="3_o6v7o"]
 [ext_resource type="PackedScene" uid="uid://wb4aeuk7hdq2" path="res://scenes/UI/inventory_window.tscn" id="4_0rdsr"]
+[ext_resource type="Script" uid="uid://ba0o4ml1pyxsq" path="res://scripts/AnimationManager.cs" id="5_8xp80"]
 [ext_resource type="PackedScene" uid="uid://b83g36d26lb1m" path="res://scenes/UI/inventory_grid.tscn" id="5_ipu61"]
 [ext_resource type="Shader" uid="uid://2u00n32yc1eg" path="res://scenes/MaskShader.gdshader" id="6_5cypo"]
 [ext_resource type="Texture2D" uid="uid://dnwkaa2rybvgo" path="res://assets/sprites/tiles/spotlight.png" id="7_5cypo"]
@@ -190,6 +191,9 @@ script = ExtResource("2_wi4c7")
 World = NodePath("../../World")
 PlayerSight = NodePath("../PlayerSightManager")
 
+[node name="AnimationManager" type="Node" parent="Managers" unique_id=340383081]
+script = ExtResource("5_8xp80")
+
 [node name="World" parent="." unique_id=1152574541 instance=ExtResource("1_s3esy")]
 
 [node name="MaskTiles" type="TileMapLayer" parent="." unique_id=807977393]
@@ -203,10 +207,10 @@ script = ExtResource("8_o6v7o")
 [node name="ColorRect" type="ColorRect" parent="." unique_id=544485449]
 z_index = -1
 material = SubResource("ShaderMaterial_wjob3")
-offset_left = -1868.0
-offset_top = -941.0
-offset_right = 1281.0
-offset_bottom = 1816.0
+offset_left = -1516.0
+offset_top = -830.0
+offset_right = 611.0
+offset_bottom = 1512.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
@@ -238,4 +242,5 @@ zoom = Vector2(2, 2)
 position_smoothing_speed = 8.0
 
 [editable path="World"]
+[editable path="World/Player"]
 [editable path="World/CurrentRoom"]

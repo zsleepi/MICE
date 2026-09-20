@@ -2,16 +2,20 @@
 
 [ext_resource type="Script" uid="uid://b8q6wuvs0sfoe" path="res://scripts/lib/NPC.cs" id="1_fdnuv"]
 [ext_resource type="Texture2D" uid="uid://di2eplo3jd4g8" path="res://assets/sprites/chars/spider.png" id="2_l7dlg"]
+[ext_resource type="Script" uid="uid://ck4rkg8pmu4vp" path="res://scripts/ActorSprite.cs" id="3_6bblw"]
 [ext_resource type="AudioStream" uid="uid://d4feijo46f4rm" path="res://assets/sfx/bump.wav" id="3_l7dlg"]
 
 [node name="Spider" type="Node2D" unique_id=1420616341 node_paths=PackedStringArray("Sprite")]
 script = ExtResource("1_fdnuv")
+Species = "spider"
 Sprite = NodePath("Sprite2D")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=968570441]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=768737577 node_paths=PackedStringArray("parent")]
 texture = ExtResource("2_l7dlg")
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
+script = ExtResource("3_6bblw")
+parent = NodePath("..")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=692714733]
 stream = ExtResource("3_l7dlg")

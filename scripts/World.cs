@@ -15,46 +15,51 @@ public partial class World : Node2D
 	[Export] public float BumpDistance = 5f; // pixels to nudge when bumping
 	public float StepDuration = 0.11f;
 
+    [Signal] public delegate void RoomLoadedEventHandler();
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         // first time setup to init starting room
-        OnRoomLoaded(CurrentRoom, CurrentRoom.PlayerSpawnCell);
+        OnRoomLoaded(CurrentRoom.PlayerSpawnCell);
     }
 
-    public void OnRoomLoaded(Room room, Vector2I playerSpawnCell)
+    public void OnRoomLoaded(Vector2I playerEntrance)
     {
-        Grid.Clear();
+        Grid.UpdateGridData(CurrentRoom);
+        SetUpPlayer(playerEntrance);
+        SetUpNPCs(CurrentRoom);
+        EmitSignal(SignalName.RoomLoaded);
+    }
 
-        foreach (Vector2I cell in room.Terrain.GetUsedCells())
-        {
-            TileData data = room.Terrain.GetCellTileData(cell);
-            if (data != null && !data.GetCustomData("Walkable").AsBool())
-            {
-                Grid.SetImpassable(cell);
-            }
-            if (data != null && data.GetCustomData("ObstructsView").AsBool())
-            {
-                Grid.SetObstruction(cell);
-            }
-            if (data != null && data.GetCustomData("LightSource").AsBool())
-            {
-                Grid.SetLightSource(cell);
-            }
-        }
-        foreach (Vector2I lightSource in Grid.GetLightSources())
-        {
-            List<Vector2I> litTiles = SightLogic.GetVisibleTiles(lightSource, 5, 5);
-            foreach (Vector2I Coord in litTiles)
-            {
-                Grid.SetLit(Coord);
-            }
-        }
+    public async Task SwitchRoom(Room newRoom, Vector2I playerpos)
+    {
+        AddChild(newRoom);
 
-        Player.Cell = playerSpawnCell;
-        Player.GlobalPosition = CellToWorld(playerSpawnCell);
+        // remove old room
+        var oldRoom = CurrentRoom;
+        RemoveChild(oldRoom);
+        oldRoom.QueueFree();
+
+        // swap the reference
+        CurrentRoom = newRoom;
+
+        // initialize new room stuff
+        OnRoomLoaded(playerpos);
+
+        // huhhhh
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+    }
+
+    public void SetUpPlayer(Vector2I _playerPos)
+    {
+        Player.Cell = _playerPos;
+        Player.GlobalPosition = CellToWorld(_playerPos);
         Grid.Register(Player, Player.Cell);
+    }
 
+    public void SetUpNPCs(Room room)
+    {
         foreach (NPC npc in room.GetActors())
         {
             Grid.Register(npc, npc.Cell);
@@ -67,6 +72,7 @@ public partial class World : Node2D
         }
     }
 
+    // TODO: move this to turnmanager
     public void ProcessNPCTurns(float time, List<Tween> tweens)
 	{
         // pass time depending on player action speed. increment actor turn cooldowns
@@ -96,7 +102,6 @@ public partial class World : Node2D
 
 		if (Grid.IsFree(to)) // freedom to do the movement
 		{
-            actor.HandleBump(false);
             Grid.Move(from, to);
 			actor.Cell = to;
 
