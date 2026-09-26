@@ -1,4 +1,5 @@
 using Godot;
+using MICE.scripts.lib.procgen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,8 @@ public partial class Room : Node2D
 
     public override void _Ready()
     {
+        Terrain.TileMapData = cityGen.CreateCityTerrain(new Rect2I(-100, -100, 200, 200)).TileMapData;
+        Grid.UpdateGridData(this);
         // cache spawn points and transitions for fast lookup!!!
         var spawnNode = GetNodeOrNull("SpawnPoints");
         _spawnPoints = spawnNode?.GetChildren().OfType<SpawnPoint>().ToArray()

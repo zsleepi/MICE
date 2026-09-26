@@ -204,17 +204,6 @@ tile_map_data = PackedByteArray("AAD2/w0AAAAAAAQAAAD2/wwAAAAAAAQAAAD2/wsAAAAAAAQ
 tile_set = SubResource("TileSet_wjob3")
 script = ExtResource("8_o6v7o")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=544485449]
-z_index = -1
-material = SubResource("ShaderMaterial_wjob3")
-offset_left = -1516.0
-offset_top = -830.0
-offset_right = 611.0
-offset_bottom = 1512.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color(0, 0, 0, 1)
-
 [node name="BackBufferCopy" type="BackBufferCopy" parent="." unique_id=1491375939]
 z_index = -2
 position = Vector2(-78, 36)
@@ -238,7 +227,18 @@ playerInventoryGridScene = ExtResource("5_ipu61")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1841240376]
 zoom = Vector2(2, 2)
-position_smoothing_speed = 8.0
+limit_enabled = false
+
+[node name="ColorRect" type="ColorRect" parent="Camera2D" unique_id=544485449]
+z_index = -1
+material = SubResource("ShaderMaterial_wjob3")
+offset_left = -1111.0
+offset_top = -909.0
+offset_right = 1112.0
+offset_bottom = 900.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
 
 [editable path="World"]
 [editable path="World/Player"]

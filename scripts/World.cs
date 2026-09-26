@@ -123,6 +123,6 @@ public partial class World : Node2D
 		}
 	}
 
-	private Vector2 CellToWorld(Vector2I cell) =>
+	public Vector2 CellToWorld(Vector2I cell) =>
 		CurrentRoom.Terrain.ToGlobal(CurrentRoom.Terrain.MapToLocal(cell));
 }

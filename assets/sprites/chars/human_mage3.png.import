@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://o0dt8dhqrtx3"
-path="res://.godot/imported/Actors.png-f793acf0545fc714e77ed8eaab5608c6.ctex"
+uid="uid://dxihj7ps2d3xi"
+path="res://.godot/imported/human_mage3.png-e03cc18a293534ab2df0e465f9b25285.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/chars/Actors.png"
-dest_files=["res://.godot/imported/Actors.png-f793acf0545fc714e77ed8eaab5608c6.ctex"]
+source_file="res://assets/sprites/chars/human_mage3.png"
+dest_files=["res://.godot/imported/human_mage3.png-e03cc18a293534ab2df0e465f9b25285.ctex"]
 
 [params]
 

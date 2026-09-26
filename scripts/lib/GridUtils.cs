@@ -186,10 +186,70 @@ namespace MICE.scripts.lib
             return slicedRects;
         }
 
-        public static Rect2I ShrinkRect(Rect2I input, int shrinkBy)
+        public static List<Rect2I> SliceRectangle(Rect2I input, int minSize, float maxLengthRatio)
+        {
+            List<Rect2I> subdividedRects = [];
+            maxLengthRatio = Math.Max(maxLengthRatio, 2);
+            minSize = Math.Min(minSize, (int)Math.Floor((decimal)(input.Size.X * input.Size.Y) / 2));
+            Random r = new Random();
+            bool _sliceHorizontal;
+            if (input.Size.Y == input.Size.X)
+            {
+                if (r.NextDouble() > 0.5) { _sliceHorizontal = true; }
+                else { _sliceHorizontal = false; }
+            }
+            else if (input.Size.Y > input.Size.X)
+            {
+                _sliceHorizontal = true;
+            } else
+            {
+                _sliceHorizontal = false;
+            }
+
+            if (_sliceHorizontal)
+            {
+                int minSlice = Math.Max((int)Math.Ceiling((decimal)(minSize / input.Size.X)), (int)Math.Ceiling(input.Size.X / maxLengthRatio));
+                minSlice = Math.Min(minSlice, (int)Math.Floor((decimal)input.Size.Y / 2));
+                int randomSlice = r.Next(minSlice, input.Size.Y - minSlice);
+                subdividedRects = SliceRectHorizontal(input, randomSlice);
+            } else
+            {
+                int minSlice = Math.Max((int)Math.Ceiling((decimal)(minSize / input.Size.Y)), (int)Math.Ceiling(input.Size.Y / maxLengthRatio));
+                minSlice = Math.Min(minSlice, (int)Math.Floor((decimal)input.Size.X / 2));
+                int randomSlice = r.Next(minSlice, input.Size.X - minSlice);
+                subdividedRects = SliceRectVertical(input, randomSlice);
+            }
+            return subdividedRects;
+        }
+
+        public static Rect2I ShrinkRectEven(Rect2I input, int shrinkBy)
         {
             Vector2I _reductionVector = new Vector2I(shrinkBy, shrinkBy);
-            Rect2I _shrunkRect = new Rect2I(input.Position - _reductionVector, input.Size - _reductionVector * 2);
+            Rect2I _shrunkRect = new Rect2I(input.Position + _reductionVector, input.Size - _reductionVector * 2);
+            return _shrunkRect;
+        }
+        public static Rect2I ShrinkRectUneven(Rect2I input, int shrinkBy)
+        {
+            Vector2I _reductionVector = new Vector2I(shrinkBy, shrinkBy);
+            Rect2I _shrunkRect = new Rect2I(input.Position + _reductionVector, input.Size - _reductionVector);
+            return _shrunkRect;
+        }
+
+        public static Rect2I ShrinkRectRandom(Rect2I input, int shrinkBy)
+        {
+            Vector2I _reductionX = new Vector2I(shrinkBy, 0);
+            Vector2I _reductionY = new Vector2I(0, shrinkBy);
+            Random r = new Random();
+            Rect2I _shrunkRect = input;
+            if (r.NextDouble() > 0.5) { _shrunkRect.Position += _reductionX; } else
+            {
+                _shrunkRect.Size -= _reductionX;
+            }
+            if (r.NextDouble() > 0.5) { _shrunkRect.Position += _reductionY; }
+            else
+            {
+                _shrunkRect.Size -= _reductionY;
+            }
             return _shrunkRect;
         }
     }

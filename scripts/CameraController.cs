@@ -38,18 +38,15 @@ public partial class CameraController : Node
     {
         _cameraTarget = actor;
         _cameraMode = "following";
-        _camera.PositionSmoothingEnabled = true;
     }
     public void SetCameraLazyFollow(Player actor)
     {
         _cameraTarget = actor;
         _cameraMode = "lazyFollow";
-        _camera.PositionSmoothingEnabled = true;
     }
     internal void SetCameraStill()
     {
         _cameraMode = "still";
-        _camera.PositionSmoothingEnabled = false;
     }
 
     public void Unstill(Player actor)
