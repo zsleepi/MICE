@@ -18,7 +18,7 @@ public partial class Room : Node2D
 
     public override void _Ready()
     {
-        Terrain.TileMapData = cityGen.CreateCityTerrain(new Rect2I(-100, -100, 200, 200)).TileMapData;
+        Terrain.TileMapData = cityGen.CreateCityTerrain(new Rect2I(-50, -50, 100, 100)).TileMapData;
         Grid.UpdateGridData(this);
         // cache spawn points and transitions for fast lookup!!!
         var spawnNode = GetNodeOrNull("SpawnPoints");

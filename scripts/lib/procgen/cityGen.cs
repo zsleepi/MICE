@@ -12,11 +12,11 @@ namespace MICE.scripts.lib.procgen
 {
     public static class cityGen
     {
-        static int minDistrictSize = 400;
-        static int maxDistrictSize = 1200;
+        static int minDistrictSize = 200;
+        static int maxDistrictSize = 600;
 
-        static int minHouseSize = 35;
-        static int maxHouseSize = 80;
+        static int minHouseSize = 33;
+        static int maxHouseSize = 70;
         public static TileMapLayer CreateCityTerrain(Rect2I roomArea)
         {
             TileMapLayer _terrain = new TileMapLayer();
@@ -55,18 +55,123 @@ namespace MICE.scripts.lib.procgen
         public static void FurnishHouse(Rect2I area, TileMapLayer terrain)
         {
             Dictionary<Vector2I, List<string>> TagSet = CreateTagSet(area, terrain);
-            Godot.Collections.Array<Vector2I> selection = RectToSelection(area);
-            foreach (Vector2I cell in selection.Where(a => TagSet.GetValueOrDefault(a).Contains("edge") && !TagSet.GetValueOrDefault(a).Contains("inapplicable")))
+            List<Vector2I> selection = RectToSelection(area);
+
+            PlaceBed(selection, TagSet, terrain);
+
+            PlaceTable(selection, TagSet, terrain);
+
+            PlaceChair(selection, TagSet, terrain);
+            PlaceChair(selection, TagSet, terrain);
+
+            PlaceBookcase(selection, TagSet, terrain);
+
+            PlaceTorch(selection, TagSet, terrain);
+
+        }
+
+        public static void PlaceBed(List<Vector2I> selection, Dictionary<Vector2I, List<string>> TagSet, TileMapLayer terrain)
+        {
+            List<string> tags = ["corner", "edge"];
+            List<string> excludedTags = ["inapplicable"];
+            List<Vector2I> applicableCells = selection.Where(cell => HasAnyTag(TagSet, cell, tags) && !HasAnyTag(TagSet, cell, excludedTags)).ToList();
+            if (applicableCells.Count == 0) return;
+            Vector2I coords = RandomCellFromSelection(applicableCells);
+            terrain.SetCell(coords, 5, new Vector2I(7, 1));
+            AddTagtoSet(TagSet, coords, "inapplicable");
+            AddTagtoSet(TagSet, coords, "bed");
+            AddTagtoAdjacent(TagSet, coords, "bedAdjacent");
+            AddTagtoAdjacent(TagSet, coords, "inapplicable");
+        }
+        public static void PlaceTable(List<Vector2I> selection, Dictionary<Vector2I, List<string>> TagSet, TileMapLayer terrain)
+        {
+            List<string> tags = ["open", "edge"];
+            List<string> excludedTags = ["inapplicable"];
+            List<Vector2I> applicableCells = selection.Where(cell => HasAnyTag(TagSet, cell, tags) && !HasAnyTag(TagSet, cell, excludedTags)).ToList();
+            if (applicableCells.Count == 0) return;
+            Vector2I coords = RandomCellFromSelection(applicableCells);
+            terrain.SetCell(coords, 5, new Vector2I(0, 1));
+            AddTagtoSet(TagSet, coords, "inapplicable");
+            AddTagtoSet(TagSet, coords, "table");
+            AddTagtoAdjacent(TagSet, coords, "chairApplicable");
+        }
+
+        public static void PlaceChair(List<Vector2I> selection, Dictionary<Vector2I, List<string>> TagSet, TileMapLayer terrain)
+        {
+            List<string> allowedTags = ["open", "edge"];
+            List<string> requiredTags = ["chairApplicable"];
+            List<string> excludedTags = ["inapplicable"];
+            List<Vector2I> applicableCells = selection.Where(cell => HasAnyTag(TagSet, cell, allowedTags) && !HasAnyTag(TagSet, cell, excludedTags) && HasAllTags(TagSet, cell, requiredTags)).ToList();
+            if (applicableCells.Count == 0) return;
+            Vector2I coords = RandomCellFromSelection(applicableCells);
+            terrain.SetCell(coords, 5, new Vector2I(7, 3));
+            AddTagtoSet(TagSet, coords, "inapplicable");
+            AddTagtoSet(TagSet, coords, "chair");
+        }
+        public static void PlaceBookcase(List<Vector2I> selection, Dictionary<Vector2I, List<string>> TagSet, TileMapLayer terrain)
+        {
+            List<string> allowedTags = ["edge"];
+            List<string> excludedTags = ["inapplicable"];
+            List<Vector2I> applicableCells = selection.Where(cell => HasAnyTag(TagSet, cell, allowedTags) && !HasAnyTag(TagSet, cell, excludedTags)).ToList();
+            if (applicableCells.Count == 0) return;
+            Vector2I coords = RandomCellFromSelection(applicableCells);
+            terrain.SetCell(coords, 5, new Vector2I(0, 5));
+            AddTagtoSet(TagSet, coords, "inapplicable");
+            AddTagtoSet(TagSet, coords, "bookcase");
+        }
+        public static void PlaceTorch(List<Vector2I> selection, Dictionary<Vector2I, List<string>> TagSet, TileMapLayer terrain)
+        {
+            List<string> allowedTags = ["open"];
+            List<string> excludedTags = ["inapplicable"];
+            List<Vector2I> applicableCells = selection.Where(cell => HasAnyTag(TagSet, cell, allowedTags) && !HasAnyTag(TagSet, cell, excludedTags)).ToList();
+            if (applicableCells.Count == 0) return;
+            Vector2I coords = RandomCellFromSelection(applicableCells);
+            terrain.SetCell(coords, 3, new Vector2I(0, 1));
+            AddTagtoSet(TagSet, coords, "inapplicable");
+            AddTagtoSet(TagSet, coords, "torch");
+        }
+
+        public static void AddTagtoSet(Dictionary<Vector2I, List<string>> TagSet, Vector2I cell, string tag)
+        {
+            TagSet.TryGetValue(cell, out List<string> tagList);
+            if (!tagList.Contains(tag)) tagList.Add(tag);
+            TagSet[cell] = tagList;
+        }
+
+        public static void AddTagtoAdjacent(Dictionary<Vector2I, List<string>> TagSet, Vector2I cell, string tag)
+        {
+            List<Vector2I> adjacentTiles = GetAdjacentCells(cell);
+            foreach (Vector2I adjacentTile in adjacentTiles)
             {
-                GD.Print(TilesheetLookup.GetSpriteLocation("bed"));
-                terrain.SetCell(cell, TilesheetLookup.GetSpriteLocation("bed").atlasID, TilesheetLookup.GetSpriteLocation("bed").positionInSheet);
+                AddTagtoSet(TagSet, adjacentTile, tag);
             }
+        }
+
+        public static bool HasAnyTag(Dictionary<Vector2I, List<string>> TagSet, Vector2I cell, List<string> allowedTags)
+        {
+            bool allowed = false;
+            TagSet.TryGetValue(cell, out List<string> tagList);
+            foreach (string tag in allowedTags)
+            {
+                if (tagList.Contains(tag)) allowed = true;
+            }
+            return allowed;
+        }
+
+        public static bool HasAllTags(Dictionary<Vector2I, List<string>> TagSet, Vector2I cell, List<string> requiredTags)
+        {
+            TagSet.TryGetValue(cell, out List<string> tagList);
+            foreach (string tag in requiredTags)
+            {
+                if (!tagList.Contains(tag)) return false;
+            }
+            return true;
         }
 
         public static Dictionary<Vector2I, List<string>> CreateTagSet(Rect2I area, TileMapLayer terrain)
         {
             Dictionary<Vector2I, List<string>> TagSet = new Dictionary<Vector2I,List<string>>();
-            Godot.Collections.Array<Vector2I> selection = RectToSelection(area);
+            List<Vector2I> selection = RectToSelection(area);
             foreach (Vector2I cell in selection)
             {
                 TagSet.Add(cell, new List<string>());
@@ -77,16 +182,12 @@ namespace MICE.scripts.lib.procgen
             {
                 if (terrain.GetCellTileData(cell) != null && !terrain.GetCellTileData(cell).GetCustomData("Walkable").AsBool())
                 {
-                    TagSet.TryGetValue(cell, out List<string> tagList);
-                    tagList.Add("wall");
-                    tagList.Add("inapplicable");
-                    TagSet[cell] = tagList;
+                    AddTagtoSet(TagSet, cell, "wall");
+                    AddTagtoSet(TagSet, cell, "inapplicable");
                 } else
                 {
-                    TagSet.TryGetValue(cell, out List<string> tagList);
-                    tagList.Add("doorHole");
-                    tagList.Add("inapplicable");
-                    TagSet[cell] = tagList;
+                    AddTagtoSet(TagSet, cell, "doorHole");
+                    AddTagtoSet(TagSet, cell, "inapplicable");
                 }
             }
             // second pass (edges and corners)
@@ -105,24 +206,32 @@ namespace MICE.scripts.lib.procgen
                 }
                 switch (adjacentWalls) {
                     case 0:
-                        tagList.Add("open");
+                        AddTagtoSet(TagSet, cell,"open");
                         break;
                     case 1:
-                        tagList.Add("edge");
+                        AddTagtoSet(TagSet, cell,"edge");
                         break;
                     case 2:
-                        tagList.Add("corner");
+                        AddTagtoSet(TagSet, cell, "corner");
                         break;
                     case 3:
-                        tagList.Add("end");
+                        AddTagtoSet(TagSet, cell, "end");
                         break;
                     case 4:
-                        tagList.Add("enclosed");
+                        AddTagtoSet(TagSet, cell, "enclosed");
                         break;
                 }
-                if (adjacentDoorhole) { tagList.Add("inapplicable"); }
-                if (adjacentDoorhole) { tagList.Add("entry"); }
-                TagSet[cell] = tagList;
+                if (adjacentDoorhole) { AddTagtoSet(TagSet, cell, "inapplicable"); }
+                if (adjacentDoorhole && !tagList.Contains("wall")) {
+                    AddTagtoSet(TagSet, cell, "entry");
+                    foreach (Vector2I tile in GetAdjacentCells(cell))
+                    {
+                        TagSet.TryGetValue(tile, out List<string> adjacentTileTags);
+                        if (adjacentTileTags.Contains("wall")) continue;
+                        AddTagtoSet(TagSet, tile, "entryAdjacent");
+                        AddTagtoSet(TagSet, tile, "inapplicable");
+                    }
+                }
             }
             return TagSet;
         }
@@ -156,9 +265,9 @@ namespace MICE.scripts.lib.procgen
 
 
 
-        public static Godot.Collections.Array<Vector2I> RectToSelection(Rect2I rect)
+        public static List<Vector2I> RectToSelection(Rect2I rect)
         {
-            Godot.Collections.Array<Vector2I> _selection = [];
+            List<Vector2I> _selection = [];
             for (int x = 0; x < rect.Size.X; x++)
             {
                 for (int y = 0; y < rect.Size.Y; y++)
@@ -169,7 +278,7 @@ namespace MICE.scripts.lib.procgen
             return _selection;
         }
 
-        public static Vector2I RandomCellFromSelection(Godot.Collections.Array<Vector2I> selection)
+        public static Vector2I RandomCellFromSelection(List<Vector2I> selection)
         {
             Random r = new Random();
             Vector2I cell = selection[r.Next(0, selection.Count-1)];

@@ -23,6 +23,6 @@ public partial class Actor : Node2D, IActor
     public Psyche psyche { get; set; }
 
     public MutableStat MovementSpeed = new MutableStat(10);
-    public MutableStat SightRange = new MutableStat(25);
-    public MutableStat DarkSightRange = new MutableStat(5);
+    public MutableStat SightRange = new MutableStat(20);
+    public MutableStat DarkSightRange = new MutableStat(4);
 }

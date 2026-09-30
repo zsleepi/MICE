@@ -130,6 +130,7 @@ namespace MICE.scripts.lib
             return distance;
         }
 
+        // this is outdated.- implement error correction here too
         public static List<Vector2I> GetVisibleArea(Vector2I origin, int range)
         {
             Vector2I _viewPos = origin;
@@ -144,6 +145,7 @@ namespace MICE.scripts.lib
                 foreach (Vector2I cell in _squarePerimeter)
                 {
                     if (!GridUtils.IsWithinDistance(_viewPos, cell, _sightRange)) { continue; }
+                    if (Grid.IsViewObstruction(cell)) continue;
                     Vector2I _dif = _viewPos - cell;
                     Vector2 _stepIncrement = new Vector2((float)_dif.X / iteration, (float)_dif.Y / iteration);
                     Vector2 _rayVector = new Vector2(cell.X, cell.Y);
